@@ -1,33 +1,60 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {
     View,
+    Linking,
     Text,
-    Image,
-    StyleSheet
+    StyleSheet,
+    TouchableHighlight
 } from 'react-native';
 
-const NewsItem = ({news}) => {
-    return (
-        <View style={styles.news}>
+export default class NewsItem extends Component {
 
-            <View style={styles.info}>
-                <Text style={styles.name}>
-                    {`${news.title}`}
-                </Text>
-                <Text>
-                    phone: {news.published}
-                </Text>
-                <Text>
-                    {news.link}
-                </Text>
+    constructor() {
+        super();
+        this._goToURL = this._goToURL.bind(this);
+    }
+
+
+    render() {
+
+        const {news} = this.props;
+
+        return (
+
+            <View style={styles.news}>
+
+                <View style={styles.info}>
+                    <Text style={styles.name}>
+                        {`${news.title}`}
+                    </Text>
+                    <Text>
+                        published: {news.published}
+                    </Text>
+                    <TouchableHighlight onPress={this._goToURL}  underlayColor="#a5a5a5">
+                        <Text style={styles.title} >
+                            Link: {news.title}
+                        </Text>
+                    </TouchableHighlight>
+
+                </View>
             </View>
-        </View>
-    )
-};
 
-NewsItem.propTypes = {
-    ...View.propTypes
-};
+        );
+    }
+
+    _goToURL() {
+        // const {news} = this.props;
+        const link = this.props.news.link
+        console.log(this.props)
+        Linking.canOpenURL(this.props.news.link).then(supported => {
+            if (supported) {
+                Linking.openURL(this.props.news.link);
+            } else {
+                console.log('Don\'t know how to open URI: ' + this.props.news.link);
+            }
+        });
+    }
+}
 
 const styles = StyleSheet.create({
     news: {
@@ -38,19 +65,15 @@ const styles = StyleSheet.create({
         borderBottomColor: '#DDDDDD',
         borderBottomWidth: 1
     },
-    cover: {
-        flex: 1,
-        width: 150,
-        height: 150,
-        marginLeft: 10,
-        resizeMode: 'contain'
-    },
     info: {
         flex: 3,
         alignItems: 'flex-end',
         flexDirection: 'column',
         alignSelf: 'center',
         padding: 20
+    },
+    title: {
+        color: 'blue'
     },
     name: {
         marginBottom: 12,
@@ -60,4 +83,3 @@ const styles = StyleSheet.create({
     }
 });
 
-export default NewsItem;
