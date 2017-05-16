@@ -14,12 +14,12 @@ const NewsDetails = ({news}) => (
                 {`${news.title.toUpperCase()} `}
             </Text>
             <Text>
-                <Text style={styles.fontBold}>Phone: </Text>
+                <Text style={styles.fontBold}>Published: </Text>
                 {news.published}
             </Text>
             <Text>
-                <Text style={styles.fontBold}>Email: </Text>
-                {news.link}
+                <Text style={styles.fontBold}>Title: </Text>
+                {news.title}
             </Text>
 
         </View>
