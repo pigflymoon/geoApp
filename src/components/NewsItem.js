@@ -6,31 +6,31 @@ import {
     StyleSheet
 } from 'react-native';
 
-const Quake = ({quake}) => {
+const NewsItem = ({news}) => {
     return (
-        <View style={styles.quake}>
+        <View style={styles.news}>
 
             <View style={styles.info}>
                 <Text style={styles.name}>
-                    {`${quake.properties.time}`}
+                    {`${news.title}`}
                 </Text>
                 <Text>
-                    phone: {quake.properties.depth}
+                    phone: {news.published}
                 </Text>
                 <Text>
-                    {quake.properties.publicID}
+                    {news.link}
                 </Text>
             </View>
         </View>
     )
 };
 
-Quake.propTypes = {
+NewsItem.propTypes = {
     ...View.propTypes
 };
 
 const styles = StyleSheet.create({
-    quake: {
+    news: {
         flex: 1,
         flexDirection: 'row',
         padding: 5,
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Quake;
+export default NewsItem;

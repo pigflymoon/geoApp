@@ -6,42 +6,33 @@ import {
     StyleSheet
 } from 'react-native';
 
-const QuakeDetails = ({quake}) => (
-    <View style={styles.quake}>
-        <Image style={styles.cover}
-               source={{uri: quake.picture.large}}/>
+const NewsDetails = ({news}) => (
+    <View style={styles.news}>
+
         <View style={styles.info}>
             <Text style={styles.name}>
-                {`${quake.properties.title.toUpperCase()}`}
+                {`${news.title.toUpperCase()} `}
             </Text>
             <Text>
                 <Text style={styles.fontBold}>Phone: </Text>
-                {quake.cell}
+                {news.published}
             </Text>
             <Text>
                 <Text style={styles.fontBold}>Email: </Text>
-                {quake.email}
+                {news.link}
             </Text>
-            <Text>
-                <Text style={styles.fontBold}>Location: </Text>
-                {quake.location.city},
-                {quake.location.street}
-            </Text>
-            <Text>
-                <Text style={styles.fontBold}>DOB: </Text>
-                {quake.dob}
-            </Text>
+
         </View>
     </View>
 );
 
-QuakeDetails.propTypes = {
+NewsDetails.propTypes = {
     ...View.propTypes,
-    quake: PropTypes.object.isRequired
+    news: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
-    quake: {
+    news: {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
@@ -73,4 +64,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default QuakeDetails;
+export default NewsDetails;
