@@ -8,11 +8,10 @@ import {
 
 const QuakeDetails = ({quake}) => (
     <View style={styles.quake}>
-        <Image style={styles.cover}
-               source={{uri: quake.picture.large}}/>
+
         <View style={styles.info}>
             <Text style={styles.name}>
-                {`${quake.properties.title.toUpperCase()}`}
+                {`${quake.properties.locality.toUpperCase()}`}
             </Text>
             <Text>
                 <Text style={styles.fontBold}>Phone: </Text>
@@ -24,13 +23,9 @@ const QuakeDetails = ({quake}) => (
             </Text>
             <Text>
                 <Text style={styles.fontBold}>Location: </Text>
-                {quake.location.city},
-                {quake.location.street}
+                {quake.properties.locality}
             </Text>
-            <Text>
-                <Text style={styles.fontBold}>DOB: </Text>
-                {quake.dob}
-            </Text>
+
         </View>
     </View>
 );

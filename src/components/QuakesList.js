@@ -39,7 +39,7 @@ class QuakesList extends Component {
 
     rowOnPress(quake) {
         this.props.navigator.push({
-            title: `${quake.properties.title.toUpperCase()}`,
+            title: `${quake.properties.locality.toUpperCase()}`,
             component: QuakeDetails,
             passProps: {quake}
         })
