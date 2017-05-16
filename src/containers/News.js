@@ -1,69 +1,68 @@
 import React, {Component} from 'react';
 import {
     StyleSheet,
-    ListView,
-    TextInput,
+    Text,
     View,
+    ListView,
     NavigatorIOS
 } from 'react-native';
 import {bind} from '../utils/utils';
-import QuakesApi from '../api/mockQuakesApi';
-import QuakesList from '../components/QuakesList';
+import NewsList from '../components/NewsList';
+
+import axios from 'axios';
+
+
+var news;
+
 
 class News extends Component {
-
     constructor(props, context) {
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         super(props, context);
         this.state = {
-            text: 'News by name',
-            dataSource: ds.cloneWithRows([])
+            dataSource: ds.cloneWithRows([]),
+            isLoading: true
         };
+        bind(this)('renderLoadingView')
+    }
 
-        bind(this)('searchInputOnChange', 'getAllQuakesAndUpdateData')
+    renderLoadingView() {
+        return (
+            <View>
+                <Text>Loading...</Text>
+            </View>
+        )
     }
 
     componentDidMount() {
-        this.getAllQuakesAndUpdateData();
-    }
+        axios.get(`https://api.geonet.org.nz/news/geonet`)
+            .then(res => {
+                // Transform the raw data by extracting the nested posts
+                news = res.data.feed.map(function (item) {
 
-    getAllQuakesAndUpdateData() {
-        QuakesApi.getAllQuakes()
-            .then(function (data) {
+                    if (item.published) {
+                        item.published = item.published.slice(0, 10).replace(/-/g, "-")
+                    }
+
+                    return item;
+                });
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(data),
+                    dataSource: this.state.dataSource.cloneWithRows(news),
                     isLoading: false
                 })
-            }.bind(this));
-    }
-
-    searchInputOnChange(text) {
-        if (text.length < 1) {
-            this.getAllQuakesAndUpdateData();
-            this.setState({
-                text
             });
-        }
 
-       QuakesApi.searchQuakeByName(text)
-            .then(function (res) {
-                this.setState({
-                    text,
-                    dataSource: this.state.dataSource.cloneWithRows(res)
-                })
-            }.bind(this))
+
     }
 
     render() {
+        if (this.state.isLoading) {
+            return this.renderLoadingView();
+        }
+
         return (
             <View style={styles.container}>
-                <TextInput
-                    style={styles.searchInput}
-                    autoCorrect={false}
-                    clearTextOnFocus={true}
-                    value={this.state.text}
-                    onChangeText={this.searchInputOnChange}/>
-                <QuakesList
+                <NewsList
                     dataSource={this.state.dataSource}
                     navigator={this.props.navigator}/>
             </View>
@@ -71,21 +70,11 @@ class News extends Component {
     }
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 40
-    },
-    searchInput: {
-        height: 44,
-        margin: 10,
-        marginTop: 30,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#CCCCCC'
     }
 });
-
 
 export default News;

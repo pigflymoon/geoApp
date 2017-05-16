@@ -8,10 +8,10 @@ import {
 } from 'react-native';
 
 import {bind} from '../utils/utils';
-import Quake from '../components/Quake';
-import QuakeDetails from '../components/QuakeDetails';
+import NewsItem from '../components/NewsItem';
+import NewsDetails from '../components/NewsDetails';
 
-class QuakesList extends Component {
+class NewsList extends Component {
     constructor(props, context) {
         super(props, context);
         bind(this)('renderRow', 'rowOnPress')
@@ -31,17 +31,17 @@ class QuakesList extends Component {
         return (
             <TouchableHighlight onPress={rowHighlightOnPress}>
                 <View style={styles.flex1}>
-                    <Quake quake={rowData}/>
+                    <NewsItem news={rowData}/>
                 </View>
             </TouchableHighlight>
         )
     }
 
-    rowOnPress(quake) {
+    rowOnPress(news) {
         this.props.navigator.push({
-            title: `${quake.properties.title.toUpperCase()}`,
-            component: QuakeDetails,
-            passProps: {quake}
+            title: `${news.title.toUpperCase()}`,
+            component: NewsDetails,
+            passProps: {news}
         })
     }
 
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default QuakesList;
+export default NewsList;
