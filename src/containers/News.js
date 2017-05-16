@@ -14,7 +14,6 @@ import axios from 'axios';
 
 var news;
 
-
 class News extends Component {
     constructor(props, context) {
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -37,9 +36,7 @@ class News extends Component {
     componentDidMount() {
         axios.get(`https://api.geonet.org.nz/news/geonet`)
             .then(res => {
-                // Transform the raw data by extracting the nested posts
                 news = res.data.feed.map(function (item) {
-
                     if (item.published) {
                         item.published = item.published.slice(0, 10).replace(/-/g, "-")
                     }
