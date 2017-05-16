@@ -11,7 +11,7 @@ export default class NewsItem extends Component {
 
     constructor() {
         super();
-        this._goToURL = this._goToURL.bind(this);
+        this.goToURL = this.goToURL.bind(this);
     }
 
 
@@ -24,17 +24,15 @@ export default class NewsItem extends Component {
             <View style={styles.news}>
 
                 <View style={styles.info}>
-                    <Text style={styles.name}>
-                        {`${news.title}`}
-                    </Text>
+                    <TouchableHighlight onPress={this.goToURL} underlayColor="#eceff1">
+                        <Text style={styles.name}>
+                            {news.title}
+                        </Text>
+                    </TouchableHighlight>
                     <Text>
                         published: {news.published}
                     </Text>
-                    <TouchableHighlight onPress={this._goToURL}  underlayColor="#a5a5a5">
-                        <Text style={styles.title} >
-                            Link: {news.title}
-                        </Text>
-                    </TouchableHighlight>
+
 
                 </View>
             </View>
@@ -42,10 +40,7 @@ export default class NewsItem extends Component {
         );
     }
 
-    _goToURL() {
-        // const {news} = this.props;
-        const link = this.props.news.link
-        console.log(this.props)
+    goToURL() {
         Linking.canOpenURL(this.props.news.link).then(supported => {
             if (supported) {
                 Linking.openURL(this.props.news.link);
@@ -67,16 +62,13 @@ const styles = StyleSheet.create({
     },
     info: {
         flex: 3,
-        alignItems: 'flex-end',
+        alignItems: 'flex-start',
         flexDirection: 'column',
         alignSelf: 'center',
-        padding: 20
-    },
-    title: {
-        color: 'blue'
+        padding: 20,
     },
     name: {
-        marginBottom: 12,
+        marginBottom: 20,
         fontSize: 16,
         fontWeight: '700',
         color: '#222222'
