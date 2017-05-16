@@ -17,7 +17,7 @@ export default class geoApp extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to geoApp!
+          Welcome to geoApp! Have fun!
         </Text>
         <Text style={styles.instructions}>
           To get started, edit index.android.js
