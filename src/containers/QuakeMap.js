@@ -8,6 +8,7 @@ import {
 
 import MapView from 'react-native-maps';
 import axios from 'axios';
+import Callout from './Callout'
 
 const init_lng = 174.885971;
 const init_lat = -40.900557;
@@ -60,15 +61,25 @@ export default class QuakeMap extends Component {
         axios.get(nps_url)
             .then(function (result) {
                 for (let post of result.data.features) {
+                    let time = post.properties.time;
+                    var time = new Date(time);
+                    time = time.toString().split('GMT')[0];
                     var marker = {
                         locality: post.properties.locality,
+                        time: time,
+                        depth: post.properties.depth.toFixed(1) + ' km',
+                        magnitude: post.properties.magnitude.toFixed(1),
                         coordinates: {
                             longitude: post.geometry.coordinates[0],
                             latitude: post.geometry.coordinates[1]
                         }
 
                     };
-
+                    /**
+                     *   let time = post.properties.time;
+                     let depth = post.properties.depth;
+                     let magnitude = post.properties.magnitude;
+                     */
 
                     markers.push(marker);
                 } // for
@@ -88,14 +99,6 @@ export default class QuakeMap extends Component {
     }
 
     renderPosts() {
-        /**
-         * <MapView.Marker
-         coordinate={{longitude: 172.9809723, latitude: -43.35796329}}
-         title={"title"}
-         description={"description"}
-         />
-         */
-
         if (this.state.error) {
             return this.renderError();
         }
@@ -108,16 +111,18 @@ export default class QuakeMap extends Component {
                     longitude: LONGITUDE,
                     latitudeDelta: LATITUDE_DELTA,
                     longitudeDelta: LONGITUDE_DELTA,
-                }}
-            >
-
-                {this.state.markers.map(marker => (
+                }}>
+                {this.state.markers.map((marker, index) => (
                     <MapView.Marker
                         coordinate={marker.coordinates}
                         title={marker.locality}
+                        description={`Time: ${marker.time}  Depth: ${marker.depth}  Magnitude: ${marker.magnitude}`}
 
+                        key={index}
 
-                    />
+                    >
+
+                    </MapView.Marker>
                 ))}
 
 
@@ -164,5 +169,10 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-    }
+    },
+    callout: {
+        position: 'relative',
+        fontSize: 8,
+        width: 100,
+    },
 })
