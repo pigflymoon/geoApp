@@ -8,10 +8,6 @@ import {
 
 import MapView from 'react-native-maps';
 import axios from 'axios';
-import Callout from './Callout'
-
-const init_lng = 174.885971;
-const init_lat = -40.900557;
 
 const {width, height} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
@@ -23,7 +19,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let nps_url = "https://api.geonet.org.nz/quake?MMI=3";
 var markers = [];
-var coordinates = [], test = [];
 
 export default class QuakeMap extends Component {
     constructor(props) {
@@ -36,20 +31,7 @@ export default class QuakeMap extends Component {
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA,
             },
-            markers: [{
-                title: 'hello',
-                coordinates: {
-                    latitude: 3.148561,
-                    longitude: 101.652778
-                },
-            },
-                {
-                    title: 'hello',
-                    coordinates: {
-                        latitude: 3.149771,
-                        longitude: 101.655449
-                    },
-                }],
+            markers: [],
             loading: true,
             error: null
         };
@@ -75,12 +57,6 @@ export default class QuakeMap extends Component {
                         }
 
                     };
-                    /**
-                     *   let time = post.properties.time;
-                     let depth = post.properties.depth;
-                     let magnitude = post.properties.magnitude;
-                     */
-
                     markers.push(marker);
                 } // for
 
@@ -117,11 +93,8 @@ export default class QuakeMap extends Component {
                         coordinate={marker.coordinates}
                         title={marker.locality}
                         description={`Time: ${marker.time}  Depth: ${marker.depth}  Magnitude: ${marker.magnitude}`}
-
                         key={index}
-
                     >
-
                     </MapView.Marker>
                 ))}
 
@@ -169,10 +142,5 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-    },
-    callout: {
-        position: 'relative',
-        fontSize: 8,
-        width: 100,
-    },
+    }
 })
