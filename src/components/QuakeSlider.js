@@ -11,8 +11,11 @@ var {
 
 export default  class QuakeSlider extends React.Component {
     static defaultProps = {
-        value: 0,
+        value: 1,
     };
+    constructor(props, context) {
+        super(props, context)
+    }
 
     state = {
         value: this.props.value,
@@ -22,11 +25,14 @@ export default  class QuakeSlider extends React.Component {
         return (
             <View>
                 <Text style={styles.text} >
-                    {this.state.value && +this.state.value.toFixed(3)}
+                    {this.state.value && +this.state.value.toFixed(1)}
                 </Text>
                 <Slider
                     {...this.props}
-                    onValueChange={(value) => this.setState({value: value})} />
+                    onValueChange={(value) => {
+                        this.setState({value: value});
+                        this.props.onChooseLevel(value);
+                    }} />
             </View>
         );
     }
@@ -43,7 +49,7 @@ var styles = StyleSheet.create({
         fontSize: 14,
         textAlign: 'center',
         fontWeight: '500',
-        margin: 10,
+        // margin: 10,
     },
 });
 
