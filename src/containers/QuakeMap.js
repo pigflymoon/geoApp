@@ -161,10 +161,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-<<<<<<< HEAD
-=======
-        // alignItems: 'center',
->>>>>>> origin/master
         backgroundColor: '#F5FCFB',
     },
     map: {
