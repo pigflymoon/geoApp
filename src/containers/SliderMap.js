@@ -24,7 +24,7 @@ const LEVEL = 4;
 let nps_url = "https://api.geonet.org.nz/quake?MMI=";
 var markers = [];
 
-export default class QuakeMap extends Component {
+export default class SliderMap extends Component {
     constructor(props) {
         super(props);
 
@@ -44,6 +44,7 @@ export default class QuakeMap extends Component {
     }
 
     handleChooseLevel(stat) {
+        console.log('stat ',stat)
         if (stat <= 3) {
             this.setState({level: 3})
         } else if (stat <= 4) {
@@ -60,9 +61,11 @@ export default class QuakeMap extends Component {
 
     componentDidMount() {
         let self = this
-        let url = nps_url + 4;
+        let url = nps_url + this.state.level;
+        // console.log('level ',this.state.level)
         axios.get(url)
             .then(function (result) {
+                console.log('url',url)
                 for (let post of result.data.features) {
                     let time = post.properties.time;
                     var time = new Date(time);
@@ -147,10 +150,12 @@ export default class QuakeMap extends Component {
                     this.renderLoading()
                     : this.renderPosts()}
 
-
                 <View>
 
-                    <QuakeSlider style={styles.label}/>
+                    <QuakeSlider style={styles.label}
+                                 onChooseLevel={this.handleChooseLevel}
+                                 minimumValue={1}
+                                 maximumValue={12}/>
                 </View>
             </View>
         )
@@ -160,25 +165,18 @@ export default class QuakeMap extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         backgroundColor: '#F5FCFB',
     },
     map: {
-        position: 'absolute',
         width: SCREEN_WIDTH,
-        top: 100,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        height: 500,
     },
     label: {
-        position: 'absolute',
         width: SCREEN_WIDTH,
-        justifyContent: 'flex-start',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        height: 50,
+        marginBottom: 50,
+
     }
 
 })
