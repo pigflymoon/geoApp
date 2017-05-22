@@ -3,14 +3,14 @@ import {
     NavigatorIOS,
     StyleSheet
 } from 'react-native'
-import QuakeMap from './QuakeMap';
+import SliderMap from './SliderMap';
 
 const MapViewTab = ({props}) => (
     <NavigatorIOS
         style={styles.flex1}
         initialRoute={{
             title: 'Map',
-            component: QuakeMap
+            component: SliderMap
         }}/>
 );
 
