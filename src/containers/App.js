@@ -17,7 +17,7 @@ class App extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            selectedTab: 'map'
+            selectedTab: 'quakes'
         };
         bind(this)('mapOnPress', 'quakesOnPress', 'newsOnPress');
     }

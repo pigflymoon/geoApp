@@ -42,7 +42,6 @@ export default class QuakeMap extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
         if (this.props.type && this.props.type == "SliderMap") {
             this.loadMapInfo(nextProps)
         }
@@ -50,11 +49,12 @@ export default class QuakeMap extends Component {
     }
 
     componentDidMount() {
-
+        console.log('hello');
         if (this.props.type && this.props.type == "SliderMap") {
             this.loadMapInfo("");
         } else {
-            console.log('to do ');
+            console.log('hi');
+            this.loadFeatures("");
         }
 
     }
@@ -74,7 +74,7 @@ export default class QuakeMap extends Component {
                 markersData = [];
                 for (let post of result.data.features) {
                     let time = post.properties.time;
-                    var time = new Date(time);
+                    time = new Date(time);
                     time = time.toString().split('GMT')[0];
                     var marker = {
                         locality: post.properties.locality,
@@ -103,6 +103,32 @@ export default class QuakeMap extends Component {
         );
 
 
+    }
+
+    loadFeatures() {
+        markersData = [];
+        let post = this.props.mapInfo;
+        console.log('post', post);
+        var marker = {
+            locality: post.properties.locality,
+            time: post.properties.time,
+            depth: post.properties.depth,
+            magnitude: post.properties.magnitude,
+            mmi: post.properties.mmi,
+            coordinates: {
+                longitude: post.geometry.coordinates[0],
+                latitude: post.geometry.coordinates[1]
+            }
+
+        };
+        markersData.push(marker);
+
+        this.setState({
+                markers: markersData,
+                loading: false,
+                error: null
+            }
+        );
     }
 
     renderPosts() {
