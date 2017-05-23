@@ -6,20 +6,20 @@ import {
     StyleSheet
 } from 'react-native';
 
+import QuakeMap from './QuakeMap';
+
 const QuakeDetails = ({quake}) => (
     <View style={styles.quake}>
 
         <View style={styles.info}>
-            <Text style={styles.name}>
-                {`${quake.properties.locality.toUpperCase()}`}
+
+            <Text>
+                <Text style={styles.fontBold}>Time: </Text>
+                {quake.properties.time}
             </Text>
             <Text>
-                <Text style={styles.fontBold}>Phone: </Text>
-                {quake.cell}
-            </Text>
-            <Text>
-                <Text style={styles.fontBold}>Email: </Text>
-                {quake.email}
+                <Text style={styles.fontBold}>Magnitude: </Text>
+                {quake.properties.magnitude}
             </Text>
             <Text>
                 <Text style={styles.fontBold}>Location: </Text>
@@ -27,6 +27,7 @@ const QuakeDetails = ({quake}) => (
             </Text>
 
         </View>
+        <QuakeMap style={styles.map} mapInfo={quake}/>
     </View>
 );
 
@@ -41,31 +42,26 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         paddingTop: 40,
-        padding: 5,
+        // padding: 5,
         backgroundColor: '#FFFFFF'
     },
-    cover: {
-        flex: 1,
-        height: 150,
-        marginTop: 40,
-        resizeMode: 'contain'
-    },
+
     info: {
-        flex: 3,
+        // flexGrow: 1,
         flexDirection: 'column',
-        alignSelf: 'center',
-        padding: 20
+        paddingTop: 40,
+        paddingLeft: 10,
+        alignSelf: 'flex-start',
     },
-    name: {
-        alignSelf: 'center',
-        marginBottom: 12,
-        fontSize: 16,
-        fontWeight: '700',
-        color: '#222222'
-    },
+
     fontBold: {
         fontWeight: '700'
+    },
+    map: {
+        flexGrow: 4,
+        flexDirection: 'column',
     }
+
 });
 
 export default QuakeDetails;

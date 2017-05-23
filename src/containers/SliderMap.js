@@ -57,11 +57,6 @@ export default class SliderMap extends Component {
                 <Text>Map</Text>
                 <QuakeMap type="SliderMap"
                           nps_source={nps_url} level={this.state.level}
-                          latitude={LATITUDE}
-                          longitude={LONGITUDE}
-                          latitudeDelta={LATITUDE_DELTA}
-                          longitudeDelta={LONGITUDE_DELTA}
-                          screenWidth={SCREEN_WIDTH}
                 />
 
                 <View>
