@@ -8,6 +8,7 @@ import {
 
 import MapView from 'react-native-maps';
 import axios from 'axios';
+import CustomCallout from './CustomCallout'
 
 const {width, height} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
@@ -16,6 +17,7 @@ const LATITUDE = -39.900557;
 const LONGITUDE = 172.885971;
 const LATITUDE_DELTA = 18;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
 
 var markersData = [];
 
@@ -117,13 +119,21 @@ export default class QuakeMap extends Component {
                     latitudeDelta: LATITUDE_DELTA,
                     longitudeDelta: LONGITUDE_DELTA,
                 }}>
+
+
                 {this.state.markers.map((marker, index) => (
                     <MapView.Marker style={styles.marker}
                                     coordinate={marker.coordinates}
-                                    title={marker.locality}
-                                    description={`Time: ${marker.time}  Depth: ${marker.depth} mmi:${marker.mmi} Magnitude: ${marker.magnitude}`}
                                     key={index}
                     >
+                        <MapView.Callout tooltip style={styles.customView}>
+                            <CustomCallout>
+                                <Text
+                                    style={styles.info}>{`Time: ${marker.time}  Depth: ${marker.depth} mmi:${marker.mmi} Magnitude: ${marker.magnitude}`}
+                                </Text>
+                            </CustomCallout>
+                        </MapView.Callout>
+
                     </MapView.Marker>
                 ))}
 
@@ -156,6 +166,7 @@ export default class QuakeMap extends Component {
 }
 
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -165,8 +176,15 @@ const styles = StyleSheet.create({
         width: SCREEN_WIDTH,
         flexGrow: 2
     },
-    marker: {
-        height: 400,
-
+    plainView: {
+        width: 200,
+        fontSize: 8,
+    },
+    customView: {
+        width: 140,
+        height: 100,
+    },
+    info: {
+        fontSize: 12,
     }
 })
