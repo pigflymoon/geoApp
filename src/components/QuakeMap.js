@@ -5,10 +5,8 @@ import {
     View,
     Dimensions
 } from 'react-native';
-import {bind} from '../utils/utils';
 
 import MapView from 'react-native-maps';
-
 import axios from 'axios';
 
 const {width, height} = Dimensions.get('window');
@@ -19,7 +17,6 @@ const LONGITUDE = 172.885971;
 const LATITUDE_DELTA = 18;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-// let nps_url = "https://api.geonet.org.nz/quake?MMI=";
 var markersData = [];
 
 export default class QuakeMap extends Component {
@@ -45,8 +42,6 @@ export default class QuakeMap extends Component {
     componentWillReceiveProps(nextProps) {
 
         if (this.props.type && this.props.type == "SliderMap") {
-
-
             this.loadMapInfo(nextProps)
         }
 
@@ -65,18 +60,12 @@ export default class QuakeMap extends Component {
     loadMapInfo(nextProps) {
         let self = this
         let url = self.props.nps_source
-        console.log('url', url);
-
 
         if (nextProps) {
             url = url + nextProps.level;
         } else {
             url = url + self.props.level;
         }
-        // let self = this
-        // let url = nps_url + this.state.level;
-        // console.log('level ',this.state.level)
-        console.log('url', url);
         axios.get(url)
             .then(function (result) {
                 console.log('url', url)
@@ -90,6 +79,7 @@ export default class QuakeMap extends Component {
                         time: time,
                         depth: post.properties.depth.toFixed(1) + ' km',
                         magnitude: post.properties.magnitude.toFixed(1),
+                        mmi: post.properties.mmi,
                         coordinates: {
                             longitude: post.geometry.coordinates[0],
                             latitude: post.geometry.coordinates[1]
@@ -128,11 +118,11 @@ export default class QuakeMap extends Component {
                     longitudeDelta: LONGITUDE_DELTA,
                 }}>
                 {this.state.markers.map((marker, index) => (
-                    <MapView.Marker
-                        coordinate={marker.coordinates}
-                        title={marker.locality}
-                        description={`Time: ${marker.time}  Depth: ${marker.depth}  Magnitude: ${marker.magnitude}`}
-                        key={index}
+                    <MapView.Marker style={styles.marker}
+                                    coordinate={marker.coordinates}
+                                    title={marker.locality}
+                                    description={`Time: ${marker.time}  Depth: ${marker.depth} mmi:${marker.mmi} Magnitude: ${marker.magnitude}`}
+                                    key={index}
                     >
                     </MapView.Marker>
                 ))}
@@ -173,7 +163,10 @@ const styles = StyleSheet.create({
     },
     map: {
         width: SCREEN_WIDTH,
-        height: 500,
+        flexGrow: 2
     },
+    marker: {
+        height: 400,
 
+    }
 })
