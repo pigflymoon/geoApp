@@ -42,18 +42,14 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         paddingTop: 40,
-        // padding: 5,
         backgroundColor: '#FFFFFF'
     },
-
     info: {
-        // flexGrow: 1,
         flexDirection: 'column',
         paddingTop: 40,
         paddingLeft: 10,
         alignSelf: 'flex-start',
     },
-
     fontBold: {
         fontWeight: '700'
     },
