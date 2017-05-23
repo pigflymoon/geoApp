@@ -163,7 +163,6 @@ export default class QuakeMap extends Component {
                     </MapView.Marker>
                 ))}
 
-
             </MapView>
         );
     }
@@ -192,7 +191,6 @@ export default class QuakeMap extends Component {
 }
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         justifyContent: 'center',

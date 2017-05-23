@@ -7,23 +7,14 @@ import {
 } from 'react-native';
 import {bind} from '../utils/utils';
 
-// import MapView from 'react-native-maps';
 import QuakeSlider from '../components/QuakeSlider';
 import QuakeMap from '../components/QuakeMap';
 
-import axios from 'axios';
-
 const {width, height} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
-const ASPECT_RATIO = width / height;
-const LATITUDE = -39.900557;
-const LONGITUDE = 172.885971;
-const LATITUDE_DELTA = 18;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const LEVEL = 4;
 
 let nps_url = "https://api.geonet.org.nz/quake?MMI=";
-var markers = [];
 
 export default class SliderMap extends Component {
     constructor(props) {
@@ -48,7 +39,6 @@ export default class SliderMap extends Component {
         } else {
             this.setState({level: 7})
         }
-
     }
 
     render() {
