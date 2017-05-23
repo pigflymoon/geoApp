@@ -20,7 +20,7 @@ const LATITUDE_DELTA = 18;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 // let nps_url = "https://api.geonet.org.nz/quake?MMI=";
-var markers = [];
+var markersData = [];
 
 export default class QuakeMap extends Component {
     constructor(props) {
@@ -80,6 +80,7 @@ export default class QuakeMap extends Component {
         axios.get(url)
             .then(function (result) {
                 console.log('url', url)
+                markersData = [];
                 for (let post of result.data.features) {
                     let time = post.properties.time;
                     var time = new Date(time);
@@ -95,15 +96,15 @@ export default class QuakeMap extends Component {
                         }
 
                     };
-                    markers.push(marker);
+                    markersData.push(marker);
                 } // for
 
-                // markers['coordinates'] = coordinates;
-                console.log('markers', markers)
+                // markersData['coordinates'] = coordinates;
+                console.log('markersData', markersData)
             }); //then
 
         this.setState({
-                markers: markers,
+                markers: markersData,
                 loading: false,
                 error: null
             }
