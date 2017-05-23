@@ -69,7 +69,7 @@ export default class SliderMap extends Component {
                     <QuakeSlider style={styles.label}
                                  onChooseLevel={this.handleChooseLevel}
                                  minimumValue={1}
-                                 maximumValue={12}
+                                 maximumValue={8}
                                  step={1}
                     />
                 </View>

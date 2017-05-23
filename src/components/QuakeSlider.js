@@ -49,7 +49,6 @@ var styles = StyleSheet.create({
         fontSize: 14,
         textAlign: 'center',
         fontWeight: '500',
-        // margin: 10,
     },
 });
 
