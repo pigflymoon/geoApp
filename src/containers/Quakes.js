@@ -55,6 +55,9 @@ class Quakes extends Component {
                         value.properties.time = time;
                         value.properties.magnitude = value.properties.magnitude.toFixed(1);
                         value.properties.depth = value.properties.depth.toFixed(1) + ' km';
+                        // console.log("value.geometry.coodinates",(value.geometry.coordinates)[0])
+                        // value.longitude = (value.geometry.coordinates)[0];
+                        // value.latitude = (value.geometry.coordinates)[1];
                         array.push(value);
                     }
                     return array.slice(0, 10);

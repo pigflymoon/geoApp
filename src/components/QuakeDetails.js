@@ -3,32 +3,61 @@ import {
     View,
     Text,
     Image,
-    StyleSheet
+    StyleSheet,
+    ScrollView
 } from 'react-native';
+
+import {List, ListItem, Grid, Row, Rating} from 'react-native-elements'
 
 import QuakeMap from './QuakeMap';
 
 const QuakeDetails = ({quake}) => (
-    <View style={styles.quake}>
 
-        <View style={styles.info}>
+    <Grid>
+        <Row size={2}>
+            <ScrollView>
+                <List>
+                    <ListItem
+                        title="Time"
+                        rightTitle={quake.properties.time}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Magnitude"
+                        rightTitle={quake.properties.magnitude}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Latitude"
+                        rightTitle={(quake.geometry.coordinates)[1].toFixed(2)}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Longitude"
+                        rightTitle={(quake.geometry.coordinates)[0].toFixed(2)}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Location"
+                        rightTitle={quake.properties.locality}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Quality"
+                        rightTitle={quake.properties.quality}
+                        hideChevron
 
-            <Text>
-                <Text style={styles.fontBold}>Time: </Text>
-                {quake.properties.time}
-            </Text>
-            <Text>
-                <Text style={styles.fontBold}>Magnitude: </Text>
-                {quake.properties.magnitude}
-            </Text>
-            <Text>
-                <Text style={styles.fontBold}>Location: </Text>
-                {quake.properties.locality}
-            </Text>
+                    />
 
-        </View>
-        <QuakeMap style={styles.map} mapInfo={quake}/>
-    </View>
+                    <Text h4>Best: This earthquake location has been manually reviewed and has the best quality location.</Text>
+                </List>
+            </ScrollView>
+        </Row>
+        <Row size={2}>
+            <QuakeMap style={styles.map} mapInfo={quake}/>
+        </Row>
+    </Grid>
+
 );
 
 QuakeDetails.propTypes = {
@@ -39,10 +68,10 @@ QuakeDetails.propTypes = {
 const styles = StyleSheet.create({
     quake: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        paddingTop: 40,
-        backgroundColor: '#FFFFFF'
+        // flexDirection: 'column',
+        // justifyContent: 'center',
+        // paddingTop: 40,
+        // backgroundColor: '#FFFFFF'
     },
     info: {
         flexDirection: 'column',
@@ -54,8 +83,9 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     },
     map: {
-        flexGrow: 4,
-        flexDirection: 'column',
+        // height: 300,
+        // flexGrow: 4,
+        // flexDirection: 'column',
     }
 
 });
