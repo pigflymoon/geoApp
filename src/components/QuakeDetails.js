@@ -7,16 +7,22 @@ import {
     ScrollView
 } from 'react-native';
 
-import {List, ListItem, Grid, Row, Rating} from 'react-native-elements'
+import {List, ListItem, Grid, Row, Card, Button} from 'react-native-elements'
 
 import QuakeMap from './QuakeMap';
 
 const QuakeDetails = ({quake}) => (
 
     <Grid>
-        <Row size={2}>
+
+        <Row>
             <ScrollView>
                 <List>
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
                     <ListItem
                         title="Time"
                         rightTitle={quake.properties.time}
@@ -42,21 +48,54 @@ const QuakeDetails = ({quake}) => (
                         rightTitle={quake.properties.locality}
                         hideChevron
                     />
-                    <ListItem
-                        title="Quality"
-                        rightTitle={quake.properties.quality}
-                        hideChevron
+                    <ListItem style={styles.lastItem}
+                              title="Quality"
+                              rightTitle={quake.properties.quality}
+                              hideChevron
 
                     />
 
-                    <Text h4>Best: This earthquake location has been manually reviewed and has the best quality location.</Text>
+                    <Card
+                        title='Quality'
+                    >
+                        <ListItem style={styles.quality}
+                                  title={'Best: This earthquake location has been manually reviewed and has the best quality location.'}
+                                  titleStyle={{fontSize: 10}}
+                                  hideChevron
+
+                        />
+                        <ListItem style={styles.quality}
+                                  title={'Good: This is an automatic earthquake location with a lot of observations.  It is likely to be good quality.'}
+                                  titleStyle={{fontSize: 10}}
+                                  hideChevron
+
+                        />
+                        <ListItem style={styles.quality}
+                                  title={'Caution: This is an automatic earthquake location with only a few observations.  Treat with caution.'}
+                                  titleStyle={{fontSize: 10}}
+                                  hideChevron
+
+                        />
+                        <ListItem style={styles.quality}
+                                  title={'Deleted: We don\'t have any quality information for this location at the moment.'}
+                                  titleStyle={{fontSize: 10}}
+                                  hideChevron
+
+                        />
+                    </Card>
+
                 </List>
+
             </ScrollView>
         </Row>
-        <Row size={2}>
-            <QuakeMap style={styles.map} mapInfo={quake}/>
+        <Row >
+
+                <QuakeMap style={styles.map} mapInfo={quake}/>
+
         </Row>
+
     </Grid>
+
 
 );
 
@@ -68,26 +107,13 @@ QuakeDetails.propTypes = {
 const styles = StyleSheet.create({
     quake: {
         flex: 1,
-        // flexDirection: 'column',
-        // justifyContent: 'center',
-        // paddingTop: 40,
-        // backgroundColor: '#FFFFFF'
     },
-    info: {
-        flexDirection: 'column',
-        paddingTop: 40,
-        paddingLeft: 10,
-        alignSelf: 'flex-start',
-    },
-    fontBold: {
-        fontWeight: '700'
-    },
-    map: {
-        // height: 300,
-        // flexGrow: 4,
-        // flexDirection: 'column',
+    quality: {
+        borderBottomColor: '#eeeeee',
+        borderBottomWidth: 1,
+        paddingBottom: 5,
+        marginBottom: 5,
     }
-
 });
 
 export default QuakeDetails;
