@@ -13,11 +13,71 @@ import QuakeMap from './QuakeMap';
 
 const QuakeDetails = ({quake}) => (
 
-    <Grid>
-
-        <Row>
+    // <Grid>
+    //     <Row size={1}>
+    //         <QuakeMap style={styles.map} mapInfo={quake}/>
+    //
+    //     </Row>
+    //     <Row size={3}>
             <ScrollView>
                 <List>
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+                    <ListItem
+                        title="Universal Time"
+                        rightTitle={quake.utime}
+                        hideChevron
+                    />
+
+
                     <ListItem
                         title="Universal Time"
                         rightTitle={quake.utime}
@@ -87,14 +147,10 @@ const QuakeDetails = ({quake}) => (
                 </List>
 
             </ScrollView>
-        </Row>
-        <Row >
-
-                <QuakeMap style={styles.map} mapInfo={quake}/>
-
-        </Row>
-
-    </Grid>
+    //     </Row>
+    //
+    //
+    // </Grid>
 
 
 );
