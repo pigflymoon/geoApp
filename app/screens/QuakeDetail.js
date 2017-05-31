@@ -1,27 +1,110 @@
 import React, {Component} from 'react';
-import {ScrollView} from 'react-native';
-import { List, ListItem} from 'react-native-elements';
+import {ScrollView, View, StyleSheet, Text} from 'react-native';
+import {List, ListItem, Card} from 'react-native-elements';
+import QuakeMap from '../components/QuakeMap';
 
 export default class QuakeDetail extends Component {
-    render(){
-        const {title} = this.props.navigation.state.params;
+    render() {
+        const {geometry, properties, utime} = this.props.navigation.state.params;
+        console.log('quake', this.props.navigation.state.params)
+        return (
+            <View style={styles.container}>
+                <ScrollView style={StyleSheet.absoluteFill}
+                            contentContainerStyle={styles.scrollview}
+                >
+                    <QuakeMap style={styles.map} mapInfo={this.props.navigation.state.params}/>
 
-        return(
-            <ScrollView>
 
-                <List>
-                    <ListItem
-                        title="Birthday"
-                        rightTitle={title}
-                        hideChevron
-                    />
-                    <ListItem
-                        title="City"
-                        rightTitle={title}
-                        hideChevron
-                    />
-                </List>
-            </ScrollView>
+                    <List style={styles.list}>
+                        <ListItem
+                            title="Universal Time"
+                            rightTitle={utime}
+                            hideChevron
+                        />
+                        <ListItem
+                            title="Time"
+                            rightTitle={properties.time}
+                            hideChevron
+                        />
+                        <ListItem
+                            title="Magnitude"
+                            rightTitle={properties.magnitude}
+                            hideChevron
+                        />
+                        <ListItem
+                            title="Latitude"
+                            rightTitle={(geometry.coordinates)[1].toFixed(2)}
+                            hideChevron
+                        />
+                        <ListItem
+                            title="Longitude"
+                            rightTitle={(geometry.coordinates)[0].toFixed(2)}
+                            hideChevron
+                        />
+                        <ListItem
+                            title="Location"
+                            rightTitle={properties.locality}
+                            hideChevron
+                        />
+                        <ListItem style={styles.lastItem}
+                                  title="Quality"
+                                  rightTitle={properties.quality}
+                                  hideChevron
+                        />
+                        <Card
+                            title='Quality'
+                        >
+                            <ListItem style={styles.quality}
+                                      title={'Best: This earthquake location has been manually reviewed and has the best quality location.'}
+                                      titleStyle={{fontSize: 10}}
+                                      hideChevron
+
+                            />
+                            <ListItem style={styles.quality}
+                                      title={'Good: This is an automatic earthquake location with a lot of observations.  It is likely to be good quality.'}
+                                      titleStyle={{fontSize: 10}}
+                                      hideChevron
+
+                            />
+                            <ListItem style={styles.quality}
+                                      title={'Caution: This is an automatic earthquake location with only a few observations.  Treat with caution.'}
+                                      titleStyle={{fontSize: 10}}
+                                      hideChevron
+
+                            />
+                            <ListItem style={styles.quality}
+                                      title={'Deleted: We don\'t have any quality information for this location at the moment.'}
+                                      titleStyle={{fontSize: 10}}
+                                      hideChevron
+
+                            />
+                        </Card>
+
+                    </List>
+
+
+                </ScrollView>
+            </View>
         )
     }
 }
+const styles = StyleSheet.create({
+    // quake: {
+    //     flex: 1,
+    // },
+    container: {
+        flex: 1,
+    },
+    scrollview: {
+        flex: 1
+    },
+    quality: {
+        // borderBottomColor: '#eeeeee',
+        // borderBottomWidth: 1,
+        // paddingBottom: 5,
+        // marginBottom: 5,
+    },
+    map: {
+        flexGrow: 3
+    }
+});
