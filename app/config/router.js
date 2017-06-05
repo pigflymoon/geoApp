@@ -18,7 +18,7 @@ export const QuakesListStack = StackNavigator({
     Detail: {
         screen: QuakeDetail,
         navigationOptions: ({navigation}) => ({
-            title: `test`
+            title: `Quake Detail`
         }),
     },
 });
