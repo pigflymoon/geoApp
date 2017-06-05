@@ -29,14 +29,15 @@ export const Tabs = TabNavigator({
         screen: QuakesListStack,
         navigationOptions: {
             tabBarLabel: 'List',
-            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+            tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
     Map: {
         screen: QuakesMap,
+
         navigationOptions: {
             tabBarLabel: 'Map',
-            tabBarIcon: ({tintColor}) => <Icon name="account-circle" size={35} color={tintColor}/>,
+            tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
         },
     },
     News: {

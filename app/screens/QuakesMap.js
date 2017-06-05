@@ -6,13 +6,13 @@ import {
     Dimensions,
     StyleSheet
 } from 'react-native';
-import {List, ListItem} from 'react-native-elements';
 import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
-const {width, height} = Dimensions.get('window');
+import {bind} from '../utils/utils';
+
+const {width} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
 const LEVEL = 4;
-import {bind} from '../utils/utils';
 let nps_url = "https://api.geonet.org.nz/quake?MMI=";
 
 export default class QuakesMap extends Component {
@@ -42,7 +42,6 @@ export default class QuakesMap extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Map</Text>
                 <QuakeMap type="SliderMap"
                           nps_source={nps_url} level={this.state.level}
                 />
@@ -69,14 +68,10 @@ const styles = StyleSheet.create({
     },
     map: {
         width: SCREEN_WIDTH,
-        height: 500,
     },
     label: {
         width: SCREEN_WIDTH,
         height: 50,
         marginBottom: 50,
-
-
     }
-
 })

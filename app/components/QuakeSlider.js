@@ -49,7 +49,7 @@ var styles = StyleSheet.create({
         fontSize: 14,
         textAlign: 'center',
         fontWeight: '500',
-        paddingTop: 50,
+        paddingTop: 10,
     },
 });
 
