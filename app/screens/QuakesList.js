@@ -4,6 +4,7 @@ import {
     View,
     ScrollView,
     Linking,
+    Icon,
     StyleSheet
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
@@ -67,8 +68,9 @@ export default class QuakesList extends Component {
     }
 
     onLearnMore = (quake) => {
-        this.props.navigation.navigate('Detail', { ...quake });
+        this.props.navigation.navigate('Detail', {...quake});
     };
+
     render() {
         if (this.state.isLoading) {
             return this.renderLoadingView();
@@ -79,20 +81,20 @@ export default class QuakesList extends Component {
                 <List >
                     {this.state.dataSource.map((quake, index) => (
                         <ListItem key={index}
+                                  leftIcon={{
+                                      name: 'location-arrow',
+                                      type: 'font-awesome',
+                                      color:'red'
+                                  }}
                                   title={`NZST: ${quake.properties.time}`}
                                   subtitle={
                                       <View style={styles.info}>
-                                          <Text>
-                                              Magnitude: {quake.properties.magnitude}
-                                          </Text>
-                                          <Text>
-                                              Depth: {quake.properties.depth}
-                                          </Text>
-                                          <Text>
-                                              Locality: {quake.properties.locality}
-                                          </Text>
+                                          <Text>Magnitude: {quake.properties.magnitude}</Text>
+                                          <Text>Depth: {quake.properties.depth}</Text>
+                                          <Text>Locality: {quake.properties.locality}</Text>
                                       </View>
                                   }
+
                                   onPress={() => this.onLearnMore(quake)}
                         />
                     ))}
@@ -106,11 +108,13 @@ export default class QuakesList extends Component {
 
 const styles = StyleSheet.create({
     info: {
-        flex: 3,
+        flex: 1,
+        // justifyContent: 'center',
         alignItems: 'flex-start',
         flexDirection: 'column',
-        alignSelf: 'center',
-        padding: 20
+        paddingTop: 10,
+        // alignSelf: 'center',
+        // paddingBottom: 20
     },
 
 });
