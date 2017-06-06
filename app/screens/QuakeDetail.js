@@ -9,12 +9,11 @@ export default class QuakeDetail extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView style={StyleSheet.absoluteFill}
-                            contentContainerStyle={styles.scrollview}
-                >
+                            contentContainerStyle={styles.scrollview}>
                     <QuakeMap style={styles.map} mapInfo={this.props.navigation.state.params}/>
 
 
-                    <List>
+                    <List style={styles.detail}>
                         <ListItem
                             title="Universal Time"
                             rightTitle={utime}
@@ -45,10 +44,10 @@ export default class QuakeDetail extends Component {
                             rightTitle={properties.locality}
                             hideChevron
                         />
-                        <ListItem style={styles.lastItem}
-                                  title="Quality"
-                                  rightTitle={properties.quality}
-                                  hideChevron
+                        <ListItem
+                            title="Quality"
+                            rightTitle={properties.quality}
+                            hideChevron
                         />
                         <Card
                             title='Quality'
@@ -90,11 +89,19 @@ export default class QuakeDetail extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "#ffffff"
     },
     scrollview: {
-        flex: 1
+        flex: 1,
+        flexDirection: 'column',
     },
     map: {
-        flexGrow: 3
-    }
+        flexGrow: 2,
+        flexBasis: 200,
+    },
+    detail: {
+        flexGrow: 1,
+        flexBasis: 200,
+
+    },
 });

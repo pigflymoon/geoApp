@@ -151,7 +151,7 @@ export default class QuakeMap extends Component {
                         <MapView.Callout tooltip style={styles.customView}>
                             <CustomCallout>
                                 <Text
-                                    style={styles.info}>{`Time: ${marker.time}  Depth: ${marker.depth} mmi:${marker.mmi} Magnitude: ${marker.magnitude}`}
+                                    style={styles.info}>{`Time: ${marker.time} Locality:${marker.locality} Depth: ${marker.depth} mmi:${marker.mmi} Magnitude: ${marker.magnitude}`}
                                 </Text>
                             </CustomCallout>
                         </MapView.Callout>
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     },
     map: {
         width: SCREEN_WIDTH,
-        flexGrow: 2
+        flexGrow: 3
     },
 
     customView: {
