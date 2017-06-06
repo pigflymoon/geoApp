@@ -196,14 +196,12 @@ const styles = StyleSheet.create({
         width: SCREEN_WIDTH,
         flexGrow: 2
     },
-    plainView: {
-        width: 200,
-        fontSize: 8,
-    },
+
     customView: {
         width: 140,
         height: 100,
     },
+
     info: {
         fontSize: 12,
     }
