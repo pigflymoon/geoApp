@@ -67,7 +67,7 @@ export default class QuakesList extends Component {
         )
     }
 
-    onLearnMore = (quake) => {
+    onQuakeDetail = (quake) => {
         this.props.navigation.navigate('Detail', {...quake});
     };
 
@@ -95,7 +95,7 @@ export default class QuakesList extends Component {
                                       </View>
                                   }
 
-                                  onPress={() => this.onLearnMore(quake)}
+                                  onPress={() => this.onQuakeDetail(quake)}
                         />
                     ))}
                 </List>

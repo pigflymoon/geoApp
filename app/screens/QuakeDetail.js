@@ -6,7 +6,6 @@ import QuakeMap from '../components/QuakeMap';
 export default class QuakeDetail extends Component {
     render() {
         const {geometry, properties, utime} = this.props.navigation.state.params;
-        console.log('quake', this.props.navigation.state.params)
         return (
             <View style={styles.container}>
                 <ScrollView style={StyleSheet.absoluteFill}
@@ -15,7 +14,7 @@ export default class QuakeDetail extends Component {
                     <QuakeMap style={styles.map} mapInfo={this.props.navigation.state.params}/>
 
 
-                    <List style={styles.list}>
+                    <List>
                         <ListItem
                             title="Universal Time"
                             rightTitle={utime}
@@ -89,20 +88,11 @@ export default class QuakeDetail extends Component {
     }
 }
 const styles = StyleSheet.create({
-    // quake: {
-    //     flex: 1,
-    // },
     container: {
         flex: 1,
     },
     scrollview: {
         flex: 1
-    },
-    quality: {
-        // borderBottomColor: '#eeeeee',
-        // borderBottomWidth: 1,
-        // paddingBottom: 5,
-        // marginBottom: 5,
     },
     map: {
         flexGrow: 3
