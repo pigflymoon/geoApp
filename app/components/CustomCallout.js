@@ -2,8 +2,12 @@ import React, {PropTypes} from 'react';
 import {
     StyleSheet,
     View,
+    Dimensions
 } from 'react-native';
 
+
+const {width, height} = Dimensions.get('window');
+const SCREEN_WIDTH = width;
 const propTypes = {
     children: PropTypes.node.isRequired,
     style: PropTypes.object,
@@ -33,36 +37,39 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
     },
     bubble: {
-        width: 140,
-        flexDirection: 'row',
+        width: 300,
+        padding: 15,
+        // height: 100,
+        flexDirection: 'column',
         alignSelf: 'flex-start',
         backgroundColor: '#81d4fa',
-        paddingHorizontal: 20,
-        paddingVertical: 12,
+        // paddingHorizontal: 20,
+        // paddingVertical: 12,
         borderRadius: 6,
         borderColor: '#4fc3f7',
         borderWidth: 0.5,
     },
     amount: {
         flex: 1,
-         },
+    },
     arrow: {
         backgroundColor: 'transparent',
         borderWidth: 16,
         borderColor: 'transparent',
         borderTopColor: '#81d4fa',
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
         marginTop: -32,
-        marginLeft: 50,
+        marginLeft: 75,
     },
     arrowBorder: {
         backgroundColor: 'transparent',
         borderWidth: 16,
         borderColor: 'transparent',
         borderTopColor: '#4fc3f7',
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
         marginTop: -0.5,
-        marginLeft: 50,
+        marginLeft: 75,
+        // marginLeft: 50,
     },
 });
 

@@ -71,7 +71,5 @@ const styles = StyleSheet.create({
     },
     label: {
         width: SCREEN_WIDTH,
-        height: 50,
-        marginBottom: 50,
     }
 })

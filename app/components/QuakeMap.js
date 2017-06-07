@@ -147,11 +147,22 @@ export default class QuakeMap extends Component {
                     <MapView.Marker style={styles.marker}
                                     coordinate={marker.coordinates}
                                     key={index}
+                                    pinColor={marker.mmi < 5 ? '#FFCC00' : '#f44336'}
+
                     >
-                        <MapView.Callout tooltip style={styles.customView}>
-                            <CustomCallout>
+                        <MapView.Callout tooltip>
+                            <CustomCallout  >
                                 <Text
-                                    style={styles.info}>{`Time: ${marker.time} Locality:${marker.locality} Depth: ${marker.depth} mmi:${marker.mmi} Magnitude: ${marker.magnitude}`}
+                                    style={styles.info}>{`Time: ${marker.time}`}
+                                </Text>
+                                <Text
+                                    style={styles.info}>{`Locality:${marker.locality}`}
+                                </Text>
+                                <Text
+                                    style={styles.info}>{`Depth: ${marker.depth}`}
+                                </Text>
+                                <Text
+                                    style={styles.info}>{`mmi:${marker.mmi} Magnitude: ${marker.magnitude}`}
                                 </Text>
                             </CustomCallout>
                         </MapView.Callout>
@@ -197,12 +208,14 @@ const styles = StyleSheet.create({
         flexGrow: 3
     },
 
-    customView: {
-        width: 140,
-        height: 100,
-    },
+    // customView: {
+    //     width: SCREEN_WIDTH,
+    //     height: 100,
+    //
+    // },
 
     info: {
+        // width: SCREEN_WIDTH,
         fontSize: 12,
     }
 })
