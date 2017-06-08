@@ -19,25 +19,26 @@ export default class News extends Component {
             dataSource: [],
             isLoading: true
         };
-        bind(this)('renderLoadingView','goToURL')
+        bind(this)('renderLoadingView', 'goToURL')
     }
 
     componentDidMount() {
-        axios.get(`https://api.geonet.org.nz/news/geonet`)
-            .then(res => {
-                news = res.data.feed.map(function (item) {
-                    if (item.published) {
-                        item.published = item.published.slice(0, 10).replace(/-/g, "-")
-                    }
+        this.timer = setInterval(() => {
+            axios.get(`https://api.geonet.org.nz/news/geonet`)
+                .then(res => {
+                    news = res.data.feed.map(function (item) {
+                        if (item.published) {
+                            item.published = item.published.slice(0, 10).replace(/-/g, "-")
+                        }
 
-                    return item;
+                        return item;
+                    });
+                    this.setState({
+                        dataSource: news,
+                        isLoading: false
+                    })
                 });
-                this.setState({
-                    dataSource: news,
-                    isLoading: false
-                })
-            });
-
+        }, 1000 * 60 * 60 * 24);
 
     }
 
