@@ -23,7 +23,7 @@ export default class News extends Component {
     }
 
     componentDidMount() {
-        this.timer = setInterval(() => {
+        if (this.state.dataSource.length <= 0) {
             axios.get(`https://api.geonet.org.nz/news/geonet`)
                 .then(res => {
                     news = res.data.feed.map(function (item) {
@@ -38,8 +38,24 @@ export default class News extends Component {
                         isLoading: false
                     })
                 });
-        }, 1000 * 60 * 60 * 24);
+            this.timer = setInterval(() => {
+                axios.get(`https://api.geonet.org.nz/news/geonet`)
+                    .then(res => {
+                        news = res.data.feed.map(function (item) {
+                            if (item.published) {
+                                item.published = item.published.slice(0, 10).replace(/-/g, "-")
+                            }
 
+                            return item;
+                        });
+                        this.setState({
+                            dataSource: news,
+                            isLoading: false
+                        })
+                    });
+            }, 1000 * 60 * 60 * 24);
+
+        }
     }
 
     renderLoadingView() {

@@ -4,7 +4,8 @@ import {
     View,
     ScrollView,
     Dimensions,
-    StyleSheet
+    StyleSheet,
+    AppState
 } from 'react-native';
 import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
@@ -27,7 +28,8 @@ export default class QuakesMap extends Component {
 
     handleChooseLevel(stat) {
         if (stat <= 3) {
-            this.setState({level: 3})
+            this.setState({level: 3});
+            console.log('app is in background',this.state.level);
         } else if (stat <= 4) {
             this.setState({level: 4})
         } else if (stat <= 5) {
@@ -39,6 +41,13 @@ export default class QuakesMap extends Component {
         }
     }
 
+    componentDidMount(){
+        AppState.addEventListener('change',this.handleChooseLevel);
+    }
+
+    componentWillUnmount(){
+        AppState.removeEventListener('change',this.handleChooseLevel);
+    }
     render() {
         return (
             <View style={styles.container}>
