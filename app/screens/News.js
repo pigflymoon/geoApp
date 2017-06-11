@@ -85,7 +85,6 @@ export default class News extends Component {
 
             });
             console.log('hi notification');
-            // PushNotification.applicationIconBadgeNumber = 0 ;
         }
     }
 
