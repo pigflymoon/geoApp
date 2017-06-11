@@ -42,11 +42,10 @@ export default class QuakeMap extends Component {
     }
 
     componentDidMount() {
-        console.log('hello');
         if (this.props.type && this.props.type == "SliderMap") {
             this.loadMapInfo("");
         } else {
-            console.log('hi');
+            console.log('detail map');
             this.loadFeatures("");
         }
 
@@ -63,7 +62,7 @@ export default class QuakeMap extends Component {
         }
         axios.get(url)
             .then(function (result) {
-                console.log('url', url)
+                console.log('slider map  and url', url)
                 markersData = [];
                 for (let post of result.data.features) {
                     let time = post.properties.time;
@@ -85,7 +84,7 @@ export default class QuakeMap extends Component {
                 } // for
 
                 // markersData['coordinates'] = coordinates;
-                console.log('markersData', markersData)
+                // console.log('markersData', markersData)
             }); //then
 
         this.setState({

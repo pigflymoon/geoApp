@@ -27,7 +27,7 @@ export default class QuakesList extends Component {
 
     componentDidMount() {
         // QuakesApi.getAllQuakes()
-        console.log('data',this.state.dataSource.length);
+        console.log('QuakesList data',this.state.dataSource.length);
         if(this.state.dataSource.length <= 0){
             axios.get(`https://api.geonet.org.nz/quake?MMI=0`)
                 .then(res => {

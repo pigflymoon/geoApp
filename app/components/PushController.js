@@ -11,6 +11,7 @@ export default class PushController extends Component {
     }
 
     render() {
+        console.log('render?')
         return null;
     }
 }

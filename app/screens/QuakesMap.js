@@ -4,8 +4,7 @@ import {
     View,
     ScrollView,
     Dimensions,
-    StyleSheet,
-    AppState
+    StyleSheet
 } from 'react-native';
 import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
@@ -13,7 +12,7 @@ import {bind} from '../utils/utils';
 
 const {width} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
-const LEVEL = 4;
+
 let nps_url = "https://api.geonet.org.nz/quake?MMI=";
 
 export default class QuakesMap extends Component {
@@ -21,15 +20,15 @@ export default class QuakesMap extends Component {
         super(props);
 
         this.state = {
-            level: LEVEL
+            level: 1
         };
         bind(this)('handleChooseLevel')
     }
 
     handleChooseLevel(stat) {
+        console.log('stat level is ',stat);
         if (stat <= 3) {
             this.setState({level: 3});
-            console.log('app is in background',this.state.level);
         } else if (stat <= 4) {
             this.setState({level: 4})
         } else if (stat <= 5) {
@@ -41,13 +40,6 @@ export default class QuakesMap extends Component {
         }
     }
 
-    componentDidMount(){
-        AppState.addEventListener('change',this.handleChooseLevel);
-    }
-
-    componentWillUnmount(){
-        AppState.removeEventListener('change',this.handleChooseLevel);
-    }
     render() {
         return (
             <View style={styles.container}>

@@ -80,8 +80,12 @@ export default class News extends Component {
 
             PushNotification.localNotificationSchedule({
                 message: "My Notification Message",
-                date: new Date(Date.now() + (5 * 1000)),
+                date: date,
+                number: 0
+
             });
+            console.log('hi notification');
+            // PushNotification.applicationIconBadgeNumber = 0 ;
         }
     }
 
@@ -136,7 +140,6 @@ export default class News extends Component {
                 <Text style={styles.welcome}>
                     Choose your notification time in seconds.
                 </Text>
-
                 <PushController />
             </ScrollView>
         )
