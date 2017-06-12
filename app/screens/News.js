@@ -29,11 +29,10 @@ export default class News extends Component {
         };
         bind(this)('renderLoadingView', 'goToURL');
 
-        this.handleAppStateChange = this.handleAppStateChange.bind(this);
+        // this.handleAppStateChange = this.handleAppStateChange.bind(this);
     }
 
     componentDidMount() {
-
         if (this.state.dataSource.length <= 0) {
             axios.get(`https://api.geonet.org.nz/news/geonet`)
                 .then(res => {
@@ -67,11 +66,11 @@ export default class News extends Component {
             }, 1000 * 60 * 60 * 24);
 
         }
-        AppState.addEventListener('change', this.handleAppStateChange);
+        // AppState.addEventListener('change', this.handleAppStateChange);
     }
 
     componentWillUnmount() {
-        AppState.removeEventListener('change', this.handleAppStateChange);
+        // AppState.removeEventListener('change', this.handleAppStateChange);
     }
 
     handleAppStateChange(appState) {

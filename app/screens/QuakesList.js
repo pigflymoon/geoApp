@@ -5,12 +5,17 @@ import {
     ScrollView,
     Linking,
     Icon,
-    StyleSheet
+    StyleSheet,
+    AppState,
+    Picker,
+    Platform
 } from 'react-native';
 
 import {List, ListItem} from 'react-native-elements';
 import axios from 'axios';
 import {bind} from '../utils/utils';
+import PushController from '../components/PushController';
+import PushNotification from 'react-native-push-notification';
 
 var quakes;
 
@@ -20,9 +25,12 @@ export default class QuakesList extends Component {
         super(props, context);
         this.state = {
             dataSource: [],
-            isLoading: true
+            isLoading: true,
+            time: 0,
         };
-        bind(this)('renderLoadingView')
+        bind(this)('renderLoadingView');
+
+        this.handleAppStateChange = this.handleAppStateChange.bind(this);
     }
 
     componentDidMount() {
@@ -50,7 +58,14 @@ export default class QuakesList extends Component {
                             value.properties.depth = value.properties.depth.toFixed(1) + ' km';
 
                             array.push(value);
+                            if(value.properties.mmi >=3.5){
+                                AppState.addEventListener('change', this.handleAppStateChange);
+                                this.setState({
+                                    time:new Date()
+                                })
+                            }
                         }
+
                         return array.slice(0, 10);
                     }, filterData)
 
@@ -95,12 +110,33 @@ export default class QuakesList extends Component {
                     })
             }, 1000 * 60 * 60 * 0.5);//
 
+
         }
 
 
 
 
 
+    }
+
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this.handleAppStateChange);
+    }
+
+
+    handleAppStateChange(appState) {
+        if (appState === 'background') {
+            console.log('time',this.state.time);
+            let date = new Date(this.state.time);
+
+            PushNotification.localNotificationSchedule({
+                message: "My Notification Message",
+                date: date,
+                number: 0
+
+            });
+            console.log('hi notification');
+        }
     }
 
     renderLoadingView() {
@@ -122,6 +158,7 @@ export default class QuakesList extends Component {
 
         return (
             <ScrollView>
+
                 <List >
                     {this.state.dataSource.map((quake, index) => (
                         <ListItem key={index}
@@ -143,6 +180,24 @@ export default class QuakesList extends Component {
                         />
                     ))}
                 </List>
+
+                <Text style={styles.welcome}>
+                    Choose your notification time in seconds.
+                </Text>
+                <Picker
+                    style={styles.picker}
+                    selectedValue={this.state.seconds}
+                    onValueChange={(seconds) => this.setState({seconds})}
+                >
+                    <Picker.Item label="5" value={5}/>
+                    <Picker.Item label="10" value={10}/>
+                    <Picker.Item label="15" value={15}/>
+                </Picker>
+
+                <Text style={styles.welcome}>
+                    Choose your notification time in seconds.
+                </Text>
+                <PushController />
 
             </ScrollView>
         )
