@@ -27,7 +27,7 @@ export default class QuakesList extends Component {
             dataSource: [],
             isLoading: true,
             timestamp: 0,
-            notification: false
+            // notification: false
         };
         bind(this)('renderLoadingView');
         // bind(this)('handleNotification')
@@ -53,39 +53,34 @@ export default class QuakesList extends Component {
                             utime = utime.toString().split('GMT')[0];
 
                             time = new Date(time);
+                            var notificationTime = time.getTime();
+
+
                             time = time.toString().split('GMT')[0];
 
                             value.utime = utime;
                             value.properties.time = time;
                             value.properties.magnitude = value.properties.magnitude.toFixed(1);
                             value.properties.depth = value.properties.depth.toFixed(1) + ' km';
-
-                            array.push(value);
-                            if (value.properties.mmi >= 3.5) {
+                            if (value.properties.mmi >= 2.8) {
                                 AppState.addEventListener('change', this.handleAppStateChange);
-
-
-                                timestamp['time'+new Date().getTime()] = new Date().getTime();
-                                console.log('timestamp is ',timestamp);
-                                this.setState({
-                                    timestamp: timestamp
-                                });
-                                console.log('fetch data  timestamp',this.state.timestamp);
+                                timestamp['time' + notificationTime] = notificationTime;
                             }
+                            array.push(value);
+
                         }
 
-                        return array.slice(0, 10);
+                        return array;
                     }, filterData)
 
                     this.setState({
+                        timestamp: timestamp,
                         dataSource: quakes,
                         isLoading: false
                     })
+                    console.log('first time fetch data  timestamp', this.state.timestamp);
+
                 });
-
-
-
-
         }
 
 
@@ -97,25 +92,27 @@ export default class QuakesList extends Component {
 
 
     handleAppStateChange(appState) {
-        if (appState === 'background' && this.state.notification == false) {
-            var timestamp = this.state.timestamp;
+        if (appState === 'background') {
+            if (Object.keys(this.state.timestamp).length > 0) {
+                var timestamp = this.state.timestamp;
 
-            for(var value in timestamp){
-                console.log('value is ',timestamp[value])
-                let date = new Date(timestamp[value]);
-                PushNotification.localNotificationSchedule({
-                    message: "My Notification Message",
-                    date: date,
-                    number: 0,
-                    userInteraction: true
+                for (var k in timestamp) {
+                    // let date = new Date(timestamp[k]);
+                    PushNotification.localNotificationSchedule({
+                        message: "My Notification Message",
+                        date: new Date(),
+                        number: 0,
+                        userInteraction: true
 
-                });
+                    });
+
+                }
             }
 
 
             this.setState({
-                // timestamp: date,
-                notification: true
+                timestamp: {},
+                // notification: true
             });
         }
 
