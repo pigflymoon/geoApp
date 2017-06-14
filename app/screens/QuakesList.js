@@ -35,53 +35,63 @@ export default class QuakesList extends Component {
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
     }
 
+    fetchQuakes(){
+        axios.get(`https://api.geonet.org.nz/quake?MMI=0`)
+            .then(res => {
+                const filterData = [];
+                var timestamp = {};
+                quakes = res.data.features.reduce((array, value) => {
+                    // if condition is our filter
+                    if (value.properties.mmi >= 2) {
+                        // what happens inside the filter is the map
+                        let time = value.properties.time;
+                        var utime = new Date(time);
+                        utime = new Date(utime.toUTCString().slice(0, -4));
+                        utime = utime.toString().split('GMT')[0];
+
+                        time = new Date(time);
+                        var notificationTime = time.getTime();
+
+
+                        time = time.toString().split('GMT')[0];
+
+                        value.utime = utime;
+                        value.properties.time = time;
+                        value.properties.magnitude = value.properties.magnitude.toFixed(1);
+                        value.properties.depth = value.properties.depth.toFixed(1) + ' km';
+                        if (value.properties.mmi >= 2.8) {
+                            AppState.addEventListener('change', this.handleAppStateChange);
+                            timestamp['time' + notificationTime] = notificationTime;
+                        }
+                        array.push(value);
+
+                    }
+
+                    return array;
+                }, filterData)
+
+                this.setState({
+                    timestamp: timestamp,
+                    dataSource: quakes,
+                    isLoading: false
+                })
+                console.log('fetch data  timestamp', this.state.timestamp);
+
+            });
+    }
+
     componentDidMount() {
         // QuakesApi.getAllQuakes()
         console.log('in the app QuakesList data', this.state.dataSource.length);
         if (this.state.dataSource.length <= 0) {
-            axios.get(`https://api.geonet.org.nz/quake?MMI=0`)
-                .then(res => {
-                    const filterData = [];
-                    var timestamp = {};
-                    quakes = res.data.features.reduce((array, value) => {
-                        // if condition is our filter
-                        if (value.properties.mmi >= 2) {
-                            // what happens inside the filter is the map
-                            let time = value.properties.time;
-                            var utime = new Date(time);
-                            utime = new Date(utime.toUTCString().slice(0, -4));
-                            utime = utime.toString().split('GMT')[0];
-
-                            time = new Date(time);
-                            var notificationTime = time.getTime();
-
-
-                            time = time.toString().split('GMT')[0];
-
-                            value.utime = utime;
-                            value.properties.time = time;
-                            value.properties.magnitude = value.properties.magnitude.toFixed(1);
-                            value.properties.depth = value.properties.depth.toFixed(1) + ' km';
-                            if (value.properties.mmi >= 2.8) {
-                                AppState.addEventListener('change', this.handleAppStateChange);
-                                timestamp['time' + notificationTime] = notificationTime;
-                            }
-                            array.push(value);
-
-                        }
-
-                        return array;
-                    }, filterData)
-
-                    this.setState({
-                        timestamp: timestamp,
-                        dataSource: quakes,
-                        isLoading: false
-                    })
-                    console.log('first time fetch data  timestamp', this.state.timestamp);
-
-                });
+            this.fetchQuakes();
         }
+        //Every half hour call data api.
+        this.timer = setInterval(() =>{
+            this.fetchQuakes();
+            console.log('6min!')
+        }, 1000 * 60);
+
 
 
     }
