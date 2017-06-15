@@ -35,7 +35,7 @@ export default class QuakesList extends Component {
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
     }
 
-    fetchQuakes(){
+    fetchQuakes() {
         axios.get(`https://api.geonet.org.nz/quake?MMI=0`)
             .then(res => {
                 const filterData = [];
@@ -61,7 +61,12 @@ export default class QuakesList extends Component {
                         value.properties.depth = value.properties.depth.toFixed(1) + ' km';
                         if (value.properties.mmi >= 2.8) {
                             AppState.addEventListener('change', this.handleAppStateChange);
-                            timestamp['time' + notificationTime] = notificationTime;
+                            timestamp['time' + notificationTime] = {
+                                time: time,
+                                magnitude: value.properties.magnitude,
+                                location: value.properties.locality
+
+                            };
                         }
                         array.push(value);
 
@@ -87,11 +92,10 @@ export default class QuakesList extends Component {
             this.fetchQuakes();
         }
         //Every half hour call data api.
-        this.timer = setInterval(() =>{
+        this.timer = setInterval(() => {
             this.fetchQuakes();
             console.log('6min!')
         }, 1000 * 60);
-
 
 
     }
@@ -105,11 +109,13 @@ export default class QuakesList extends Component {
         if (appState === 'background') {
             if (Object.keys(this.state.timestamp).length > 0) {
                 var timestamp = this.state.timestamp;
+                console.log(`notificatin is ${timestamp}`);
 
                 for (var k in timestamp) {
                     // let date = new Date(timestamp[k]);
+                    let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
                     PushNotification.localNotificationSchedule({
-                        message: "My Notification Message",
+                        message: message,
                         date: new Date(),
                         number: 0,
                         userInteraction: true
