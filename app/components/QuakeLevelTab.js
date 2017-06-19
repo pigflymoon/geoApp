@@ -7,6 +7,11 @@ import {
 } from 'react-native';
 
 export  default class QuakeLevelTab extends Component {
+    constructor(props, context) {
+        super(props, context)
+    }
+
+
     state = {
         values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
         value: 'Not selected',
@@ -43,6 +48,7 @@ export  default class QuakeLevelTab extends Component {
             selectedIndex: selectedIndex,
             showIndexValue: showIndexValue
         });
+        this.props.onQuakeLevel(showIndexValue);
     };
 
     _onValueChange = (value) => {

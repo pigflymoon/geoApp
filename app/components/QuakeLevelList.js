@@ -30,8 +30,16 @@ export default class QuakeLevelList extends Component {
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
     }
 
-    fetchQuakes() {
-        axios.get(`https://api.geonet.org.nz/quake?MMI=0`)
+    fetchQuakes(nextProps) {
+        let self = this
+        let url = self.props.nps_source
+
+        if (nextProps) {
+            url = url + nextProps.level;
+        } else {
+            url = url + self.props.level;
+        }
+        axios.get(url)
             .then(res => {
                 const filterData = [];
                 var timestamp = {};
@@ -78,6 +86,11 @@ export default class QuakeLevelList extends Component {
                 console.log('fetch data  timestamp', this.state.timestamp);
 
             });
+    }
+
+    componentWillReceiveProps(nextProps) {
+            this.fetchQuakes(nextProps)
+
     }
 
     componentDidMount() {
