@@ -39,7 +39,7 @@ export default class QuakesList extends Component {
         return (
             <ScrollView>
                 <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel}/>
-                <QuakeLevelList nps_source={nps_url} level={this.state.level}/>
+                <QuakeLevelList navigation={this.props.navigation} nps_source={nps_url} level={this.state.level}/>
                 <PushController />
             </ScrollView>
         )
