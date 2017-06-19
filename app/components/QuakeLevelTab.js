@@ -15,29 +15,23 @@ export  default class QuakeLevelTab extends Component {
     state = {
         values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
         value: 'Not selected',
-        selectedIndex: undefined,
+        selectedIndex: 0,
         showIndexValue: ''
     };
 
     render() {
         return (
             <View>
-                <Text style={styles.text}>
-                    Value: {this.state.value}
-                </Text>
-                <Text style={styles.text}>
-                    Index: {this.state.showIndexValue }
-                </Text>
                 <SegmentedControlIOS
                     values={this.state.values}
                     selectedIndex={this.state.selectedIndex}
-                    onChange={this._onChange}
-                    onValueChange={this._onValueChange}/>
+                    onChange={this.onChange}
+                    onValueChange={this.onValueChange}/>
             </View>
         );
     }
 
-    _onChange = (event) => {
+    onChange = (event) => {
 
         let selectedIndex = (event.nativeEvent.selectedSegmentIndex), showIndexValue;
         showIndexValue = selectedIndex;
@@ -51,7 +45,7 @@ export  default class QuakeLevelTab extends Component {
         this.props.onQuakeLevel(showIndexValue);
     };
 
-    _onValueChange = (value) => {
+    onValueChange = (value) => {
         this.setState({
             value: value,
         });
