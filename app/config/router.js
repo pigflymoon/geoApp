@@ -51,7 +51,7 @@ export const Tabs = TabNavigator({
         screen: Chat,
         navigationOptions: {
             tabBarLabel: 'Chat',
-            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
         },
     }
 });
