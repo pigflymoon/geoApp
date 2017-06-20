@@ -6,7 +6,7 @@ import News from '../screens/News';
 import QuakesList from '../screens/QuakesList';
 import QuakesMap from '../screens/QuakesMap';
 import QuakeDetail from '../screens/QuakeDetail';
-
+import Chat from '../screens/Chat';
 export const QuakesListStack = StackNavigator({
     List: {
         screen: QuakesList,
@@ -44,6 +44,13 @@ export const Tabs = TabNavigator({
         screen: News,
         navigationOptions: {
             tabBarLabel: 'News',
+            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+        },
+    },
+    Chat: {
+        screen: Chat,
+        navigationOptions: {
+            tabBarLabel: 'Chat',
             tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
         },
     }
