@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
+import {View, Text, AsyncStorage} from 'react-native';
 import SocketIOClient from 'socket.io-client';
-import { GiftedChat } from 'react-native-gifted-chat';
+import {GiftedChat} from 'react-native-gifted-chat';
 
 const USER_ID = '@userId';
 
@@ -36,11 +36,11 @@ export default class Chat extends Component {
                     this.socket.emit('userJoined', null);
                     this.socket.on('userJoined', (userId) => {
                         AsyncStorage.setItem(USER_ID, userId);
-                        this.setState({ userId });
+                        this.setState({userId});
                     });
                 } else {
                     this.socket.emit('userJoined', userId);
-                    this.setState({ userId });
+                    this.setState({userId});
                 }
             })
             .catch((e) => alert(e));
@@ -58,19 +58,24 @@ export default class Chat extends Component {
      * When a message is sent, send the message to the server
      * and store it in this component's state.
      */
-    onSend(messages=[]) {
+    onSend(messages = []) {
         this.socket.emit('message', messages[0]);
         this._storeMessages(messages);
     }
 
     render() {
-        var user = { _id: this.state.userId || -1 };
+        var user = {
+            _id: this.state.userId || -1,
+            name: 'React Native',
+            avatar: 'https://facebook.github.io/react/img/logo_og.png'
+        };
 
         return (
             <GiftedChat
                 messages={this.state.messages}
                 onSend={this.onSend}
                 user={user}
+
             />
         );
     }
