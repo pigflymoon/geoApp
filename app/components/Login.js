@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
+    Alert
 } from 'react-native';
 
 import {Button} from 'react-native-elements';
@@ -22,23 +23,35 @@ export default class Login extends React.Component {
                     Enter your name :
                 </Text>
 
-                    <TextInput
-                        placeholder='John Smith'
-                        style={styles.textInput}
-                        onChangeText={(text) => {
-                            this.setState({
-                                name: text,
-                            });
-                        }}
-                        value={this.state.name}
-                    />
+                <TextInput
+                    placeholder='John Smith'
+                    style={styles.textInput}
+                    onChangeText={(text) => {
+                        this.setState({
+                            name: text,
+                        });
+                    }}
+                    value={this.state.name}
+                />
 
 
                 <Button
                     onPress={() => {
-                        Actions.chat({
-                            name: this.state.name,
-                        });
+                        if (!this.state.name) {
+                            Alert.alert(
+                                'Oops',
+                                'Please enter your nameg',
+                                [
+                                    {text: 'OK'},
+                                ],
+                                { cancelable: false }
+                            )
+                        } else {
+                            Actions.chat({
+                                name: this.state.name,
+                            });
+                        }
+
                     }}
                     backgroundColor="#397af8"
                     raised
