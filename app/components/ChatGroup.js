@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+    View,
+
+} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
 import {GiftedChat} from 'react-native-gifted-chat';
@@ -16,16 +20,18 @@ export default class ChatGroup extends React.Component {
 
     render() {
         return (
-            <GiftedChat
-                messages={this.state.messages}
-                onSend={(message) => {
-                    Backend.sendMessage(message);
-                }}
-                user={{
-                    _id: Backend.getUid(),
-                    name: this.props.name,
-                }}
-            />
+                <GiftedChat
+                    messages={this.state.messages}
+                    onSend={(message) => {
+                        Backend.sendMessage(message);
+                    }}
+                    user={{
+                        _id: Backend.getUid(),
+                        name: this.props.name,
+                    }}
+                />
+
+
         );
     }
 

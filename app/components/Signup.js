@@ -73,7 +73,6 @@ export default class Signup extends React.Component {
                 />
 
                 <Button
-
                     onPress={this.signup}
                     backgroundColor="#397af8"
                     raised
