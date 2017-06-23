@@ -20,6 +20,7 @@ class Backend {
                 });
             }
         });
+
     }
 
     setUid(value) {
@@ -29,6 +30,7 @@ class Backend {
     getUid() {
         return this.uid;
     }
+
 
     // retrieve the messages from the Backend
     loadMessages(callback) {
@@ -60,9 +62,41 @@ class Backend {
                 user: message[i].user,
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
             });
-            // console.log('messageRef',firebase.database().ref('messages'))
         }
-        // console.log('messageRef',this.messagesRef)
+    }
+
+    signup(email, password) {
+        console.log('email', email, 'password', password)
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error, userData) {
+            // Handle Errors here.
+            if (error) {
+                console.log('error', error)
+                switch (error.code) {
+                    case "auth/email-already-in-use":
+                        alert("there already exists an account with the given email address.");
+                        break;
+                    case "auth/invalid-email":
+                        alert("The email address is not valid");
+                        break;
+                    case "auth/operation-not-allowed":
+                        alert("email/password accounts are not enabled");
+                        break;
+                    case "auth/weak-password":
+                        alert("the password is not strong enough.");
+                        break;
+
+                    default:
+                        alert("Error creating user:");
+                }
+
+            } else {
+                alert('Your account was created!');
+            }
+
+
+            // ...
+        });
+
     }
 
     // close the connection to the Backend

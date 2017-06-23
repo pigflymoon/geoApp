@@ -70,7 +70,7 @@ export default class Login extends React.Component {
                         if (!this.state.name) {
                             Alert.alert(
                                 'Oops',
-                                'Please enter your nameg',
+                                'Please enter your name',
                                 [
                                     {text: 'OK'},
                                 ],

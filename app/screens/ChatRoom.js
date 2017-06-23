@@ -5,6 +5,7 @@ import {
 
 import { Router, Scene } from 'react-native-router-flux';
 import Login from '../components/Login';
+import Signup from '../components/Signup';
 import ChatGroup from '../components/ChatGroup';
 
 export default class ChatRoom extends React.Component {
@@ -12,6 +13,7 @@ export default class ChatRoom extends React.Component {
         return (
             <Router>
                 <Scene key='root' style={{paddingTop: Platform.OS === 'ios' ? 64 : 54}}>
+                    <Scene key='signup' title='Signup' component={Signup}/>
                     <Scene key='login' title='Login' component={Login}/>
                     <Scene key='chat' title='Chat' component={ChatGroup}/>
                 </Scene>
