@@ -34,12 +34,8 @@ export default class ChatRoom extends React.Component {
                                        console.log('onRightPressed');
                                        Actions.login();
                                    }
-
-
-
-
                                }>
-                                   <Text>logout</Text>
+                                   <Text>Sign out</Text>
                                </TouchableOpacity>
                            }
                     />
