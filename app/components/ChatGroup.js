@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+
 import {
     View,
 
@@ -8,35 +9,40 @@ import {Actions} from 'react-native-router-flux';
 import {GiftedChat} from 'react-native-gifted-chat';
 import Backend from '../Backend';
 
-export default class ChatGroup extends React.Component {
+export default class ChatGroup extends Component {
     state = {
+        signin: false,
         messages: [],
         names: []
     };
 
     componentWillMount() {
-
+        if (!this.state.signin) {
+            Actions.signin();
+        }
     }
 
     render() {
         return (
-                <GiftedChat
-                    messages={this.state.messages}
-                    onSend={(message) => {
-                        Backend.sendMessage(message);
-                    }}
-                    user={{
-                        _id: Backend.getUid(),
-                        name: this.props.name,
-                    }}
-                />
+            <GiftedChat
+                messages={this.state.messages}
+                onSend={(message) => {
+                    Backend.sendMessage(message);
+                }}
+                user={{
+                    _id: Backend.getUid(),
+                    name: this.props.name,
+                }}
+            />
 
 
         );
     }
 
     componentDidMount() {
-        // console.log('pass name', this.props.name)
+        this.setState({
+            signin: true
+        });
 
         Backend.loadMessages((message) => {
             this.setState((previousState) => {
@@ -45,10 +51,7 @@ export default class ChatGroup extends React.Component {
                     if (!names.includes(v.user.name)) names.push(v.user.name);
 
                 }
-                // console.log('names',names)
-                // Actions.login({
-                //     names: names,
-                // });
+
                 return {
                     messages: GiftedChat.append(previousState.messages, message),
                 };

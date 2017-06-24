@@ -99,6 +99,39 @@ class Backend {
 
     }
 
+    signin(email, password) {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(function (user) {
+                console.log('email is',email,'password','password')
+                console.log('user is ', user);
+                return user;
+            })
+            .catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                switch(errorCode){
+                    case 'auth/invalid-email':
+                    case 'auth/user-disabled':
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                        alert(`error message,${errorMessage}`);
+                        break;
+                    default:
+                        alert('Please try again');
+
+
+                }
+
+                console.log(error);
+            });
+    }
+
+    // Signs out the current user.
+    signout() {
+        firebase.auth().signOut();
+    }
+
     // close the connection to the Backend
     /**
      * Calling off() on a parent listener will not automatically remove listeners registered on child nodes,

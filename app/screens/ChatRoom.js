@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
     Platform,
     StyleSheet,
@@ -6,12 +6,13 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {Router, Scene} from 'react-native-router-flux';
-import Login from '../components/Login';
+
+import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import ChatGroup from '../components/ChatGroup';
 import {Actions} from 'react-native-router-flux';
 
-export default class ChatRoom extends React.Component {
+export default class ChatRoom extends Component {
 
     render() {
         return (
@@ -22,23 +23,25 @@ export default class ChatRoom extends React.Component {
                 <Scene key='root' style={{paddingTop: Platform.OS === 'ios' ? 64 : 54}}
 
                 >
-                    <Scene key='signup' title='ChatRoom' component={Signup}
-
-
-                    />
-                    <Scene key='login' title='Login' component={Login}/>
                     <Scene key='chat' title='Chat' component={ChatGroup}
                            renderRightButton={
                                () => <TouchableOpacity onPress={
                                    () => {
                                        console.log('onRightPressed');
-                                       Actions.login();
+                                       Actions.signin();
                                    }
                                }>
                                    <Text>Sign out</Text>
                                </TouchableOpacity>
                            }
                     />
+                    <Scene key='signin' title='Sign in' component={Signin}/>
+
+                    <Scene key='signup' title='Sign up' component={Signup}
+
+
+                    />
+
                 </Scene>
             </Router>
         );
