@@ -10,6 +10,7 @@ import {Router, Scene} from 'react-native-router-flux';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import ChatGroup from '../components/ChatGroup';
+import LoginScreen from '../components/Login';
 import {Actions} from 'react-native-router-flux';
 
 export default class ChatRoom extends Component {
@@ -23,7 +24,7 @@ export default class ChatRoom extends Component {
                 <Scene key='root' style={{paddingTop: Platform.OS === 'ios' ? 64 : 54}}
 
                 >
-                    <Scene key='chat' title='Chat' component={ChatGroup}
+                    <Scene key='chat' title='Chat' component={LoginScreen}
                            renderRightButton={
                                () => <TouchableOpacity onPress={
                                    () => {
