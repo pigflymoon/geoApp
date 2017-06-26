@@ -8,15 +8,29 @@ import {
     TextInput,
     TouchableOpacity
 } from 'react-native'
+import {Actions} from 'react-native-router-flux';
 
 import background from '../images/signup_bg.png';
-import backIcon from '../images/back.png';
 import personIcon from '../images/signup_person.png';
 import lockIcon from '../images/signup_lock.png';
 import emailIcon from '../images/signup_email.png';
-import birthdayIcon from '../images/signup_birthday.png';
 
 export default class Signup extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            signin: false,
+            email: '',
+            password: '',
+            name: '',
+        };
+    }
+
+    signin = () => {
+        Actions.signin();
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -47,6 +61,12 @@ export default class Signup extends Component {
                                 placeholder="Name"
                                 placeholderTextColor="#FFF"
                                 underlineColorAndroid='transparent'
+                                onChangeText={(text) => {
+                                    this.setState({
+                                        name: text,
+                                    });
+                                }}
+                                value={this.state.name}
                             />
                         </View>
 
@@ -62,6 +82,12 @@ export default class Signup extends Component {
                                 style={[styles.input, styles.whiteFont]}
                                 placeholder="Email"
                                 placeholderTextColor="#FFF"
+                                onChangeText={(text) => {
+                                    this.setState({
+                                        email: text,
+                                    });
+                                }}
+                                value={this.state.email}
                             />
                         </View>
 
@@ -78,6 +104,12 @@ export default class Signup extends Component {
                                 style={[styles.input, styles.whiteFont]}
                                 placeholder="Password"
                                 placeholderTextColor="#FFF"
+                                onChangeText={(text) => {
+                                    this.setState({
+                                        password: text,
+                                    });
+                                }}
+                                value={this.state.password}
                             />
                         </View>
 
@@ -91,7 +123,7 @@ export default class Signup extends Component {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={this.signin}>
                             <View style={styles.signin}>
                                 <Text style={styles.greyFont}>Already have an account?<Text style={styles.whiteFont}>
                                     Sign In</Text></Text>

@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
+        color: '#fff',
         paddingHorizontal: 10,
     },
     button: {

@@ -24,7 +24,7 @@ export default class ChatRoom extends Component {
                 <Scene key='root' style={{paddingTop: Platform.OS === 'ios' ? 64 : 54}}
 
                 >
-                    <Scene key='chat' title='Chat' component={LoginScreen}
+                    <Scene key='chat' title='Chat' component={Signin}
                            renderRightButton={
                                () => <TouchableOpacity onPress={
                                    () => {

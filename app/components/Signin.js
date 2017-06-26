@@ -1,60 +1,42 @@
 import React, {Component} from 'react';
-
 import {
+    AppRegistry,
     StyleSheet,
     Text,
-    TextInput,
-    TouchableOpacity,
     View,
-    Alert
+    Image,
+    Dimensions,
+    TextInput,
+    Button,
+    TouchableOpacity
 } from 'react-native';
 
-import {Button} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
+import firebaseApp from '../config/FirebaseConfig';
+const {width, height} = Dimensions.get("window");
 
-import Backend from '../Backend';
-import {bind} from '../utils/utils';
+import background from '../images/login1_bg.png';
+import mark from '../images/login1_mark1.png';
+import lockIcon from '../images/login1_lock.png';
+import personIcon from '../images/login1_person.png';
 
-
-var names = [];
-export default class Signin extends Component {
-    state = {
-        signin: false,
-        email: '',
-        password: '',
-        name: '',
-        names: []
-    };
-
-    componentDidMount() {
-        console.log('signin ', this.state.email)
-        // this.setState((previousState) => {
-        // });
-
-        // Backend.loadMessages((message) => {
-        //     var messages = message;
-        //     for (var prop in messages) {
-        //         if (prop == 'user') {
-        //             console.log('prop ', prop, messages[prop])
-        //             if (!names.includes(messages[prop].name)) {
-        //                 names.push(messages[prop].name)
-        //             }
-        //         }
-        //     }
-        //
-        //     this.setState({
-        //         names: names
-        //     });
-        //
-        //
-        //     console.log('state names ', this.state.names);
-        //
-        //
-        // });
-
-
+export default class LoginScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            signin: false,
+            email: '',
+            password: '',
+            name: '',
+            names: []
+        };
     }
 
+    signup =() =>{
+        Actions.signup({
+            name: this.state.name,
+        });
+    }
     handleSignin = (e) => {
         e.preventDefault()
         if (!this.state.email) {
@@ -67,58 +49,120 @@ export default class Signin extends Component {
                 {cancelable: false}
             )
         }
-        // console.log('signin ', Backend.signin(this.state.email, this.state.password));
-        if (Backend.signin(this.state.email, this.state.password)) {
-            this.setState({
-                signin: true
-            });
-            Actions.chat({
-                name: this.state.name,
-            });
-        }
-    }
 
+        firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(function (user) {
+                // console.log('email is', email, 'password', 'password')
+                console.log('user is ', user);
+                this.setState({
+                    signin: true
+                });
+                // Actions.chat({
+                //     name: this.state.name,
+                // });
+                // return user;
+            })
+            .catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                switch (errorCode) {
+                    case 'auth/invalid-email':
+                    case 'auth/user-disabled':
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                        alert(errorMessage);
+                        break;
+                    default:
+                        alert('Please try again');
+
+                }
+
+                console.log(error);
+            });
+
+        // Backend.signin(this.state.email, this.state.password)
+
+
+        // ).then(function (info) {
+        //     console.log('info', info);
+        // }).catch(function (error) {
+        //     console.log('error', error);
+        // });
+
+
+        // console.log('signin ', Backend.signin(this.state.email, this.state.password));
+        // if (Backend.signin(this.state.email, this.state.password)) {
+        //     this.setState({
+        //         signin: true
+        //     });
+        //     Actions.chat({
+        //         name: this.state.name,
+        //     });
+        // }
+
+
+    }
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={[styles.label, {marginTop: 40}]}>
-                    Enter your email :
-                </Text>
-
-                <TextInput
-                    placeholder='Please entry your email'
-                    style={styles.textInput}
-                    onChangeText={(text) => {
-                        this.setState({
-                            email: text,
-                        });
-                    }}
-                    value={this.state.email}
-                />
-                <TextInput
-                    style={styles.textInput}
-                    onChangeText={(text) => this.setState({password: text})}
-                    value={this.state.password}
-                    secureTextEntry={true}
-                    placeholder={"Password"}
-                />
-
-                <View style={styles.button}>
-                    <Button
-                        style={styles.signup}
-                        onPress={this.handleSignin}
-                        backgroundColor="#397af8"
-                        title='Sign up'/>
-
-                    <Button
-                        style={styles.signin}
-                        onPress={this.handleSignin}
-                        backgroundColor="#397af8"
-                        title='Sign in'/>
-                </View>
-
-
+                <Image source={background} style={styles.background} resizeMode="cover">
+                    <View style={styles.markWrap}>
+                        <Image source={mark} style={styles.mark} resizeMode="contain"/>
+                    </View>
+                    <View style={styles.wrapper}>
+                        <View style={styles.inputWrap}>
+                            <View style={styles.iconWrap}>
+                                <Image source={personIcon} style={styles.icon} resizeMode="contain"/>
+                            </View>
+                            <TextInput
+                                placeholder="Email"
+                                placeholderTextColor="#FFF"
+                                style={styles.input}
+                                onChangeText={(text) => {
+                                    this.setState({
+                                        email: text,
+                                    });
+                                }}
+                                value={this.state.email}
+                            />
+                        </View>
+                        <View style={styles.inputWrap}>
+                            <View style={styles.iconWrap}>
+                                <Image source={lockIcon} style={styles.icon} resizeMode="contain"/>
+                            </View>
+                            <TextInput
+                                placeholderTextColor="#FFF"
+                                placeholder="Password"
+                                style={styles.input}
+                                secureTextEntry
+                                onChangeText={(text) => this.setState({password: text})}
+                                value={this.state.password}
+                            />
+                        </View>
+                        <TouchableOpacity activeOpacity={.5}>
+                            <View>
+                                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={.5} onPress={this.handleSignin}>
+                            <View style={styles.button}>
+                                <Text style={styles.buttonText}>Sign In</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.container}>
+                        <View style={styles.signupWrap}>
+                            <Text style={styles.accountText}>Don't have an account?</Text>
+                            <TouchableOpacity activeOpacity={.5} onPress={this.signup}>
+                                <View>
+                                    <Text style={styles.signupLinkText}>Sign Up</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Image>
             </View>
         );
     }
@@ -127,25 +171,72 @@ export default class Signin extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // flexDirection: 'column',
-        justifyContent: 'center',
-
-
     },
-    label: {
-        // flex: 1,
-        fontSize: 20,
-        alignSelf: 'center',
-
+    markWrap: {
+        flex: 1,
+        paddingVertical: 30,
     },
-    textInput: {
+    mark: {
+        width: null,
+        height: null,
+        flex: 1,
+    },
+    background: {
+        width,
+        height,
+    },
+    wrapper: {
+        paddingVertical: 30,
+    },
+    inputWrap: {
+        flexDirection: "row",
+        marginVertical: 10,
         height: 40,
-        marginLeft: 50,
+        borderBottomWidth: 1,
+        borderBottomColor: "#CCC"
+    },
+    iconWrap: {
+        paddingHorizontal: 7,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    icon: {
+        height: 20,
+        width: 20,
+    },
+    input: {
+        flex: 1,
+        color: '#fff',
+        paddingHorizontal: 10,
     },
     button: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        backgroundColor: "#157EFB",//#FF3366
+        paddingVertical: 20,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 30,
     },
-
+    buttonText: {
+        color: "#FFF",
+        fontSize: 18,
+    },
+    forgotPasswordText: {
+        color: "#D8D8D8",
+        backgroundColor: "transparent",
+        textAlign: "right",
+        paddingRight: 15,
+    },
+    signupWrap: {
+        backgroundColor: "transparent",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    accountText: {
+        color: "#D8D8D8"
+    },
+    signupLinkText: {
+        color: "#FFF",
+        marginLeft: 5,
+    }
 });
