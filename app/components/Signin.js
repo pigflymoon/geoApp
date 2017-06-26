@@ -32,13 +32,14 @@ export default class LoginScreen extends Component {
         };
     }
 
-    signup =() =>{
+    signup = () => {
         Actions.signup({
             name: this.state.name,
         });
     }
 
     handleSignin = (e) => {
+        var self = this;
         e.preventDefault()
         if (!this.state.email) {
             Alert.alert(
@@ -55,12 +56,18 @@ export default class LoginScreen extends Component {
             .then(function (user) {
                 // console.log('email is', email, 'password', 'password')
                 console.log('user is ', user);
-                this.setState({
-                    signin: true
-                });
-                // Actions.chat({
-                //     name: this.state.name,
+                firebaseApp.auth().onAuthStateChanged(function (user) {
+                    if (user) {
+                        console.log('user', user)
+                        Actions.chat({name: self.state.name});
+                    } else {
+                        console.log('error')
+                    }
+                })
+                // this.setState({
+                //     signin: true
                 // });
+
                 // return user;
             })
             .catch(function (error) {

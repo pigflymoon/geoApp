@@ -23,11 +23,8 @@ export default class ChatRoom extends Component {
         return (
             <Router navigationBarStyle={styles.navBar} titleStyle={styles.navBarTitle}
                     barButtonTextStyle={styles.barButtonTextStyle} barButtonIconStyle={styles.barButtonIconStyle}
-
             >
-                <Scene key='root' style={{paddingTop: Platform.OS === 'ios' ? 64 : 54}}
-
-                >
+                <Scene key='root' style={{paddingTop: Platform.OS === 'ios' ? 64 : 54}}>
                     <Scene key='chat' title='Chat' component={ChatGroup}
                            renderRightButton={
                                () => <TouchableOpacity
@@ -37,12 +34,7 @@ export default class ChatRoom extends Component {
                            }
                     />
                     <Scene key='signin' title='Sign in' component={Signin}/>
-
-                    <Scene key='signup' title='Sign up' component={Signup}
-
-
-                    />
-
+                    <Scene key='signup' title='Sign up' component={Signup}/>
                 </Scene>
             </Router>
         );

@@ -68,7 +68,7 @@ export default class Signup extends Component {
                 // firebaseApp.auth().onAuthStateChanged(function (user) {
                 //     if (user) {
                 //         console.log('user', user)
-                //         Actions.chat({name: self.state.name, signin: true});
+                        Actions.chat({name: self.state.name});
                 //     } else {
                 //         console.log('error')
                 //     }

@@ -5,21 +5,21 @@ class Backend {
     messagesRef = null;
     // initialize Firebase Backend
     constructor() {
-        // firebase.initializeApp({
-        //     apiKey: 'AIzaSyB9fwkkRNv_iorCojjim82_p7G_oUlE3eM',
-        //     authDomain: 'geochat-cc681.firebaseapp.com',
-        //     databaseURL: 'https://geochat-cc681.firebaseio.com',
-        //     storageBucket: 'geochat-cc681.appspot.com',
-        // });
-        // firebase.auth().onAuthStateChanged((user) => {
-        //     if (user) {
-        //         this.setUid(user.uid);
-        //     } else {
-        //         firebase.auth().signInAnonymously().catch((error) => {
-        //             alert(error.message);
-        //         });
-        //     }
-        // });
+        firebase.initializeApp({
+            apiKey: 'AIzaSyB9fwkkRNv_iorCojjim82_p7G_oUlE3eM',
+            authDomain: 'geochat-cc681.firebaseapp.com',
+            databaseURL: 'https://geochat-cc681.firebaseio.com',
+            storageBucket: 'geochat-cc681.appspot.com',
+        });
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setUid(user.uid);
+            } else {
+                firebase.auth().signInAnonymously().catch((error) => {
+                    alert(error.message);
+                });
+            }
+        });
 
     }
 
@@ -99,11 +99,12 @@ class Backend {
 
     }
 
-    signin(email, password) {
+    signin(email, password,callback) {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(function (user) {
                 console.log('email is',email,'password','password')
                 console.log('user is ', user);
+                callback(user);
                 return user;
             })
             .catch(function (error) {
