@@ -11,7 +11,7 @@ import {bind} from '../utils/utils';
 
 import {Button} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
-import Backend from '../Backend';
+// import Backend from '../Backend';
 
 export default class Signup extends React.Component {
 
@@ -73,7 +73,7 @@ export default class Signup extends React.Component {
                 />
 
                 <Button
-                    onPress={this.signup}
+
                     backgroundColor="#397af8"
                     raised
                     title='Sign up'/>

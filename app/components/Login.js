@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -11,45 +11,124 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-const { width, height } = Dimensions.get("window");
+import {Actions} from 'react-native-router-flux';
+// import Backend from '../Backend';
+import firebaseApp from '../config/FirebaseConfig';
+const {width, height} = Dimensions.get("window");
 
 import background from '../images/login1_bg.png';
-import mark from '../images/login1_mark.png';
+import mark from '../images/login1_mark1.png';
 import lockIcon from '../images/login1_lock.png';
 import personIcon from '../images/login1_person.png';
-// const background = require("../images/login1_bg.png");
-// const mark = require("../images/login1_mark.png");
-// const lockIcon = require("../images/login1_lock.png");
-// const personIcon = require("../images/login1_person.png");
-
 export default class LoginScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            signin: false,
+            email: '',
+            password: '',
+            name: '',
+            names: []
+        };
+    }
+
+
+    handleSignin = (e) => {
+        e.preventDefault()
+        if (!this.state.email) {
+            Alert.alert(
+                'Oops',
+                'Please enter your email',
+                [
+                    {text: 'OK'},
+                ],
+                {cancelable: false}
+            )
+        }
+
+        firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(function (user) {
+                console.log('email is', email, 'password', 'password')
+                console.log('user is ', user);
+                // return user;
+            })
+            .catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                switch (errorCode) {
+                    case 'auth/invalid-email':
+                    case 'auth/user-disabled':
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                        alert(errorMessage);
+                        break;
+                    default:
+                        alert('Please try again');
+
+                }
+
+                console.log(error);
+            });
+
+        // Backend.signin(this.state.email, this.state.password)
+
+
+        // ).then(function (info) {
+        //     console.log('info', info);
+        // }).catch(function (error) {
+        //     console.log('error', error);
+        // });
+
+
+        // console.log('signin ', Backend.signin(this.state.email, this.state.password));
+        // if (Backend.signin(this.state.email, this.state.password)) {
+        //     this.setState({
+        //         signin: true
+        //     });
+        //     Actions.chat({
+        //         name: this.state.name,
+        //     });
+        // }
+
+
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <Image source={background} style={styles.background} resizeMode="cover">
                     <View style={styles.markWrap}>
-                        <Image source={mark} style={styles.mark} resizeMode="contain" />
+                        <Image source={mark} style={styles.mark} resizeMode="contain"/>
                     </View>
                     <View style={styles.wrapper}>
                         <View style={styles.inputWrap}>
                             <View style={styles.iconWrap}>
-                                <Image source={personIcon} style={styles.icon} resizeMode="contain" />
+                                <Image source={personIcon} style={styles.icon} resizeMode="contain"/>
                             </View>
                             <TextInput
-                                placeholder="Username"
+                                placeholder="Email"
                                 placeholderTextColor="#FFF"
                                 style={styles.input}
+                                onChangeText={(text) => {
+                                    this.setState({
+                                        email: text,
+                                    });
+                                }}
+                                value={this.state.email}
                             />
                         </View>
                         <View style={styles.inputWrap}>
                             <View style={styles.iconWrap}>
-                                <Image source={lockIcon} style={styles.icon} resizeMode="contain" />
+                                <Image source={lockIcon} style={styles.icon} resizeMode="contain"/>
                             </View>
                             <TextInput
                                 placeholderTextColor="#FFF"
                                 placeholder="Password"
                                 style={styles.input}
                                 secureTextEntry
+                                onChangeText={(text) => this.setState({password: text})}
+                                value={this.state.password}
                             />
                         </View>
                         <TouchableOpacity activeOpacity={.5}>
@@ -57,7 +136,7 @@ export default class LoginScreen extends Component {
                                 <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.5}>
+                        <TouchableOpacity activeOpacity={.5} onPress={this.handleSignin}>
                             <View style={styles.button}>
                                 <Text style={styles.buttonText}>Sign In</Text>
                             </View>
@@ -120,7 +199,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     button: {
-        backgroundColor: "#FF3366",
+        backgroundColor: "#157EFB",//#FF3366
         paddingVertical: 20,
         alignItems: "center",
         justifyContent: "center",
