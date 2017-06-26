@@ -10,10 +10,14 @@ import {Router, Scene} from 'react-native-router-flux';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import ChatGroup from '../components/ChatGroup';
-import LoginScreen from '../components/Login';
 import {Actions} from 'react-native-router-flux';
+import firebaseApp from '../config/FirebaseConfig';
 
 export default class ChatRoom extends Component {
+    signout() {
+        firebaseApp.auth().signOut();
+        Actions.signin();
+    }
 
     render() {
         return (
@@ -26,12 +30,8 @@ export default class ChatRoom extends Component {
                 >
                     <Scene key='chat' title='Chat' component={ChatGroup}
                            renderRightButton={
-                               () => <TouchableOpacity onPress={
-                                   () => {
-                                       console.log('onRightPressed');
-                                       Actions.signin();
-                                   }
-                               }>
+                               () => <TouchableOpacity
+                                   onPress={this.signout}>
                                    <Text>Sign out</Text>
                                </TouchableOpacity>
                            }

@@ -37,6 +37,7 @@ export default class LoginScreen extends Component {
             name: this.state.name,
         });
     }
+
     handleSignin = (e) => {
         e.preventDefault()
         if (!this.state.email) {

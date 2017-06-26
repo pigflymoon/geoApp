@@ -7,10 +7,9 @@ import {
 import {Actions} from 'react-native-router-flux';
 
 import {GiftedChat} from 'react-native-gifted-chat';
-import firebaseApp from '../config/FirebaseConfig';
 
 // import Backend from '../Backend';
-
+import firebaseApp from '../config/FirebaseConfig';
 export default class ChatGroup extends Component {
     state = {
         signin: false,
@@ -19,16 +18,16 @@ export default class ChatGroup extends Component {
     };
 
     componentWillMount() {
-        // firebaseApp.auth().onAuthStateChanged((user) => {
-        //     if (user) {
-        //         this.setUid(user.uid);
-        //     } else {
-        //         Actions.signin();
-        //     }
-        // });
-        if (!this.state.signin) {
-            Actions.signin();
-        }
+        firebaseApp.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log('user',user)
+            } else {
+                Actions.signin();
+            }
+        });
+        // if (!this.state.signin) {
+        //     Actions.signin();
+        // }
     }
 
     setUid(value) {
@@ -56,6 +55,7 @@ export default class ChatGroup extends Component {
 
     componentWillUnmount() {
         // Backend.closeChat();
+
     }
 }
 

@@ -35,6 +35,7 @@ export default class Signup extends Component {
 
     handleSignup = (e) => {
         e.preventDefault();
+        var self = this;
         if (!this.state.email) {
             Alert.alert(
                 'Oop',
@@ -57,16 +58,22 @@ export default class Signup extends Component {
             )
         } else {
             firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function (user) {
-
+                // console.log('name', this.state.name);
                 user.updateProfile({
-                    displayName: this.state.name
-                }).then(function () {
-                    Actions.chat({name: this.state.name});
-                }, function (error) {
-                    // An error happened.
-                    console.log('update error');
+                    displayName: self.state.name
                 });
                 // user.sendEmailVerification();
+                // console.log('user', user);
+            }).then(function () {
+                // firebaseApp.auth().onAuthStateChanged(function (user) {
+                //     if (user) {
+                //         console.log('user', user)
+                //         Actions.chat({name: self.state.name, signin: true});
+                //     } else {
+                //         console.log('error')
+                //     }
+                // })
+
             }).catch(function (error, userData) {
                 // Handle Errors here.
                 if (error) {
