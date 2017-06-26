@@ -1,105 +1,183 @@
-import React from 'react';
+import React, {Component} from 'react'
 import {
+    AppRegistry,
     StyleSheet,
     Text,
-    TextInput,
-    TouchableOpacity,
     View,
-    Alert
-} from 'react-native';
-import {bind} from '../utils/utils';
+    Image,
+    TextInput,
+    TouchableOpacity
+} from 'react-native'
 
-import {Button} from 'react-native-elements';
-import {Actions} from 'react-native-router-flux';
-// import Backend from '../Backend';
+import background from '../images/signup_bg.png';
+import backIcon from '../images/back.png';
+import personIcon from '../images/signup_person.png';
+import lockIcon from '../images/signup_lock.png';
+import emailIcon from '../images/signup_email.png';
+import birthdayIcon from '../images/signup_birthday.png';
 
-export default class Signup extends React.Component {
-
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            name:'',
-            email: '',
-            password: '',
-        };
-        bind(this)('signup');
-    }
-
-    signup() {
-        Backend.signup(this.state.email, this.state.password);
-        Actions.chat({
-            name: this.state.name,
-        });
-    }
-
-    componentDidMount() {
-
-
-    }
-
+export default class Signup extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={[styles.label, {marginTop: 40}]}>
-                    Enter your email :
-                </Text>
+                <Image
+                    source={background}
+                    style={[styles.container, styles.bg]}
+                    resizeMode="cover"
+                >
+                    <View style={styles.headerContainer}>
+                        <View style={styles.headerTitleView}>
+                            <Text style={styles.titleViewText}>Sign Up</Text>
+                        </View>
 
-                <TextInput
-                    placeholder='Please entry your email'
-                    style={styles.textInput}
-                    onChangeText={(text) => {
-                        this.setState({
-                            email: text,
-                        });
-                    }}
-                    value={this.state.email}
-                />
-                <TextInput
-                    style={styles.textInput}
-                    onChangeText={(text) => this.setState({password: text})}
-                    value={this.state.password}
-                    secureTextEntry={true}
-                    placeholder={"Password"}
-                />
-                <TextInput
-                    placeholder='Please entry your nick name'
-                    style={styles.textInput}
-                    onChangeText={(text) => {
-                        this.setState({
-                            name: text,
-                        });
-                    }}
-                    value={this.state.name}
-                />
+                    </View>
 
-                <Button
+                    <View style={styles.inputsContainer}>
 
-                    backgroundColor="#397af8"
-                    raised
-                    title='Sign up'/>
+                        <View style={styles.inputContainer}>
+                            <View style={styles.iconContainer}>
+                                <Image
+                                    source={personIcon}
+                                    style={styles.inputIcon}
+                                    resizeMode="contain"
+                                />
+                            </View>
+                            <TextInput
+                                style={[styles.input, styles.whiteFont]}
+                                placeholder="Name"
+                                placeholderTextColor="#FFF"
+                                underlineColorAndroid='transparent'
+                            />
+                        </View>
 
+                        <View style={styles.inputContainer}>
+                            <View style={styles.iconContainer}>
+                                <Image
+                                    source={emailIcon}
+                                    style={styles.inputIcon}
+                                    resizeMode="contain"
+                                />
+                            </View>
+                            <TextInput
+                                style={[styles.input, styles.whiteFont]}
+                                placeholder="Email"
+                                placeholderTextColor="#FFF"
+                            />
+                        </View>
 
+                        <View style={styles.inputContainer}>
+                            <View style={styles.iconContainer}>
+                                <Image
+                                    source={lockIcon}
+                                    style={styles.inputIcon}
+                                    resizeMode="contain"
+                                />
+                            </View>
+                            <TextInput
+                                secureTextEntry={true}
+                                style={[styles.input, styles.whiteFont]}
+                                placeholder="Password"
+                                placeholderTextColor="#FFF"
+                            />
+                        </View>
+
+                    </View>
+
+                    <View style={styles.footerContainer}>
+
+                        <TouchableOpacity>
+                            <View style={styles.signup}>
+                                <Text style={styles.whiteFont}>Join</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity>
+                            <View style={styles.signin}>
+                                <Text style={styles.greyFont}>Already have an account?<Text style={styles.whiteFont}>
+                                    Sign In</Text></Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </Image>
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
+let styles = StyleSheet.create({
     container: {
         flex: 1,
-        // flexDirection: 'column',
+    },
+    bg: {
+        paddingTop: 30,
+        width: null,
+        height: null
+    },
+    headerContainer: {
+        flex: 1,
+    },
+    inputsContainer: {
+        flex: 3,
+    },
+    footerContainer: {
+        flex: 1
+    },
+    headerIconView: {
+        marginLeft: 10,
+        backgroundColor: 'transparent'
+    },
+    headerBackButtonView: {
+        width: 25,
+        height: 25,
+    },
+
+    headerTitleView: {
+        backgroundColor: 'transparent',
+        marginLeft: 25,
+    },
+    titleViewText: {
+        fontSize: 40,
+        color: '#fff',
+    },
+    inputs: {
+        paddingVertical: 20,
+    },
+    inputContainer: {
+        borderWidth: 1,
+        borderBottomColor: '#CCC',
+        borderColor: 'transparent',
+        flexDirection: 'row',
+        height: 75,
+    },
+    iconContainer: {
+        paddingHorizontal: 15,
         justifyContent: 'center',
-
-
+        alignItems: 'center',
     },
-    label: {
-        // flex: 1,
+    inputIcon: {
+        width: 30,
+        height: 30,
+    },
+    input: {
+        flex: 1,
         fontSize: 20,
-        alignSelf: 'center',
-
     },
-    textInput: {
-        height: 40,
-        marginLeft: 50,
+    signup: {
+        backgroundColor: '#157EFB',
+        paddingVertical: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 15,
     },
-});
+    signin: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+    },
+    greyFont: {
+        color: '#D8D8D8'
+    },
+    whiteFont: {
+        color: '#FFF'
+    }
+})

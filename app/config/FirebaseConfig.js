@@ -5,6 +5,5 @@ var fireBaseconfig = {
     databaseURL: 'https://geochat-cc681.firebaseio.com',
     storageBucket: 'geochat-cc681.appspot.com',
 };
-// firebase.initializeApp(fireBaseconfig);
 var firebaseApp = firebase.initializeApp(fireBaseconfig);
 export default firebaseApp

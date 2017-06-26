@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
-// import Backend from '../Backend';
 import firebaseApp from '../config/FirebaseConfig';
 const {width, height} = Dimensions.get("window");
 
@@ -20,6 +19,7 @@ import background from '../images/login1_bg.png';
 import mark from '../images/login1_mark1.png';
 import lockIcon from '../images/login1_lock.png';
 import personIcon from '../images/login1_person.png';
+
 export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
@@ -32,7 +32,11 @@ export default class LoginScreen extends Component {
         };
     }
 
-
+    signup =() =>{
+        Actions.signup({
+            name: this.state.name,
+        });
+    }
     handleSignin = (e) => {
         e.preventDefault()
         if (!this.state.email) {
@@ -48,8 +52,14 @@ export default class LoginScreen extends Component {
 
         firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then(function (user) {
-                console.log('email is', email, 'password', 'password')
+                // console.log('email is', email, 'password', 'password')
                 console.log('user is ', user);
+                    this.setState({
+                        signin: true
+                    });
+                    // Actions.chat({
+                    //     name: this.state.name,
+                    // });
                 // return user;
             })
             .catch(function (error) {
@@ -145,7 +155,7 @@ export default class LoginScreen extends Component {
                     <View style={styles.container}>
                         <View style={styles.signupWrap}>
                             <Text style={styles.accountText}>Don't have an account?</Text>
-                            <TouchableOpacity activeOpacity={.5}>
+                            <TouchableOpacity activeOpacity={.5} onPress={this.signup}>
                                 <View>
                                     <Text style={styles.signupLinkText}>Sign Up</Text>
                                 </View>
