@@ -6,9 +6,11 @@ import {
     View,
     Image,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native'
 import {Actions} from 'react-native-router-flux';
+import firebaseApp from '../config/FirebaseConfig';
 
 import background from '../images/signup_bg.png';
 import personIcon from '../images/signup_person.png';
@@ -29,6 +31,69 @@ export default class Signup extends Component {
 
     signin = () => {
         Actions.signin();
+    }
+
+    handleSignup = (e) => {
+        e.preventDefault();
+        if (!this.state.email) {
+            Alert.alert(
+                'Oop',
+                'Please enter your email',
+                [
+                    {text: 'OK'},
+                ], {
+                    cancelable: false,
+                }
+            )
+        } else if (!this.state.password) {
+            Alert.alert(
+                'Oop',
+                'Please set your password',
+                [
+                    {text: 'OK'},
+                ], {
+                    cancelable: false,
+                }
+            )
+        } else {
+            firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function (user) {
+
+                user.updateProfile({
+                    displayName: this.state.name
+                }).then(function () {
+                    Actions.chat({name: this.state.name});
+                }, function (error) {
+                    // An error happened.
+                    console.log('update error');
+                });
+                // user.sendEmailVerification();
+            }).catch(function (error, userData) {
+                // Handle Errors here.
+                if (error) {
+                    console.log('error', error)
+                    switch (error.code) {
+                        case "auth/email-already-in-use":
+                            alert("there already exists an account with the given email address.");
+                            break;
+                        case "auth/invalid-email":
+                            alert("The email address is not valid");
+                            break;
+                        case "auth/operation-not-allowed":
+                            alert("email/password accounts are not enabled");
+                            break;
+                        case "auth/weak-password":
+                            alert("the password is not strong enough.");
+                            break;
+
+                        default:
+                            alert("Error creating user:");
+                    }
+
+                } else {
+                    alert('Your account was created!');
+                }
+            });
+        }
     }
 
     render() {
@@ -117,7 +182,7 @@ export default class Signup extends Component {
 
                     <View style={styles.footerContainer}>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={this.handleSignup}>
                             <View style={styles.signup}>
                                 <Text style={styles.whiteFont}>Join</Text>
                             </View>

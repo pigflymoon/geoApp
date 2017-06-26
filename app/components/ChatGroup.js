@@ -7,7 +7,9 @@ import {
 import {Actions} from 'react-native-router-flux';
 
 import {GiftedChat} from 'react-native-gifted-chat';
-import Backend from '../Backend';
+import firebaseApp from '../config/FirebaseConfig';
+
+// import Backend from '../Backend';
 
 export default class ChatGroup extends Component {
     state = {
@@ -17,22 +19,28 @@ export default class ChatGroup extends Component {
     };
 
     componentWillMount() {
+        // firebaseApp.auth().onAuthStateChanged((user) => {
+        //     if (user) {
+        //         this.setUid(user.uid);
+        //     } else {
+        //         Actions.signin();
+        //     }
+        // });
         if (!this.state.signin) {
             Actions.signin();
         }
     }
 
+    setUid(value) {
+        this.uid = value;
+    }
+
+
     render() {
         return (
             <GiftedChat
                 messages={this.state.messages}
-                onSend={(message) => {
-                    Backend.sendMessage(message);
-                }}
-                user={{
-                    _id: Backend.getUid(),
-                    name: this.props.name,
-                }}
+
             />
 
 
@@ -44,23 +52,10 @@ export default class ChatGroup extends Component {
             signin: true
         });
 
-        Backend.loadMessages((message) => {
-            this.setState((previousState) => {
-                var messages = previousState.messages, names = [];
-                for (var v of messages) {
-                    if (!names.includes(v.user.name)) names.push(v.user.name);
-
-                }
-
-                return {
-                    messages: GiftedChat.append(previousState.messages, message),
-                };
-            });
-        });
     }
 
     componentWillUnmount() {
-        Backend.closeChat();
+        // Backend.closeChat();
     }
 }
 
