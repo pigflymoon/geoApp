@@ -16,26 +16,35 @@ export default class ChatGroup extends Component {
             signin: false,
             email: '',
             password: '',
-            name: '',
             messages: [],
             names: []
         };
+
         firebaseApp.auth().onAuthStateChanged((user) => {
             if (user) {
-                console.log('user.uid', user.uid);
+                console.log('user.displayName', user.displayName);
                 this.setUid(user.uid);
+                this.setName(user.displayName);
             } else {
                 Actions.signin();
             }
         });
     }
 
-    setUid(value) {
+    setUid = (value) => {
         this.uid = value;
     }
 
-    getUid() {
+    getUid = () => {
         return this.uid;
+    }
+
+    setName = (value) => {
+        this.displayName = value;
+    }
+
+    getName = () => {
+        return this.displayName;
     }
 
 
@@ -47,6 +56,7 @@ export default class ChatGroup extends Component {
         this.messagesRef.off();
         const onReceive = (data) => {
             const message = data.val();
+            console.log('load messages', message.user.name)
             callback({
                 _id: data.key,
                 text: message.text,
@@ -61,7 +71,10 @@ export default class ChatGroup extends Component {
     }
 
     sendMessage(message) {
+        console.log('message', message)
         for (let i = 0; i < message.length; i++) {
+            console.log('send message user', message[i].user)
+            console.log('send message text', message[i].text)
             this.messagesRef.push({
                 text: message[i].text,
                 user: message[i].user,
@@ -76,11 +89,13 @@ export default class ChatGroup extends Component {
         });
 
         this.loadMessages((message) => {
+            console.log('Did mount message', message)
             this.setState((previousState) => {
                 return {
                     messages: GiftedChat.append(previousState.messages, message),
                 };
             });
+            console.log('messages', this.state.messages)
         });
 
     }
@@ -100,7 +115,7 @@ export default class ChatGroup extends Component {
                 }}
                 user={{
                     _id: this.getUid(),
-                    name: this.props.name,
+                    name: this.getName()
                 }}
             />
 

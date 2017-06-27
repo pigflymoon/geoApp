@@ -54,21 +54,13 @@ export default class LoginScreen extends Component {
 
         firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then(function (user) {
-                // console.log('email is', email, 'password', 'password')
-                console.log('user is ', user);
                 firebaseApp.auth().onAuthStateChanged(function (user) {
                     if (user) {
-                        console.log('user', user)
-                        Actions.chat({name: self.state.name});
+                        Actions.chat();
                     } else {
                         console.log('error')
                     }
                 })
-                // this.setState({
-                //     signin: true
-                // });
-
-                // return user;
             })
             .catch(function (error) {
                 // Handle Errors here.
