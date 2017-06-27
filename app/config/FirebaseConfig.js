@@ -1,4 +1,4 @@
-import * as firebase from 'firebase';  // Initialize Firebase
+import firebase from 'firebase';  // Initialize Firebase
 var fireBaseconfig = {
     apiKey: 'AIzaSyB9fwkkRNv_iorCojjim82_p7G_oUlE3eM',
     authDomain: 'geochat-cc681.firebaseapp.com',
