@@ -77,7 +77,7 @@ export default class Signup extends Component {
             }).catch(function (error, userData) {
                 // Handle Errors here.
                 if (error) {
-                    console.log('error', error)
+                    // console.log('error', error)
                     switch (error.code) {
                         case "auth/email-already-in-use":
                             alert("there already exists an account with the given email address.");

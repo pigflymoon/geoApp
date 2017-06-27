@@ -45,7 +45,7 @@ export default class QuakeMap extends Component {
         if (this.props.type && this.props.type == "SliderMap") {
             this.loadMapInfo("");
         } else {
-            console.log('detail map');
+            // console.log('detail map');
             this.loadFeatures("");
         }
 
@@ -62,7 +62,7 @@ export default class QuakeMap extends Component {
         }
         axios.get(url)
             .then(function (result) {
-                console.log('slider map  and url', url)
+                // console.log('slider map  and url', url)
                 markersData = [];
                 for (let post of result.data.features) {
                     let time = post.properties.time;

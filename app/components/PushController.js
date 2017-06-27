@@ -38,10 +38,10 @@ export default class PushController extends Component {
         var self = this;
         PushNotification.configure({
             onNotification: function (notification) {
-                console.log('notification userInteraction', notification.userInteraction);
-                console.log('NOTIFICATION:', notification);
+                // console.log('notification userInteraction', notification.userInteraction);
+                // console.log('NOTIFICATION:', notification);
                 self.setState({notification: notification.userInteraction});
-                console.log('state notification', self.state.notification);
+                // console.log('state notification', self.state.notification);
                 // self.props.notification(self.state.notification);
                 // notification.userInteraction = false;
 
@@ -50,7 +50,7 @@ export default class PushController extends Component {
     }
 
     render() {
-        console.log('render?')
+        // console.log('render?')
         return null;
 
 

@@ -26,7 +26,7 @@ export default class QuakesMap extends Component {
     }
 
     handleChooseLevel(stat) {
-        console.log('stat level is ',stat);
+        // console.log('stat level is ',stat);
         if (stat <= 3) {
             this.setState({level: 3});
         } else if (stat <= 4) {

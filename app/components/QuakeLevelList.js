@@ -83,7 +83,7 @@ export default class QuakeLevelList extends Component {
                     dataSource: quakes,
                     isLoading: false
                 })
-                console.log('fetch data  timestamp', this.state.timestamp);
+                // console.log('fetch data  timestamp', this.state.timestamp);
 
             });
     }
@@ -94,7 +94,7 @@ export default class QuakeLevelList extends Component {
     }
 
     componentDidMount() {
-        console.log('in the app QuakesList data', this.state.dataSource.length);
+        // console.log('in the app QuakesList data', this.state.dataSource.length);
         if (this.state.dataSource.length <= 0) {
             this.fetchQuakes();
         }
@@ -116,7 +116,7 @@ export default class QuakeLevelList extends Component {
         if (appState === 'background') {
             if (Object.keys(this.state.timestamp).length > 0) {
                 var timestamp = this.state.timestamp;
-                console.log(`notificatin is ${timestamp}`);
+                // console.log(`notificatin is ${timestamp}`);
 
                 for (var k in timestamp) {
                     // let date = new Date(timestamp[k]);

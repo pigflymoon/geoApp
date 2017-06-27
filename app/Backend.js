@@ -38,7 +38,6 @@ class Backend {
         this.messagesRef.off();
         const onReceive = (data) => {
             const message = data.val();
-            // console.log('name',message.user.name)
             callback({
                 _id: data.key,
                 text: message.text,
@@ -48,7 +47,6 @@ class Backend {
                     name: message.user.name,
                 },
             });
-            // console.log('saved users ',message.user.name);
         };
         this.messagesRef.limitToLast(20).on('child_added', onReceive);
     }

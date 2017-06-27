@@ -10,11 +10,12 @@ import {GiftedChat} from 'react-native-gifted-chat';
 
 // import Backend from '../Backend';
 import firebaseApp from '../config/FirebaseConfig';
-var uid = '';
-var messagesRef = null;
+// var uid = '';
+// var messagesRef = null;
 
 export default class ChatGroup extends Component {
-
+    uid = '';
+    messagesRef = null;
 
     constructor(props) {
         super(props);
@@ -28,7 +29,7 @@ export default class ChatGroup extends Component {
         };
         firebaseApp.auth().onAuthStateChanged((user) => {
             if (user) {
-                console.log('user', user);
+                console.log('user.uid', user.uid);
                 this.setUid(user.uid);
             } else {
                 Actions.signin();
@@ -48,46 +49,46 @@ export default class ChatGroup extends Component {
     componentWillMount() {
     }
 
-    loadMessages() {
+    loadMessages(callback) {
+        console.log('load message')
         this.messagesRef = firebaseApp.database().ref('messages');
         this.messagesRef.off();
         const onReceive = (data) => {
             const message = data.val();
-            // console.log('name',message.user.name)
-            this.setState((previousState) => {
-                var messages = previousState.messages, names = [];
-                for (var v of messages) {
-                    if (!names.includes(v.user.name)) names.push(v.user.name);
-
-                }
-
-                return {
-                    messages: GiftedChat.append(previousState.messages, message),
-                };
+            console.log('message return', message)
+            callback({
+                _id: data.key,
+                text: message.text,
+                createdAt: new Date(message.createdAt),
+                user: {
+                    _id: message.user._id,
+                    name: message.user.name,
+                },
             });
-            // callback({
-            //     _id: data.key,
-            //     text: message.text,
-            //     createdAt: new Date(message.createdAt),
-            //     user: {
-            //         _id: message.user._id,
-            //         name: message.user.name,
-            //     },
-            // });
-            // console.log('saved users ',message.user.name);
         };
         this.messagesRef.limitToLast(20).on('child_added', onReceive);
+
+        this.messagesRef.orderByValue().on("value", function (snapshot) {
+            console.log("load messages There are " + snapshot.numChildren() + " messages");
+        })
     }
 
     sendMessage(message) {
-        console.log('message',message);
-        console.log('firebaseApp.database.ServerValue',firebaseApp.database.ServerValue);
+        // console.log('message',message);
+        console.log('message', message);
+        // var sessionsRef = firebaseApp.database().ref("messages");
+        // console.log('Ref', sessionsRef);
+
+        this.messagesRef.orderByValue().on("value", function (snapshot) {
+            console.log("send messages There are " + snapshot.numChildren() + " messages");
+        })
 
         for (let i = 0; i < message.length; i++) {
+            console.log('message', message[i].createdAt);
             this.messagesRef.push({
                 text: message[i].text,
                 user: message[i].user,
-                createdAt: firebaseApp.database.ServerValue.TIMESTAMP,
+                createdAt: message[i].createdAt,
             });
         }
     }
@@ -97,7 +98,13 @@ export default class ChatGroup extends Component {
             signin: true
         });
 
-        this.loadMessages();
+        this.loadMessages((message) => {
+            this.setState((previousState) => {
+                return {
+                    messages: GiftedChat.append(previousState.messages, message),
+                };
+            });
+        });
 
     }
 
@@ -115,7 +122,7 @@ export default class ChatGroup extends Component {
                     this.sendMessage(message);
                 }}
                 user={{
-                    _id: this.getUid,
+                    _id: this.getUid(),
                     name: this.props.name,
                 }}
             />
