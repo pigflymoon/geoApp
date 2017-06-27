@@ -62,18 +62,22 @@ export default class Signup extends Component {
                 user.updateProfile({
                     displayName: self.state.name
                 });
-                // user.sendEmailVerification();
-                // console.log('user', user);
-            }).then(function () {
-                // firebaseApp.auth().onAuthStateChanged(function (user) {
-                //     if (user) {
-                //         console.log('user', user)
-                        Actions.chat({name: self.state.name});
-                //     } else {
-                //         console.log('error')
-                //     }
-                // })
+                user.sendEmailVerification().then(function() {
+                    // Email sent.
+                    console.log('email sent');
+                    firebaseApp.auth().onAuthStateChanged((user) => {
+                        console.log('to sign in? user',user)
+                        if (user) {
+                            Actions.chat({name: self.state.name});
+                        }
+                    });
 
+
+                }, function(error) {
+                    // An error happened.
+                    console.log('email sent error')
+                });
+                // console.log('user', user);
             }).catch(function (error, userData) {
                 // Handle Errors here.
                 if (error) {

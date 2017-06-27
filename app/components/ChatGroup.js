@@ -19,15 +19,15 @@ export default class ChatGroup extends Component {
             messages: [],
             names: []
         };
-
-        firebaseApp.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setUid(user.uid);
-                this.setName(user.displayName);
-            } else {
-                Actions.signin();
-            }
-        });
+        // firebase.auth().currentUser;
+        var user = firebase.auth().currentUser;
+        console.log('current user', user)
+        if (user) {
+            this.setUid(user.uid);
+            this.setName(user.displayName);
+        } else {
+            Actions.signin();
+        }
     }
 
     setUid = (value) => {
