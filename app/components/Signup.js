@@ -7,7 +7,8 @@ import {
     Image,
     TextInput,
     TouchableOpacity,
-    Alert
+    Alert,
+    TouchableHighlight
 } from 'react-native'
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
@@ -62,18 +63,18 @@ export default class Signup extends Component {
                 user.updateProfile({
                     displayName: self.state.name
                 });
-                user.sendEmailVerification().then(function() {
+                user.sendEmailVerification().then(function () {
                     // Email sent.
                     console.log('email sent');
                     firebaseApp.auth().onAuthStateChanged((user) => {
-                        console.log('to sign in? user',user)
+                        console.log('to sign in? user', user)
                         if (user) {
                             Actions.chat({name: self.state.name});
                         }
                     });
 
 
-                }, function(error) {
+                }, function (error) {
                     // An error happened.
                     console.log('email sent error')
                 });
@@ -117,7 +118,7 @@ export default class Signup extends Component {
                 >
                     <View style={styles.headerContainer}>
                         <View style={styles.headerTitleView}>
-                            <Text style={styles.titleViewText}>Sign Up</Text>
+                            <Text style={styles.titleViewText}>Sign up</Text>
                         </View>
 
                     </View>
@@ -137,6 +138,7 @@ export default class Signup extends Component {
                                 placeholder="Name"
                                 placeholderTextColor="#FFF"
                                 underlineColorAndroid='transparent'
+                                autoFocus={true}
                                 onChangeText={(text) => {
                                     this.setState({
                                         name: text,
@@ -156,6 +158,7 @@ export default class Signup extends Component {
                             </View>
                             <TextInput
                                 style={[styles.input, styles.whiteFont]}
+                                ref='emailInput'
                                 placeholder="Email"
                                 placeholderTextColor="#FFF"
                                 onChangeText={(text) => {
@@ -193,11 +196,11 @@ export default class Signup extends Component {
 
                     <View style={styles.footerContainer}>
 
-                        <TouchableOpacity onPress={this.handleSignup}>
+                        <TouchableHighlight onPress={this.handleSignup} underlayColor="white">
                             <View style={styles.signup}>
                                 <Text style={styles.whiteFont}>Join</Text>
                             </View>
-                        </TouchableOpacity>
+                        </TouchableHighlight>
 
                         <TouchableOpacity onPress={this.signin}>
                             <View style={styles.signin}>
@@ -263,8 +266,8 @@ let styles = StyleSheet.create({
         alignItems: 'center',
     },
     inputIcon: {
-        width: 30,
-        height: 30,
+        width: 20,
+        height: 20,
     },
     input: {
         flex: 1,
@@ -275,7 +278,7 @@ let styles = StyleSheet.create({
         paddingVertical: 25,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 15,
+        // marginBottom: 15,
     },
     signin: {
         justifyContent: 'center',
