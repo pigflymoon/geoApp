@@ -8,7 +8,8 @@ import {
     TextInput,
     TouchableOpacity,
     Alert,
-    TouchableHighlight
+    TouchableHighlight,
+    ActivityIndicator
 } from 'react-native'
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
@@ -27,16 +28,72 @@ export default class Signup extends Component {
             email: '',
             password: '',
             name: '',
-        };
+            isLoading: false
+        }
+        ;
     }
 
     signin = () => {
         Actions.signin();
     }
 
+    registerUserAndWaitEmailVerification(email, password) {
+        var self = this;
+        return new Promise(function (resolve, reject) {
+            let interval = null;
+
+            firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(
+                user => {
+                    user.updateProfile({
+                        displayName: self.state.name
+                    });
+                    user.sendEmailVerification().then(
+                        () => {
+                            self.setState({
+                                isLoading: true
+                            });
+                            interval = setInterval(() => {
+                                console.log('interval called?')
+                                user.reload().then(
+                                    () => {
+                                        if (interval && user.emailVerified) {
+                                            clearInterval(interval);
+                                            interval = null;
+                                            resolve(user);
+                                            console.log('email sent');
+                                            firebaseApp.auth().onAuthStateChanged((user) => {
+                                                console.log('to sign in? user', user)
+                                                if (user) {
+                                                    Actions.chat({name: self.state.name});
+                                                }
+                                            });
+                                        }
+                                    }, error => {
+                                        if (interval) {
+                                            clearInterval(interval);
+                                            interval = null;
+                                            console.log('interval registerUserAndWaitEmailVerification: reload failed ! ' + error.message + ' (' + error.code + ')');
+                                            reject(error);
+                                        }
+                                    }
+                                );
+                            }, 1000);
+                        }, error => {
+                            console.log('registerUserAndWaitEmailVerification: sendEmailVerification failed ! ' + error.message + ' (' + error.code + ')');
+                            reject(error);
+                        });
+                }, error => {
+                    console.log('registerUserAndWaitEmailVerification: createUserWithEmailAndPassword failed ! ' + error.message + ' (' + error.code + ')');
+                    reject(error);
+                }
+            );
+        });
+    }
+
     handleSignup = (e) => {
         e.preventDefault();
-        var self = this;
+        var self = this, showWaitUI = true;
+
         if (!this.state.email) {
             Alert.alert(
                 'Oop',
@@ -58,158 +115,121 @@ export default class Signup extends Component {
                 }
             )
         } else {
-            firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function (user) {
-                // console.log('name', this.state.name);
-                user.updateProfile({
-                    displayName: self.state.name
-                });
-                user.sendEmailVerification().then(function () {
-                    // Email sent.
-                    console.log('email sent');
-                    firebaseApp.auth().onAuthStateChanged((user) => {
-                        console.log('to sign in? user', user)
-                        if (user) {
-                            Actions.chat({name: self.state.name});
-                        }
-                    });
 
-
-                }, function (error) {
-                    // An error happened.
-                    console.log('email sent error')
-                });
-                // console.log('user', user);
-            }).catch(function (error, userData) {
-                // Handle Errors here.
-                if (error) {
-                    // console.log('error', error)
-                    switch (error.code) {
-                        case "auth/email-already-in-use":
-                            alert("there already exists an account with the given email address.");
-                            break;
-                        case "auth/invalid-email":
-                            alert("The email address is not valid");
-                            break;
-                        case "auth/operation-not-allowed":
-                            alert("email/password accounts are not enabled");
-                            break;
-                        case "auth/weak-password":
-                            alert("the password is not strong enough.");
-                            break;
-
-                        default:
-                            alert("Error creating user:");
-                    }
-
-                } else {
-                    alert('Your account was created!');
-                }
-            });
+            this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
         }
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <Image
-                    source={background}
-                    style={[styles.container, styles.bg]}
-                    resizeMode="cover"
-                >
-                    <View style={styles.headerContainer}>
-                        <View style={styles.headerTitleView}>
-                            <Text style={styles.titleViewText}>Sign up</Text>
+                {this.state.isLoading ? (
+                        <View style={styles.loading}>
+                            <ActivityIndicator size='large'/>
                         </View>
+                    ) : (<Image
+                            source={background}
+                            style={[styles.container, styles.bg]}
+                            resizeMode="cover"
+                        >
+                            <View style={styles.headerContainer}>
+                                <View style={styles.headerTitleView}>
+                                    <Text style={styles.titleViewText}>Sign up</Text>
+                                </View>
 
-                    </View>
-
-                    <View style={styles.inputsContainer}>
-
-                        <View style={styles.inputContainer}>
-                            <View style={styles.iconContainer}>
-                                <Image
-                                    source={personIcon}
-                                    style={styles.inputIcon}
-                                    resizeMode="contain"
-                                />
                             </View>
-                            <TextInput
-                                style={[styles.input, styles.whiteFont]}
-                                placeholder="Name"
-                                placeholderTextColor="#FFF"
-                                underlineColorAndroid='transparent'
-                                autoFocus={true}
-                                onChangeText={(text) => {
-                                    this.setState({
-                                        name: text,
-                                    });
-                                }}
-                                value={this.state.name}
-                            />
-                        </View>
 
-                        <View style={styles.inputContainer}>
-                            <View style={styles.iconContainer}>
-                                <Image
-                                    source={emailIcon}
-                                    style={styles.inputIcon}
-                                    resizeMode="contain"
-                                />
+                            <View style={styles.inputsContainer}>
+
+                                <View style={styles.inputContainer}>
+                                    <View style={styles.iconContainer}>
+                                        <Image
+                                            source={personIcon}
+                                            style={styles.inputIcon}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <TextInput
+                                        style={[styles.input, styles.whiteFont]}
+                                        placeholder="Name"
+                                        placeholderTextColor="#FFF"
+                                        underlineColorAndroid='transparent'
+                                        autoFocus={true}
+                                        onChangeText={(text) => {
+                                            this.setState({
+                                                name: text,
+                                            });
+                                        }}
+                                        value={this.state.name}
+                                    />
+                                </View>
+
+                                <View style={styles.inputContainer}>
+                                    <View style={styles.iconContainer}>
+                                        <Image
+                                            source={emailIcon}
+                                            style={styles.inputIcon}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <TextInput
+                                        style={[styles.input, styles.whiteFont]}
+                                        ref='emailInput'
+                                        placeholder="Email"
+                                        placeholderTextColor="#FFF"
+                                        onChangeText={(text) => {
+                                            this.setState({
+                                                email: text,
+                                            });
+                                        }}
+                                        value={this.state.email}
+                                    />
+                                </View>
+
+                                <View style={styles.inputContainer}>
+                                    <View style={styles.iconContainer}>
+                                        <Image
+                                            source={lockIcon}
+                                            style={styles.inputIcon}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <TextInput
+                                        secureTextEntry={true}
+                                        style={[styles.input, styles.whiteFont]}
+                                        placeholder="Password"
+                                        placeholderTextColor="#FFF"
+                                        onChangeText={(text) => {
+                                            this.setState({
+                                                password: text,
+                                            });
+                                        }}
+                                        value={this.state.password}
+                                    />
+                                </View>
+
                             </View>
-                            <TextInput
-                                style={[styles.input, styles.whiteFont]}
-                                ref='emailInput'
-                                placeholder="Email"
-                                placeholderTextColor="#FFF"
-                                onChangeText={(text) => {
-                                    this.setState({
-                                        email: text,
-                                    });
-                                }}
-                                value={this.state.email}
-                            />
-                        </View>
 
-                        <View style={styles.inputContainer}>
-                            <View style={styles.iconContainer}>
-                                <Image
-                                    source={lockIcon}
-                                    style={styles.inputIcon}
-                                    resizeMode="contain"
-                                />
+                            <View style={styles.footerContainer}>
+
+                                <TouchableHighlight onPress={this.handleSignup} underlayColor="white">
+                                    <View style={styles.signup}>
+                                        <Text style={styles.whiteFont}>Join</Text>
+                                    </View>
+                                </TouchableHighlight>
+
+                                <TouchableOpacity onPress={this.signin}>
+                                    <View style={styles.signin}>
+                                        <Text style={styles.greyFont}>Already have an account?<Text
+                                            style={styles.whiteFont}>
+                                            Sign In</Text></Text>
+                                    </View>
+                                </TouchableOpacity>
                             </View>
-                            <TextInput
-                                secureTextEntry={true}
-                                style={[styles.input, styles.whiteFont]}
-                                placeholder="Password"
-                                placeholderTextColor="#FFF"
-                                onChangeText={(text) => {
-                                    this.setState({
-                                        password: text,
-                                    });
-                                }}
-                                value={this.state.password}
-                            />
-                        </View>
+                        </Image>
+                    )}
 
-                    </View>
 
-                    <View style={styles.footerContainer}>
-
-                        <TouchableHighlight onPress={this.handleSignup} underlayColor="white">
-                            <View style={styles.signup}>
-                                <Text style={styles.whiteFont}>Join</Text>
-                            </View>
-                        </TouchableHighlight>
-
-                        <TouchableOpacity onPress={this.signin}>
-                            <View style={styles.signin}>
-                                <Text style={styles.greyFont}>Already have an account?<Text style={styles.whiteFont}>
-                                    Sign In</Text></Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </Image>
             </View>
         );
     }
@@ -218,6 +238,15 @@ export default class Signup extends Component {
 let styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     bg: {
         paddingTop: 30,
