@@ -8,7 +8,8 @@ import {
     Dimensions,
     TextInput,
     Button,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -71,10 +72,25 @@ export default class LoginScreen extends Component {
                     case 'auth/user-disabled':
                     case 'auth/user-not-found':
                     case 'auth/wrong-password':
-                        alert(errorMessage);
+                        Alert.alert(
+                            'Oops',
+                            errorMessage,
+                            [
+                                {text: 'OK'},
+                            ],
+                            {cancelable: false}
+                        )
                         break;
                     default:
-                        alert('Please try again');
+                        Alert.alert(
+                            'Oops',
+                            'Please try again',
+                            [
+                                {text: 'OK'},
+                            ],
+                            {cancelable: false}
+                        )
+
 
                 }
 

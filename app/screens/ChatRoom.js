@@ -25,7 +25,7 @@ export default class ChatRoom extends Component {
                     barButtonTextStyle={styles.barButtonTextStyle} barButtonIconStyle={styles.barButtonIconStyle}
             >
                 <Scene key='root' style={{paddingTop: Platform.OS === 'ios' ? 64 : 54}}>
-                    <Scene key='chat' title='Chat' component={ChatGroup}
+                    <Scene key='chat' title='Chat' component={ChatGroup} hideNavBar={false} hideBackImage={true}
                            renderRightButton={
                                () => <TouchableOpacity
                                    onPress={this.signout}>
@@ -33,11 +33,12 @@ export default class ChatRoom extends Component {
                                </TouchableOpacity>
                            }
                     />
-                    <Scene key='signin' title='Sign in' component={Signin}/>
+                    <Scene key='signin' title='Sign in' component={Signin} hideNavBar={true}></Scene>
                     <Scene key='signup' title='Sign up' component={Signup}/>
                 </Scene>
             </Router>
-        );
+        )
+            ;
     }
 }
 
