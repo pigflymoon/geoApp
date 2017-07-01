@@ -100,9 +100,6 @@ export default class News extends Component {
                         />
                     ))}
                 </List>
-                <Text style={styles.welcome}>
-                    Choose your notification time in seconds.
-                </Text>
             </ScrollView>
         )
     }
