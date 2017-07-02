@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
-import {GiftedChat} from 'react-native-gifted-chat';
 import firebase from 'firebase';  // Initialize Firebase
 import firebaseApp from '../config/FirebaseConfig';
+
+import {GiftedChat} from 'react-native-gifted-chat';
 
 export default class ChatGroup extends Component {
     uid = '';
@@ -19,7 +20,9 @@ export default class ChatGroup extends Component {
             messages: [],
             names: []
         };
-        // firebase.auth().currentUser;
+    }
+
+    componentWillMount() {
         var user = firebase.auth().currentUser;
         console.log('current user', user)
         if (user) {
@@ -29,6 +32,7 @@ export default class ChatGroup extends Component {
             Actions.signin();
         }
     }
+
 
     setUid = (value) => {
         this.uid = value;
@@ -44,10 +48,6 @@ export default class ChatGroup extends Component {
 
     getName = () => {
         return this.displayName;
-    }
-
-
-    componentWillMount() {
     }
 
     loadMessages(callback) {

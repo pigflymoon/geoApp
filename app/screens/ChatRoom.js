@@ -6,14 +6,22 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {Router, Scene} from 'react-native-router-flux';
+import {Actions} from 'react-native-router-flux';
+
+import {bind} from '../utils/utils';
+import firebaseApp from '../config/FirebaseConfig';
 
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import ChatGroup from '../components/ChatGroup';
-import {Actions} from 'react-native-router-flux';
-import firebaseApp from '../config/FirebaseConfig';
 
 export default class ChatRoom extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {test: 1};
+        bind(this)('signout');
+    }
+
     signout() {
         firebaseApp.auth().signOut();
         Actions.signin();
@@ -43,15 +51,6 @@ export default class ChatRoom extends Component {
 }
 
 const styles = StyleSheet.create({
-    // navBar: {
-    //     backgroundColor: '#0D47A1',
-    // },
-    // navBarTitle: {
-    //     color: '#FFFFFF'
-    // },
-    // barButtonTextStyle: {
-    //     color: '#FFFFFF'
-    // },
     barButtonIconStyle: {
         tintColor: 'rgb(255,255,255)'
     },

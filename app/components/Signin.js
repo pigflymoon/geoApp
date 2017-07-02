@@ -97,27 +97,16 @@ export default class LoginScreen extends Component {
                 console.log(error);
             });
 
-        // Backend.signin(this.state.email, this.state.password)
+
+    }
+
+    setEmail = (text) => {
+        this.setState({email: text});
+    }
 
 
-        // ).then(function (info) {
-        //     console.log('info', info);
-        // }).catch(function (error) {
-        //     console.log('error', error);
-        // });
-
-
-        // console.log('signin ', Backend.signin(this.state.email, this.state.password));
-        // if (Backend.signin(this.state.email, this.state.password)) {
-        //     this.setState({
-        //         signin: true
-        //     });
-        //     Actions.chat({
-        //         name: this.state.name,
-        //     });
-        // }
-
-
+    setPassword = (text) => {
+        this.setState({password: text});
     }
 
     render() {
@@ -136,11 +125,7 @@ export default class LoginScreen extends Component {
                                 placeholder="Email"
                                 placeholderTextColor="#FFF"
                                 style={styles.input}
-                                onChangeText={(text) => {
-                                    this.setState({
-                                        email: text,
-                                    });
-                                }}
+                                onChangeText={(text) => this.setEmail(text)}
                                 value={this.state.email}
                             />
                         </View>
@@ -153,7 +138,7 @@ export default class LoginScreen extends Component {
                                 placeholder="Password"
                                 style={styles.input}
                                 secureTextEntry
-                                onChangeText={(text) => this.setState({password: text})}
+                                onChangeText={(text) => this.setPassword(text)}
                                 value={this.state.password}
                             />
                         </View>

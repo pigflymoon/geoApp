@@ -92,7 +92,6 @@ export default class Signup extends Component {
 
     handleSignup = (e) => {
         e.preventDefault();
-        var self = this, showWaitUI = true;
 
         if (!this.state.email) {
             Alert.alert(
