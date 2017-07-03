@@ -24,7 +24,7 @@ export default class ChatGroup extends Component {
 
     componentWillMount() {
         var user = firebase.auth().currentUser;
-        console.log('current user', user)
+        console.log('*******in Chat Group ********* and current user is ', user)
         if (user) {
             this.setUid(user.uid);
             this.setName(user.displayName);

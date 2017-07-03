@@ -23,8 +23,13 @@ export default class ChatRoom extends Component {
     }
 
     signout() {
-        firebaseApp.auth().signOut();
-        Actions.signin();
+        firebaseApp.auth().signOut().then(function () {
+            Actions.signin();
+        }).catch(function (error) {
+            console.log('sign out error', error);
+        })
+
+
     }
 
     render() {
@@ -41,8 +46,8 @@ export default class ChatRoom extends Component {
                                </TouchableOpacity>
                            }
                     />
-                    <Scene key='signin' title='Sign in' component={Signin} hideNavBar={true}></Scene>
-                    <Scene key='signup' title='Sign up' component={Signup}/>
+                    <Scene key='signin' title='Sign in' component={Signin} hideNavBar={true}/>
+                    <Scene key='signup' title='Sign up' component={Signup} hideNavBar={true}/>
                 </Scene>
             </Router>
         )

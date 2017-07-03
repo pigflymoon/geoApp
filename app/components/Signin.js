@@ -34,9 +34,7 @@ export default class LoginScreen extends Component {
     }
 
     signup = () => {
-        Actions.signup({
-            name: this.state.name,
-        });
+        Actions.signup();
     }
 
     handleSignin = (e) => {
@@ -57,6 +55,7 @@ export default class LoginScreen extends Component {
             .then(function (user) {
                 firebaseApp.auth().onAuthStateChanged(function (user) {
                     if (user) {
+                        console.log('********** In Sign in moudle********* ', user, ' is signed in');
                         Actions.chat();
                     } else {
                         console.log('error')
