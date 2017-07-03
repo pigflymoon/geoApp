@@ -37,57 +37,6 @@ export default class Signup extends Component {
         Actions.signin();
     }
 
-    registerUserAndWaitEmailVerification1(email, password) {
-        var promise = new Promise(function (resolve, reject) {
-            let interval = null;
-            console.log('new promise');
-            firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(
-                user => {
-                    user.updateProfile({
-                        displayName: self.state.name
-                    });
-                    user.sendEmailVerification().then(
-                        () => {
-                            self.setState({
-                                isLoading: true
-                            });
-                            // interval = setInterval(() => {
-                            user.reload().then(
-                                function () {
-                                    if (interval && user.emailVerified) {
-                                        clearInterval(interval);
-                                        interval = null;
-                                        resolve(user);
-                                        console.log('email sent');
-
-                                        firebaseApp.auth().onAuthStateChanged((user) => {
-
-                                            console.log('to sign in? user', user)
-                                            if (user) {
-                                                console.log('auth state changed user emailVerified', user.emailVerified);
-                                                Actions.chat({name: self.state.name});
-                                            }
-                                        });
-
-                                    } else {
-                                        reject(error)
-                                    }
-                                }
-                            )
-                            // }, 1000 * 60);
-                        }
-                    )
-
-                }, error => {
-                    console.log('create user error')
-                }
-            )
-
-        });
-
-
-    }
-
 
     registerUserAndWaitEmailVerification(email, password) {
         var self = this;
@@ -99,11 +48,14 @@ export default class Signup extends Component {
                     user.updateProfile({
                         displayName: self.state.name
                     });
+
                     user.sendEmailVerification().then(
                         () => {
                             self.setState({
                                 isLoading: true
                             });
+
+                            // setTimeout(function () {
                             interval = setInterval(() => {
                                 console.log('interval called?', user)
                                 console.log('user.emailVerified?', user.emailVerified);
@@ -124,7 +76,20 @@ export default class Signup extends Component {
                                                 }
                                             });
 
+
                                         }
+                                        setTimeout(function () {
+                                            self.setState({
+                                                isLoading: false
+                                            });
+                                            if (interval) {
+                                                clearInterval(interval);
+                                                interval = null;
+                                                console.log('Time out');
+                                                Actions.verifyEmail({user: user, email: email});
+                                            }
+
+                                        }, 1000 * 10)
                                     }, error => {
                                         if (interval) {
                                             clearInterval(interval);
@@ -134,7 +99,9 @@ export default class Signup extends Component {
                                         }
                                     }
                                 );
-                            }, 1000 * 6);
+                            }, 1000 * 30);
+                            // }, 1000 * 20);
+
                         }, error => {
                             console.log('registerUserAndWaitEmailVerification: sendEmailVerification failed ! ' + error.message + ' (' + error.code + ')');
                             reject(error);

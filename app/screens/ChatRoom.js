@@ -14,11 +14,11 @@ import firebaseApp from '../config/FirebaseConfig';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import ChatGroup from '../components/ChatGroup';
+import VerifyEmail from '../components/VerifyEmail';
 
 export default class ChatRoom extends Component {
     constructor(props) {
         super(props);
-        this.state = {test: 1};
         bind(this)('signout');
     }
 
@@ -47,7 +47,12 @@ export default class ChatRoom extends Component {
                            }
                     />
                     <Scene key='signin' title='Sign in' component={Signin} hideNavBar={true}/>
-                    <Scene key='signup' title='Sign up' component={Signup} hideNavBar={true}/>
+                    <Scene key='signup' title='Sign up' component={Signup} hideNavBar={true}>
+                    </Scene>
+                    <Scene key='verifyEmail' title='verifyEmail' component={VerifyEmail}
+
+
+                    />
                 </Scene>
             </Router>
         )
