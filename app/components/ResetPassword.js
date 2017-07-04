@@ -14,6 +14,8 @@ import {
 
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
+import firebase from 'firebase';
+
 const {width, height} = Dimensions.get("window");
 
 import background from '../images/login1_bg.png';
@@ -21,82 +23,14 @@ import mark from '../images/login1_mark1.png';
 import lockIcon from '../images/login1_lock.png';
 import personIcon from '../images/login1_person.png';
 
-export default class LoginScreen extends Component {
+export default class ResetPassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
             signin: false,
             email: '',
             password: '',
-            name: '',
-            names: []
         };
-    }
-
-    signup = () => {
-        Actions.signup();
-    }
-
-    handleSignin = (e) => {
-        var self = this;
-        e.preventDefault()
-        if (!this.state.email) {
-            Alert.alert(
-                'Oops',
-                'Please enter your email',
-                [
-                    {text: 'OK'},
-                ],
-                {cancelable: false}
-            )
-        }
-
-        firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(function (user) {
-                firebaseApp.auth().onAuthStateChanged(function (user) {
-                    if (user) {
-                        console.log('********** In Sign in moudle********* ', user, ' is signed in');
-                        Actions.chat();
-                    } else {
-                        console.log('error')
-                    }
-                })
-            })
-            .catch(function (error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                switch (errorCode) {
-                    case 'auth/invalid-email':
-                    case 'auth/user-disabled':
-                    case 'auth/user-not-found':
-                    case 'auth/wrong-password':
-                        Alert.alert(
-                            'Oops',
-                            errorMessage,
-                            [
-                                {text: 'OK'},
-                            ],
-                            {cancelable: false}
-                        )
-                        break;
-                    default:
-                        Alert.alert(
-                            'Oops',
-                            'Please try again',
-                            [
-                                {text: 'OK'},
-                            ],
-                            {cancelable: false}
-                        )
-
-
-                }
-
-                console.log(error);
-            });
-
-
     }
 
     setEmail = (text) => {
@@ -104,12 +38,21 @@ export default class LoginScreen extends Component {
     }
 
 
-    setPassword = (text) => {
-        this.setState({password: text});
-    }
 
     handleResetPassword = () => {
-        Actions.resetPassword();
+
+        var auth = firebase.auth();
+        var emailAddress = this.state.email;
+        console.log('emailAddress',emailAddress)
+        auth.sendPasswordResetEmail(emailAddress).then(function () {
+            // Email sent.
+            console.log('reset password sent to the emailAddress');
+
+            Actions.signin();
+        }, function (error) {
+            // An error happened.
+            console.log('Error',error);
+        });
 
     }
 
@@ -133,30 +76,16 @@ export default class LoginScreen extends Component {
                                 value={this.state.email}
                             />
                         </View>
-                        <View style={styles.inputWrap}>
-                            <View style={styles.iconWrap}>
-                                <Image source={lockIcon} style={styles.icon} resizeMode="contain"/>
-                            </View>
-                            <TextInput
-                                placeholderTextColor="#FFF"
-                                placeholder="Password"
-                                style={styles.input}
-                                secureTextEntry
-                                onChangeText={(text) => this.setPassword(text)}
-                                value={this.state.password}
-                            />
-                        </View>
+
                         <TouchableOpacity activeOpacity={.5} onPress={this.handleResetPassword}>
-                            <View>
-                                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.5} onPress={this.handleSignin}>
                             <View style={styles.button}>
-                                <Text style={styles.buttonText}>Sign In</Text>
+                                <Text style={styles.buttonText}>Rest Password</Text>
                             </View>
                         </TouchableOpacity>
+
                     </View>
+
+
                     <View style={styles.container}>
                         <View style={styles.signupWrap}>
                             <Text style={styles.accountText}>Don't have an account?</Text>
@@ -167,6 +96,7 @@ export default class LoginScreen extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
+
                 </Image>
             </View>
         );

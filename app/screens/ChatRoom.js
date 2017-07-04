@@ -15,6 +15,7 @@ import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import ChatGroup from '../components/ChatGroup';
 import VerifyEmail from '../components/VerifyEmail';
+import ResetPassword from '../components/ResetPassword';
 
 export default class ChatRoom extends Component {
     constructor(props) {
@@ -47,6 +48,7 @@ export default class ChatRoom extends Component {
                            }
                     />
                     <Scene key='signin' title='Sign in' component={Signin} hideNavBar={true}/>
+                    <Scene key='resetPassword' title='Reset Password' component={ResetPassword} hideNavBar={true}/>
                     <Scene key='signup' title='Sign up' component={Signup} hideNavBar={true}>
                     </Scene>
                     <Scene key='verifyEmail' title='verifyEmail' component={VerifyEmail}
