@@ -16,10 +16,11 @@ import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
 const {width, height} = Dimensions.get("window");
 
-import background from '../images/login1_bg.png';
-import mark from '../images/login1_mark1.png';
-import lockIcon from '../images/login1_lock.png';
-import personIcon from '../images/login1_person.png';
+import background from '../images/cover_bg.png';
+import mark from '../images/icon_mark.png';
+import lockIcon from '../images/icon_lock.png';
+import personIcon from '../images/icon_person.png';
+import emailIcon from '../images/icon_email.png';
 
 export default class LoginScreen extends Component {
     constructor(props) {
@@ -123,7 +124,7 @@ export default class LoginScreen extends Component {
                     <View style={styles.wrapper}>
                         <View style={styles.inputWrap}>
                             <View style={styles.iconWrap}>
-                                <Image source={personIcon} style={styles.icon} resizeMode="contain"/>
+                                <Image source={emailIcon} style={styles.icon} resizeMode="contain"/>
                             </View>
                             <TextInput
                                 placeholder="Email"
@@ -158,11 +159,11 @@ export default class LoginScreen extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.container}>
-                        <View style={styles.signupWrap}>
+                        <View style={styles.footerWrap}>
                             <Text style={styles.accountText}>Don't have an account?</Text>
                             <TouchableOpacity activeOpacity={.5} onPress={this.signup}>
                                 <View>
-                                    <Text style={styles.signupLinkText}>Sign Up</Text>
+                                    <Text style={styles.linkText}>Sign Up</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -177,6 +178,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    background: {
+        width,
+        height,
+    },
     markWrap: {
         flex: 1,
         paddingVertical: 30,
@@ -186,12 +191,15 @@ const styles = StyleSheet.create({
         height: null,
         flex: 1,
     },
-    background: {
-        width,
-        height,
-    },
+
     wrapper: {
         paddingVertical: 30,
+    },
+    footerWrap: {
+        backgroundColor: "transparent",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
     },
     inputWrap: {
         flexDirection: "row",
@@ -231,16 +239,10 @@ const styles = StyleSheet.create({
         textAlign: "right",
         paddingRight: 15,
     },
-    signupWrap: {
-        backgroundColor: "transparent",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-    },
     accountText: {
         color: "#D8D8D8"
     },
-    signupLinkText: {
+    linkText: {
         color: "#FFF",
         marginLeft: 5,
     }
