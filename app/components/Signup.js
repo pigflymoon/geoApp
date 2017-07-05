@@ -113,7 +113,7 @@ export default class Signup extends Component {
                     <View style={styles.wrapper}>
                         <View style={styles.inputWrap}>
                             <View style={styles.iconWrap}>
-                                <Image source={emailIcon} style={styles.icon} resizeMode="contain"/>
+                                <Icon name="envelope-o" size={20}   style={styles.icon} />
                             </View>
                             <TextInput
                                 placeholder="Email"
@@ -125,7 +125,7 @@ export default class Signup extends Component {
                         </View>
                         <View style={styles.inputWrap}>
                             <View style={styles.iconWrap}>
-                                <Image source={personIcon} style={styles.icon} resizeMode="contain"/>
+                                <Icon name="user" size={20}   style={styles.icon} />
                             </View>
                             <TextInput
                                 placeholder="Name"
@@ -137,7 +137,7 @@ export default class Signup extends Component {
                         </View>
                         <View style={styles.inputWrap}>
                             <View style={styles.iconWrap}>
-                                <Image source={lockIcon} style={styles.icon} resizeMode="contain"/>
+                                <Icon name="lock" size={25}   style={styles.icon} />
                             </View>
                             <TextInput
                                 placeholderTextColor="#FFF"
@@ -219,6 +219,8 @@ let styles = StyleSheet.create({
     icon: {
         height: 20,
         width: 20,
+        backgroundColor:"transparent",
+        color:"#CCC",
     },
     input: {
         flex: 1,

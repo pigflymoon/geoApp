@@ -69,7 +69,7 @@ export default class ResetPassword extends Component {
                     <View style={styles.wrapper}>
                         <View style={styles.inputWrap}>
                             <View style={styles.iconWrap}>
-                                <Image source={emailIcon} style={styles.icon} resizeMode="contain"/>
+                                <Icon name="envelope-o" size={20}   style={styles.icon} />
                             </View>
                             <TextInput
                                 placeholder="Email"
@@ -146,6 +146,8 @@ const styles = StyleSheet.create({
     icon: {
         height: 20,
         width: 20,
+        backgroundColor:"transparent",
+        color:"#CCC",
     },
     input: {
         flex: 1,
