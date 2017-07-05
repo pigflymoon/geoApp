@@ -18,6 +18,7 @@ import firebaseApp from '../config/FirebaseConfig';
 const {width, height} = Dimensions.get("window");
 
 import background from '../images/login1_bg.png';
+import emailIcon from '../images/signup_email.png';
 
 export default class ConfirmEmail extends Component {
     constructor(props) {
@@ -53,6 +54,9 @@ export default class ConfirmEmail extends Component {
                                 console.log('email sent');
 
                                 firebaseApp.auth().onAuthStateChanged((user) => {
+                                    self.setState({
+                                        isLoading: false
+                                    });
                                     console.log('to sign in? user', user)
                                     if (user && user.emailVerified) {
                                         console.log('auth state changed user emailVerified', user.emailVerified);
@@ -60,20 +64,7 @@ export default class ConfirmEmail extends Component {
                                     }
                                 });
 
-
                             }
-                            setTimeout(function () {
-                                self.setState({
-                                    isLoading: false
-                                });
-                                if (interval) {
-                                    clearInterval(interval);
-                                    interval = null;
-                                    console.log('Time out');
-
-                                }
-
-                            }, 1000 * 10)
                         }, error => {
                             if (interval) {
                                 clearInterval(interval);
@@ -104,8 +95,21 @@ export default class ConfirmEmail extends Component {
 
                             <View style={styles.wrapper}>
 
-                                <View>
-                                    <Text>{this.props.email}</Text>
+                                <View style={styles.inputContainer}>
+                                    <View style={styles.iconContainer}>
+                                        <Image
+                                            source={emailIcon}
+                                            style={styles.inputIcon}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                    <TextInput
+                                        style={[styles.input, styles.whiteFont]}
+                                        placeholder="Email"
+                                        placeholderTextColor="#FFF"
+                                        value={this.props.email}
+                                    />
+
                                 </View>
                                 <TouchableOpacity activeOpacity={.5} onPress={this.handleVerifyEmail}>
                                     <View style={styles.button}>
@@ -113,6 +117,7 @@ export default class ConfirmEmail extends Component {
                                     </View>
                                 </TouchableOpacity>
                             </View>
+
 
                         </Image>)}
             </View>
@@ -124,71 +129,58 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    markWrap: {
-        flex: 1,
-        paddingVertical: 30,
-    },
-    mark: {
-        width: null,
-        height: null,
-        flex: 1,
-    },
+
     background: {
         width,
         height,
     },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     wrapper: {
         paddingVertical: 30,
     },
-    inputWrap: {
-        flexDirection: "row",
-        marginVertical: 10,
-        height: 40,
-        borderBottomWidth: 1,
-        borderBottomColor: "#CCC"
+    inputs: {
+        paddingVertical: 20,
     },
-    iconWrap: {
-        paddingHorizontal: 7,
-        alignItems: "center",
-        justifyContent: "center",
+    inputContainer: {
+        borderWidth: 1,
+        borderBottomColor: '#CCC',
+        borderColor: 'transparent',
+        flexDirection: 'row',
+        height: 75,
     },
-    icon: {
-        height: 20,
+    iconContainer: {
+        paddingHorizontal: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    inputIcon: {
         width: 20,
+        height: 20,
     },
     input: {
         flex: 1,
-        color: '#fff',
-        paddingHorizontal: 10,
+        fontSize: 20,
     },
+
     button: {
-        backgroundColor: "#157EFB",//#FF3366
-        paddingVertical: 20,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 30,
+        backgroundColor: '#157EFB',
+        paddingVertical: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     buttonText: {
         color: "#FFF",
         fontSize: 18,
     },
-    forgotPasswordText: {
-        color: "#D8D8D8",
-        backgroundColor: "transparent",
-        textAlign: "right",
-        paddingRight: 15,
+    whiteFont: {
+        color: '#FFF'
     },
-    signupWrap: {
-        backgroundColor: "transparent",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    accountText: {
-        color: "#D8D8D8"
-    },
-    signupLinkText: {
-        color: "#FFF",
-        marginLeft: 5,
-    }
 });

@@ -41,7 +41,7 @@ export default class Signup extends Component {
     registerUserAndWaitEmailVerification(email, password) {
         var self = this;
         return new Promise(function (resolve, reject) {
-            let interval = null;
+            // let interval = null;
             console.log('new promise');
             firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(
                 user => {
@@ -49,63 +49,7 @@ export default class Signup extends Component {
                         displayName: self.state.name
                     });
 
-                    user.sendEmailVerification().then(
-                        () => {
-                            self.setState({
-                                isLoading: true
-                            });
-
-                            // setTimeout(function () {
-                            interval = setInterval(() => {
-                                console.log('interval called?', user)
-                                console.log('user.emailVerified?', user.emailVerified);
-                                user.reload().then(
-                                    () => {
-                                        console.log('sign up user', user);
-                                        if (interval && user.emailVerified) {
-                                            clearInterval(interval);
-                                            interval = null;
-                                            resolve(user);
-                                            console.log('email sent');
-
-                                            firebaseApp.auth().onAuthStateChanged((user) => {
-                                                console.log('to sign in? user', user)
-                                                if (user && user.emailVerified) {
-                                                    console.log('auth state changed user emailVerified', user.emailVerified);
-                                                    Actions.chat({name: self.state.name});
-                                                }
-                                            });
-
-
-                                        }
-                                        setTimeout(function () {
-                                            self.setState({
-                                                isLoading: false
-                                            });
-                                            if (interval) {
-                                                clearInterval(interval);
-                                                interval = null;
-                                                console.log('Time out');
-                                                Actions.verifyEmail({user: user, email: email});
-                                            }
-
-                                        }, 1000 * 10)
-                                    }, error => {
-                                        if (interval) {
-                                            clearInterval(interval);
-                                            interval = null;
-                                            console.log('interval registerUserAndWaitEmailVerification: reload failed ! ' + error.message + ' (' + error.code + ')');
-                                            reject(error);
-                                        }
-                                    }
-                                );
-                            }, 1000 * 30);
-                            // }, 1000 * 20);
-
-                        }, error => {
-                            console.log('registerUserAndWaitEmailVerification: sendEmailVerification failed ! ' + error.message + ' (' + error.code + ')');
-                            reject(error);
-                        });
+                    Actions.verifyEmail({user: user, email: email});
                 }, error => {
                     console.log('registerUserAndWaitEmailVerification: createUserWithEmailAndPassword failed ! ' + error.message + ' (' + error.code + ')');
                     reject(error);
