@@ -37,6 +37,7 @@ export default class ConfirmEmail extends Component {
         var user = this.state.user
 
         user.sendEmailVerification().then(
+            // setTimeout(
             () => {
                 self.setState({
                     isLoading: true
@@ -62,9 +63,19 @@ export default class ConfirmEmail extends Component {
                                     if (user && user.emailVerified) {
                                         console.log('auth state changed user emailVerified', user.emailVerified);
                                         Actions.chat({name: self.state.name});
+                                        clearInterval(interval);
+                                        interval = null;
+                                    } else {
+                                        self.setState({
+                                            isLoading: false
+                                        });
                                     }
                                 });
 
+                            } else {
+                                self.setState({
+                                    isLoading: false
+                                });
                             }
                         }, error => {
                             if (interval) {
@@ -80,7 +91,7 @@ export default class ConfirmEmail extends Component {
             }, error => {
                 console.log('registerUserAndWaitEmailVerification: sendEmailVerification failed ! ' + error.message + ' (' + error.code + ')');
 
-            });
+            })
     }
 
     render() {
