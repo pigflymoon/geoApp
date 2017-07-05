@@ -18,10 +18,9 @@ import firebase from 'firebase';
 
 const {width, height} = Dimensions.get("window");
 
-import background from '../images/login1_bg.png';
-import mark from '../images/login1_mark1.png';
-import lockIcon from '../images/login1_lock.png';
-import personIcon from '../images/login1_person.png';
+import background from '../images/cover_bg.png';
+import mark from '../images/icon_mark.png';
+import emailIcon from '../images/icon_email.png';
 
 export default class ResetPassword extends Component {
     constructor(props) {
@@ -37,13 +36,15 @@ export default class ResetPassword extends Component {
         this.setState({email: text});
     }
 
-
+    handleSignup = () => {
+        Actions.signup();
+    }
 
     handleResetPassword = () => {
 
         var auth = firebase.auth();
         var emailAddress = this.state.email;
-        console.log('emailAddress',emailAddress)
+        console.log('emailAddress', emailAddress)
         auth.sendPasswordResetEmail(emailAddress).then(function () {
             // Email sent.
             console.log('reset password sent to the emailAddress');
@@ -51,7 +52,7 @@ export default class ResetPassword extends Component {
             Actions.signin();
         }, function (error) {
             // An error happened.
-            console.log('Error',error);
+            console.log('Error', error);
         });
 
     }
@@ -66,7 +67,7 @@ export default class ResetPassword extends Component {
                     <View style={styles.wrapper}>
                         <View style={styles.inputWrap}>
                             <View style={styles.iconWrap}>
-                                <Image source={personIcon} style={styles.icon} resizeMode="contain"/>
+                                <Image source={emailIcon} style={styles.icon} resizeMode="contain"/>
                             </View>
                             <TextInput
                                 placeholder="Email"
@@ -87,11 +88,11 @@ export default class ResetPassword extends Component {
 
 
                     <View style={styles.container}>
-                        <View style={styles.signupWrap}>
+                        <View style={styles.footerWrap}>
                             <Text style={styles.accountText}>Don't have an account?</Text>
-                            <TouchableOpacity activeOpacity={.5} onPress={this.signup}>
+                            <TouchableOpacity activeOpacity={.5} onPress={this.handleSignup}>
                                 <View>
-                                    <Text style={styles.signupLinkText}>Sign Up</Text>
+                                    <Text style={styles.linkText}>Sign Up</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -155,13 +156,7 @@ const styles = StyleSheet.create({
         color: "#FFF",
         fontSize: 18,
     },
-    forgotPasswordText: {
-        color: "#D8D8D8",
-        backgroundColor: "transparent",
-        textAlign: "right",
-        paddingRight: 15,
-    },
-    signupWrap: {
+    footerWrap: {
         backgroundColor: "transparent",
         flexDirection: "row",
         alignItems: "center",
@@ -170,7 +165,7 @@ const styles = StyleSheet.create({
     accountText: {
         color: "#D8D8D8"
     },
-    signupLinkText: {
+    linkText: {
         color: "#FFF",
         marginLeft: 5,
     }

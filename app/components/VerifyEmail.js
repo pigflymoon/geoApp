@@ -17,8 +17,8 @@ import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
 const {width, height} = Dimensions.get("window");
 
-import background from '../images/login1_bg.png';
-import emailIcon from '../images/signup_email.png';
+import background from '../images/cover_bg.png';
+import emailIcon from '../images/icon_email.png';
 
 export default class ConfirmEmail extends Component {
     constructor(props) {

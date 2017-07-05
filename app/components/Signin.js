@@ -19,7 +19,6 @@ const {width, height} = Dimensions.get("window");
 import background from '../images/cover_bg.png';
 import mark from '../images/icon_mark.png';
 import lockIcon from '../images/icon_lock.png';
-import personIcon from '../images/icon_person.png';
 import emailIcon from '../images/icon_email.png';
 
 export default class LoginScreen extends Component {
