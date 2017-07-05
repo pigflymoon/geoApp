@@ -18,6 +18,7 @@ import firebaseApp from '../config/FirebaseConfig';
 const {width, height} = Dimensions.get("window");
 
 import background from '../images/cover_bg.png';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import emailIcon from '../images/icon_email.png';
 
 export default class ConfirmEmail extends Component {
@@ -92,24 +93,24 @@ export default class ConfirmEmail extends Component {
                         </View>
                     ) : (
                         <Image source={background} style={styles.background} resizeMode="cover">
+                            <View style={[styles.markWrap]}>
+                                <View style={styles.circleIcon}>
+                                    <Icon name="envelope" size={75} color="#4F8EF7" style={[styles.mark]}/>
+                                </View>
 
+                            </View>
                             <View style={styles.wrapper}>
-
-                                <View style={styles.inputContainer}>
-                                    <View style={styles.iconContainer}>
-                                        <Image
-                                            source={emailIcon}
-                                            style={styles.inputIcon}
-                                            resizeMode="contain"
-                                        />
+                                <View style={styles.inputWrap}>
+                                    <View style={styles.iconWrap}>
+                                        <Image source={emailIcon} style={styles.icon} resizeMode="contain"/>
                                     </View>
                                     <TextInput
-                                        style={[styles.input, styles.whiteFont]}
                                         placeholder="Email"
                                         placeholderTextColor="#FFF"
+                                        style={styles.input}
+                                        onChangeText={(text) => this.setEmail(text)}
                                         value={this.props.email}
                                     />
-
                                 </View>
                                 <TouchableOpacity activeOpacity={.5} onPress={this.handleVerifyEmail}>
                                     <View style={styles.button}>
@@ -118,8 +119,8 @@ export default class ConfirmEmail extends Component {
                                 </TouchableOpacity>
                             </View>
 
-
-                        </Image>)}
+                        </Image>
+                    )}
             </View>
         );
     }
@@ -134,6 +135,21 @@ const styles = StyleSheet.create({
         width,
         height,
     },
+    markWrap: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+
+    circleIcon: {
+        backgroundColor: "#ffffff",
+        width: 150,
+        height: 150,
+        borderRadius: 150 / 2,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+
     loading: {
         position: 'absolute',
         left: 0,
@@ -144,43 +160,59 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     wrapper: {
+        flex: 1,
         paddingVertical: 30,
     },
-    inputs: {
-        paddingVertical: 20,
+    footerWrap: {
+        backgroundColor: "transparent",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
     },
-    inputContainer: {
-        borderWidth: 1,
-        borderBottomColor: '#CCC',
-        borderColor: 'transparent',
-        flexDirection: 'row',
-        height: 75,
+    inputWrap: {
+        flexDirection: "row",
+        marginVertical: 10,
+        height: 40,
+        borderBottomWidth: 1,
+        borderBottomColor: "#CCC"
     },
-    iconContainer: {
-        paddingHorizontal: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
+    iconWrap: {
+        paddingHorizontal: 7,
+        alignItems: "center",
+        justifyContent: "center",
     },
-    inputIcon: {
-        width: 20,
+    icon: {
         height: 20,
+        width: 20,
     },
     input: {
         flex: 1,
-        fontSize: 20,
+        color: '#fff',
+        paddingHorizontal: 10,
     },
-
     button: {
-        backgroundColor: '#157EFB',
-        paddingVertical: 25,
-        alignItems: 'center',
-        justifyContent: 'center',
+        backgroundColor: "#157EFB",//#FF3366
+        paddingVertical: 20,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 30,
     },
     buttonText: {
         color: "#FFF",
         fontSize: 18,
     },
-    whiteFont: {
-        color: '#FFF'
+    forgotPasswordText: {
+        color: "#D8D8D8",
+        backgroundColor: "transparent",
+        textAlign: "right",
+        paddingRight: 15,
     },
+    accountText: {
+        color: "#D8D8D8"
+    },
+    linkText: {
+        color: "#FFF",
+        marginLeft: 5,
+    }
+
 });

@@ -18,10 +18,9 @@ import firebase from 'firebase';
 
 const {width, height} = Dimensions.get("window");
 
+import Icon from 'react-native-vector-icons/FontAwesome';
 import background from '../images/cover_bg.png';
-import mark from '../images/icon_mark.png';
 import emailIcon from '../images/icon_email.png';
-
 export default class ResetPassword extends Component {
     constructor(props) {
         super(props);
@@ -61,8 +60,11 @@ export default class ResetPassword extends Component {
         return (
             <View style={styles.container}>
                 <Image source={background} style={styles.background} resizeMode="cover">
-                    <View style={styles.markWrap}>
-                        <Image source={mark} style={styles.mark} resizeMode="contain"/>
+                    <View style={[styles.markWrap]}>
+                        <View style={styles.circleIcon}>
+                            <Icon name="pencil" size={75} color="#4F8EF7" style={[styles.mark]}/>
+                        </View>
+
                     </View>
                     <View style={styles.wrapper}>
                         <View style={styles.inputWrap}>
@@ -110,12 +112,17 @@ const styles = StyleSheet.create({
     },
     markWrap: {
         flex: 1,
-        paddingVertical: 30,
+        alignItems: "center",
+        justifyContent: "center",
     },
-    mark: {
-        width: null,
-        height: null,
-        flex: 1,
+
+    circleIcon: {
+        backgroundColor: "#ffffff",
+        width: 150,
+        height: 150,
+        borderRadius: 150/2,
+        alignItems: "center",
+        justifyContent: "center",
     },
     background: {
         width,
