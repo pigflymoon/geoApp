@@ -4,7 +4,8 @@ import {
     View,
     Dimensions
 } from 'react-native';
-
+import colors from '../styles/colors';
+import fonts from '../styles/fonts';
 
 const {width, height} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
@@ -42,11 +43,11 @@ const styles = StyleSheet.create({
         // height: 100,
         flexDirection: 'column',
         alignSelf: 'flex-start',
-        backgroundColor: '#81d4fa',
+        backgroundColor: colors.blue1,
         // paddingHorizontal: 20,
         // paddingVertical: 12,
         borderRadius: 6,
-        borderColor: '#4fc3f7',
+        borderColor: colors.blue2,
         borderWidth: 0.5,
     },
     amount: {
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderWidth: 16,
         borderColor: 'transparent',
-        borderTopColor: '#81d4fa',
+        borderTopColor: colors.blue1,
         alignSelf: 'center',
         marginTop: -32,
         marginLeft: 75,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderWidth: 16,
         borderColor: 'transparent',
-        borderTopColor: '#4fc3f7',
+        borderTopColor: colors.blue2,
         alignSelf: 'center',
         marginTop: -0.5,
         marginLeft: 75,

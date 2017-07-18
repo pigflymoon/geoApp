@@ -9,7 +9,8 @@ import {
 import MapView from 'react-native-maps';
 import axios from 'axios';
 import CustomCallout from './CustomCallout'
-
+import colors from '../styles/colors';
+import fonts from '../styles/fonts';
 const {width, height} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
@@ -123,6 +124,34 @@ export default class QuakeMap extends Component {
         );
     }
 
+    colorByMmi(mmi){
+        switch(mmi) {
+            case 1:
+            case 2:
+                return colors.orange2
+                break;
+            case 3:
+                return colors.orange3
+                break;
+            case 4:
+                return colors.orange4
+                break;
+            case 5:
+                return colors.orange5
+                break;
+            case 6:
+                return colors.orange6
+                break;
+            case 7:
+            case 8:
+                return colors.orange7
+                break;
+            default:
+                return colors.orange7
+        }
+
+
+    }
     renderPosts() {
         if (this.state.error) {
             return this.renderError();
@@ -146,7 +175,8 @@ export default class QuakeMap extends Component {
                     <MapView.Marker style={styles.marker}
                                     coordinate={marker.coordinates}
                                     key={index}
-                                    pinColor={marker.mmi < 5 ? '#FFCC00' : '#f44336'}
+                                    pinColor={this.colorByMmi(marker.mmi)}
+
 
                     >
                         <MapView.Callout tooltip>
@@ -200,19 +230,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#F5FCFB',
+        backgroundColor: colors.grey6,
     },
     map: {
         width: SCREEN_WIDTH,
         flexGrow: 3
     },
-
-    // customView: {
-    //     width: SCREEN_WIDTH,
-    //     height: 100,
-    //
-    // },
-
     info: {
         // width: SCREEN_WIDTH,
         fontSize: 12,

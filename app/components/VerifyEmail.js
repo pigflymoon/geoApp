@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     button: {
-        backgroundColor: colors.primary1,//#FF3366
+        backgroundColor: colors.primary1,
         paddingVertical: 20,
         alignItems: "center",
         justifyContent: "center",

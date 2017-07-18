@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
+import colors from '../styles/colors';
+import fonts from '../styles/fonts';
 import {bind} from '../utils/utils';
 
 const {width} = Dimensions.get('window');
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-between',
-        backgroundColor: '#F5FCFB',
+        backgroundColor: colors.grey6,
     },
     map: {
         width: SCREEN_WIDTH,
