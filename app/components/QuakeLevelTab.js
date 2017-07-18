@@ -49,6 +49,7 @@ export  default class QuakeLevelTab extends Component {
         this.setState({
             value: value,
         });
+
     };
 }
 
@@ -59,4 +60,5 @@ var styles = StyleSheet.create({
         fontWeight: '500',
         margin: 10,
     },
+
 });

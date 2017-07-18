@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import axios from 'axios';
-import {bind} from '../utils/utils';
+import {bind, colorByMmi} from '../utils/utils';
 import PushNotification from 'react-native-push-notification';
 var quakes;
 
@@ -89,7 +89,7 @@ export default class QuakeLevelList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-            this.fetchQuakes(nextProps)
+        this.fetchQuakes(nextProps)
 
     }
 
@@ -143,7 +143,7 @@ export default class QuakeLevelList extends Component {
 
     renderLoadingView() {
         return (
-                <Text>Loading...</Text>
+            <Text>Loading...</Text>
         )
     }
 
@@ -158,27 +158,28 @@ export default class QuakeLevelList extends Component {
         }
 
         return (
-                <List >
-                    {this.state.dataSource.map((quake, index) => (
-                        <ListItem key={index}
-                                  leftIcon={{
-                                      name: 'location-arrow',
-                                      type: 'font-awesome',
-                                      color: 'red'
-                                  }}
-                                  title={`NZST: ${quake.properties.time}`}
-                                  subtitle={
-                                      <View style={styles.info}>
-                                          <Text>Magnitude: {quake.properties.magnitude}</Text>
-                                          <Text>Depth: {quake.properties.depth}</Text>
-                                          <Text>Locality: {quake.properties.locality}</Text>
-                                      </View>
-                                  }
+            <List >
+                {this.state.dataSource.map((quake, index) => (
+                    <ListItem key={index}
+                              leftIcon={{
+                                  name: 'map-marker',
+                                  type: 'font-awesome',
+                                  size: 35,
+                                  color: colorByMmi(quake.properties.mmi)
+                              }}
+                              title={`NZST: ${quake.properties.time}`}
+                              subtitle={
+                                  <View style={styles.info}>
+                                      <Text>Magnitude: {quake.properties.magnitude}</Text>
+                                      <Text>Depth: {quake.properties.depth}</Text>
+                                      <Text>Locality: {quake.properties.locality}</Text>
+                                  </View>
+                              }
 
-                                  onPress={() => this.onQuakeDetail(quake)}
-                        />
-                    ))}
-                </List>
+                              onPress={() => this.onQuakeDetail(quake)}
+                    />
+                ))}
+            </List>
 
         )
     }
