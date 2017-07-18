@@ -6,6 +6,7 @@ import News from '../screens/News';
 import QuakesList from '../screens/QuakesList';
 import QuakesMap from '../screens/QuakesMap';
 import QuakeDetail from '../screens/QuakeDetail';
+import QuakeQuality from '../screens/QuakeQuality';
 import ChatRoom from '../screens/ChatRoom';
 export const QuakesListStack = StackNavigator({
     List: {
@@ -19,6 +20,12 @@ export const QuakesListStack = StackNavigator({
         screen: QuakeDetail,
         navigationOptions: ({navigation}) => ({
             title: 'Quake Detail'
+        }),
+    },
+    Quality: {
+        screen: QuakeQuality,
+        navigationOptions: ({navigation}) => ({
+            title: 'Quake Quality'
         }),
     },
 });

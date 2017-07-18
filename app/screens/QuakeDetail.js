@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
 import {ScrollView, View, StyleSheet, Text} from 'react-native';
-import {List, ListItem, Card} from 'react-native-elements';
+import {List, ListItem} from 'react-native-elements';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import QuakeMap from '../components/QuakeMap';
 
 export default class QuakeDetail extends Component {
+    onQuakeQuality = (quake) => {
+        this.props.navigation.navigate('Quality', quake);
+    };
     render() {
         const {geometry, properties, utime} = this.props.navigation.state.params;
         return (
             <View style={styles.container}>
+
                 <ScrollView style={StyleSheet.absoluteFill}
                             contentContainerStyle={styles.scrollview}>
                     <QuakeMap style={styles.map} mapInfo={this.props.navigation.state.params}/>
@@ -19,66 +23,46 @@ export default class QuakeDetail extends Component {
                         <ListItem
                             title="Universal Time"
                             rightTitle={utime}
+                            rightTitleStyle={styles.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Time"
                             rightTitle={properties.time}
+                            rightTitleStyle={styles.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Magnitude"
                             rightTitle={properties.magnitude}
+                            rightTitleStyle={styles.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Latitude"
                             rightTitle={(geometry.coordinates)[1].toFixed(2)}
+                            rightTitleStyle={styles.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Longitude"
                             rightTitle={(geometry.coordinates)[0].toFixed(2)}
+                            rightTitleStyle={styles.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Location"
                             rightTitle={properties.locality}
+                            rightTitleStyle={styles.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Quality"
                             rightTitle={properties.quality}
+                            rightTitleStyle={styles.linkTitle}
                             hideChevron
+                            onPress={() => this.onQuakeQuality(properties.quality)}
                         />
-                        <Card
-                            title='Quality'
-                        >
-                            <ListItem style={styles.quality}
-                                      title={'Best: This earthquake location has been manually reviewed and has the best quality location.'}
-                                      titleStyle={{fontSize: 10}}
-                                      hideChevron
-
-                            />
-                            <ListItem style={styles.quality}
-                                      title={'Good: This is an automatic earthquake location with a lot of observations.  It is likely to be good quality.'}
-                                      titleStyle={{fontSize: 10}}
-                                      hideChevron
-
-                            />
-                            <ListItem style={styles.quality}
-                                      title={'Caution: This is an automatic earthquake location with only a few observations.  Treat with caution.'}
-                                      titleStyle={{fontSize: 10}}
-                                      hideChevron
-
-                            />
-                            <ListItem style={styles.quality}
-                                      title={'Deleted: We don\'t have any quality information for this location at the moment.'}
-                                      titleStyle={{fontSize: 10}}
-                                      hideChevron
-
-                            />
-                        </Card>
 
                     </List>
 
@@ -106,4 +90,10 @@ const styles = StyleSheet.create({
         flexBasis: 200,
 
     },
+    rightTitle: {
+        color: colors.grey1,
+    },
+    linkTitle:{
+        color:colors.primary1
+    }
 });
