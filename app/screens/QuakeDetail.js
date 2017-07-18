@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {ScrollView, View, StyleSheet, Text} from 'react-native';
 import {List, ListItem, Card} from 'react-native-elements';
+import colors from '../styles/colors';
+import fonts from '../styles/fonts';
 import QuakeMap from '../components/QuakeMap';
 
 export default class QuakeDetail extends Component {
@@ -89,7 +91,7 @@ export default class QuakeDetail extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#ffffff"
+        backgroundColor: colors.white,
     },
     scrollview: {
         flex: 1,

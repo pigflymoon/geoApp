@@ -18,8 +18,8 @@ const {width, height} = Dimensions.get("window");
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import background from '../images/cover_bg.png';
-import lockIcon from '../images/icon_lock.png';
-import emailIcon from '../images/icon_email.png';
+import colors from '../styles/colors';
+import fonts from '../styles/fonts';
 
 export default class LoginScreen extends Component {
     constructor(props) {
@@ -119,18 +119,18 @@ export default class LoginScreen extends Component {
                 <Image source={background} style={styles.background} resizeMode="cover">
                     <View style={[styles.markWrap]}>
                         <View style={styles.circleIcon}>
-                            <Icon name="sign-in" size={75} color="#4F8EF7" style={[styles.mark]}/>
+                            <Icon name="sign-in" size={75} color={colors.primary1} style={[styles.mark]}/>
                         </View>
 
                     </View>
                     <View style={styles.wrapper}>
                         <View style={styles.inputWrap}>
                             <View style={styles.iconWrap}>
-                                <Icon name="envelope-o" size={20}   style={styles.icon} />
+                                <Icon name="envelope-o" size={20} style={styles.icon}/>
                             </View>
                             <TextInput
                                 placeholder="Email"
-                                placeholderTextColor="#FFF"
+                                placeholderTextColor={colors.white}
                                 style={styles.input}
                                 onChangeText={(text) => this.setEmail(text)}
                                 value={this.state.email}
@@ -138,10 +138,10 @@ export default class LoginScreen extends Component {
                         </View>
                         <View style={styles.inputWrap}>
                             <View style={styles.iconWrap}>
-                                <Icon name="lock" size={25}   style={styles.icon} />
+                                <Icon name="lock" size={25} style={styles.icon}/>
                             </View>
                             <TextInput
-                                placeholderTextColor="#FFF"
+                                placeholderTextColor={colors.white}
                                 placeholder="Password"
                                 style={styles.input}
                                 secureTextEntry
@@ -191,10 +191,10 @@ const styles = StyleSheet.create({
     },
 
     circleIcon: {
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.white,
         width: 150,
         height: 150,
-        borderRadius: 150/2,
+        borderRadius: 150 / 2,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         height: 40,
         borderBottomWidth: 1,
-        borderBottomColor: "#CCC"
+        borderBottomColor: colors.grey5
     },
     iconWrap: {
         paddingHorizontal: 7,
@@ -223,36 +223,36 @@ const styles = StyleSheet.create({
     icon: {
         height: 20,
         width: 20,
-        backgroundColor:"transparent",
-        color:"#CCC",
+        backgroundColor: "transparent",
+        color: colors.grey5,
     },
     input: {
         flex: 1,
-        color: '#fff',
+        color: colors.white,
         paddingHorizontal: 10,
     },
     button: {
-        backgroundColor: "#157EFB",//#FF3366
+        backgroundColor: colors.primary1,//#FF3366
         paddingVertical: 20,
         alignItems: "center",
         justifyContent: "center",
         marginTop: 30,
     },
     buttonText: {
-        color: "#FFF",
+        color: colors.white,
         fontSize: 18,
     },
     forgotPasswordText: {
-        color: "#D8D8D8",
+        color: colors.grey6,
         backgroundColor: "transparent",
         textAlign: "right",
         paddingRight: 15,
     },
     accountText: {
-        color: "#D8D8D8"
+        color: colors.grey6
     },
     linkText: {
-        color: "#FFF",
+        color: colors.white,
         marginLeft: 5,
     }
 });

@@ -188,12 +188,9 @@ export default class QuakeLevelList extends Component {
 const styles = StyleSheet.create({
     info: {
         flex: 1,
-        // justifyContent: 'center',
         alignItems: 'flex-start',
         flexDirection: 'column',
         paddingTop: 10,
-        // alignSelf: 'center',
-        // paddingBottom: 20
     },
 
 });
