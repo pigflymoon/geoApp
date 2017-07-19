@@ -8,7 +8,8 @@ import {
     StyleSheet,
     AppState,
     Picker,
-    Platform
+    Platform,
+    RefreshControl
 } from 'react-native';
 
 import {bind} from '../utils/utils';
@@ -24,10 +25,35 @@ export default class QuakesList extends Component {
         super(props, context);
 
         this.state = {
-            level: 0
+            level: 0,
+            refreshing: false,
         };
-        bind(this)('handleQuakeLevel')
+
+        bind(this)('handleQuakeLevel', 'handleRefreshData',)
     }
+
+
+    handleRefreshData(value) {
+
+        console.log('value is ', value)
+        // return value;
+        var self = this;
+
+        function getRefreshData() {
+            self.setState({
+                refreshing: true
+            });
+
+            console.log('new value is ', value)
+            self.setState({
+                refreshing: value
+            });
+        }
+
+        return getRefreshData();
+
+    }
+
 
     handleQuakeLevel(level) {
         this.setState({
@@ -37,9 +63,18 @@ export default class QuakesList extends Component {
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this.getRefreshData}
+                    />}
+            >
                 <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel}/>
-                <QuakeLevelList navigation={this.props.navigation} nps_source={nps_url} level={this.state.level}/>
+                <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
+                                nps_source={nps_url}
+                                refreshing={this.state.refreshing}
+                                level={this.state.level}/>
                 <PushController />
             </ScrollView>
         )

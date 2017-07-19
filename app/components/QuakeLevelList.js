@@ -24,21 +24,15 @@ export default class QuakeLevelList extends Component {
             dataSource: [],
             isLoading: true,
             timestamp: 0,
+            isRefreshing: false,
         };
         bind(this)('renderLoadingView');
 
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
     }
 
-    fetchQuakes(nextProps) {
-        let self = this
-        let url = self.props.nps_source
-
-        if (nextProps) {
-            url = url + nextProps.level;
-        } else {
-            url = url + self.props.level;
-        }
+    fetchApiData(url) {
+        let self = this;
         axios.get(url)
             .then(res => {
                 const filterData = [];
@@ -81,15 +75,49 @@ export default class QuakeLevelList extends Component {
                 this.setState({
                     timestamp: timestamp,
                     dataSource: quakes,
-                    isLoading: false
+                    isLoading: false,
+
                 })
                 // console.log('fetch data  timestamp', this.state.timestamp);
 
+
+                this.props.onRefreshData(this.state.isRefreshing);
+                console.log('refresh data');
             });
     }
 
+    fetchQuakes(nextProps) {
+
+        let self = this
+        let url = self.props.nps_source
+
+        if (nextProps) {
+            console.log('refreshing is ', !nextProps.refreshing)
+            if (!nextProps.refreshing) {
+                console.log('**********Do Not fetch data.Return*********')
+                return false
+            } else {
+                console.log('2**********nextProps fetch data')
+                url = url + nextProps.level;
+                this.fetchApiData(url);
+                console.log('keep going ?')
+
+            }
+
+
+        } else {
+            console.log('1********props fetch data')
+            url = url + self.props.level;
+            this.fetchApiData(url);
+        }
+
+
+    }
+
     componentWillReceiveProps(nextProps) {
-        this.fetchQuakes(nextProps)
+        console.log('nextpropr refreshing is ', nextProps.refreshing)
+        // if (!nextProps.refreshing) return;
+        this.fetchQuakes(nextProps);
 
     }
 
@@ -98,11 +126,17 @@ export default class QuakeLevelList extends Component {
         if (this.state.dataSource.length <= 0) {
             this.fetchQuakes();
         }
-        //Every half hour call data api.
-        this.timer = setInterval(() => {
-            this.fetchQuakes();
-            console.log('6min!')
-        }, 1000 * 60);
+        //
+        // if (this.props.refreshing) {
+        //     this.fetchQuakes();
+        //
+        // }
+
+        // //Every half hour call data api.
+        // this.timer = setInterval(() => {
+        //     this.fetchQuakes();
+        //     console.log('6min!')
+        // }, 1000 * 60);
 
 
     }
@@ -158,7 +192,7 @@ export default class QuakeLevelList extends Component {
         }
 
         return (
-            <List >
+            <List>
                 {this.state.dataSource.map((quake, index) => (
                     <ListItem key={index}
                               leftIcon={{
