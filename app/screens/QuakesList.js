@@ -29,31 +29,24 @@ export default class QuakesList extends Component {
             refreshing: false,
         };
 
-        bind(this)('handleQuakeLevel', 'handleRefreshData',)
+        bind(this)('handleQuakeLevel', 'handleRefreshData','getRefreshData')
+    }
+
+    getRefreshData() {
+        this.setState({
+            refreshing: true
+        });
     }
 
 
     handleRefreshData(value) {
 
         console.log('value is ', value)
-        // return value;
-        var self = this;
 
-        function getRefreshData() {
-            self.setState({
-                refreshing: true
-            });
-
-            console.log('new value is ', value)
-            self.setState({
-                refreshing: value
-            });
-        }
-
-        return getRefreshData();
-
+        this.setState({
+            refreshing: value
+        });
     }
-
 
     handleQuakeLevel(level) {
         this.setState({
