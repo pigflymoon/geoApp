@@ -47,6 +47,12 @@ export default class PushController extends Component {
 
             }
         });
+        // PushNotification.localNotificationSchedule({
+        //     presentLocalNotification: function (notification) {
+        //
+        //     }
+        //
+        // });
     }
 
     render() {
