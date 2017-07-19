@@ -105,7 +105,7 @@ export default class ConfirmEmail extends Component {
                             <ActivityIndicator size='large'/>
                         </View>
                     ) : (
-                        <Image source={background} style={styles.background} resizeMode="cover">
+                        <View  style={styles.background}>
                             <View style={[styles.markWrap]}>
                                 <View style={styles.circleIcon}>
                                     <Icon name="envelope" size={75} color={colors.primary1} style={[styles.mark]}/>
@@ -132,7 +132,7 @@ export default class ConfirmEmail extends Component {
                                 </TouchableOpacity>
                             </View>
 
-                        </Image>
+                        </View>
                     )}
             </View>
         );
@@ -147,6 +147,8 @@ const styles = StyleSheet.create({
     background: {
         width,
         height,
+        backgroundColor: colors.white,
+
     },
     markWrap: {
         flex: 1,
@@ -177,7 +179,7 @@ const styles = StyleSheet.create({
         paddingVertical: 30,
     },
     footerWrap: {
-        backgroundColor: "transparent",
+        // backgroundColor: "transparent",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
@@ -198,11 +200,11 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         backgroundColor: "transparent",
-        color: colors.grey5,
+        color: colors.grey4,
     },
     input: {
         flex: 1,
-        color: colors.white,
+        color: colors.grey1,
         paddingHorizontal: 10,
     },
     button: {
@@ -217,16 +219,16 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     forgotPasswordText: {
-        color: colors.grey6,
+        color: colors.grey2,
         backgroundColor: "transparent",
         textAlign: "right",
         paddingRight: 15,
     },
     accountText: {
-        color: colors.grey6
+        color: colors.grey2
     },
     linkText: {
-        color: colors.white,
+        color: colors.primary1,
         marginLeft: 5,
     }
 

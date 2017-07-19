@@ -61,7 +61,7 @@ export default class ResetPassword extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image source={background} style={styles.background} resizeMode="cover">
+                <View style={styles.background}>
                     <View style={[styles.markWrap]}>
                         <View style={styles.circleIcon}>
                             <Icon name="pencil" size={75} color={colors.primary1} style={[styles.mark]}/>
@@ -102,7 +102,7 @@ export default class ResetPassword extends Component {
                         </View>
                     </View>
 
-                </Image>
+                </View>
             </View>
         );
     }
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     background: {
         width,
         height,
+        backgroundColor: colors.white,
     },
     wrapper: {
         paddingVertical: 30,
@@ -149,11 +150,11 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         backgroundColor:"transparent",
-        color:colors.grey5,
+        color:colors.grey4,
     },
     input: {
         flex: 1,
-        color: colors.white,
+        color: colors.grey1,
         paddingHorizontal: 10,
     },
     button: {
@@ -174,10 +175,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     accountText: {
-        color: colors.grey6
+        color: colors.grey2
     },
     linkText: {
-        color: colors.white,
+        color: colors.primary1,
         marginLeft: 5,
     }
 });
