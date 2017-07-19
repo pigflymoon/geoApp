@@ -8,7 +8,7 @@ import QuakesMap from '../screens/QuakesMap';
 import QuakeDetail from '../screens/QuakeDetail';
 import QuakeQuality from '../screens/QuakeQuality';
 import ChatRoom from '../screens/ChatRoom';
-import Notification from '../screens/Notification';
+import Notifications from '../screens/Notifications';
 
 import Settings from '../screens/Settings';
 export const QuakesListStack = StackNavigator({
@@ -41,10 +41,10 @@ export const SettingsStack = StackNavigator({
         },
     },
 
-    Notification: {
-        screen: Notification,
+    Notifications: {
+        screen: Notifications,
         navigationOptions: ({navigation}) => ({
-            title: 'Notification'
+            title: 'Notifications'
         }),
     },
 });

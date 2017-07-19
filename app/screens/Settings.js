@@ -29,9 +29,9 @@ export default class Settings extends Component {
 
     }
 
-    onNotificationSetting = () => {
+    onNotifications = () => {
         console.log('navigation',this.props)
-        this.props.navigation.navigate('Notification',{});
+        this.props.navigation.navigate('Notifications',{});
     };
 
     renderLoadingView() {
@@ -57,8 +57,8 @@ export default class Settings extends Component {
                                   type: 'font-awesome',
                                   size: 35,
                               }}
-                              title={`Notification`}
-                              onPress={() => this.onNotificationSetting()}
+                              title={`Notifications`}
+                              onPress={() => this.onNotifications()}
 
                     />
                 </List>
