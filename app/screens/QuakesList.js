@@ -29,7 +29,7 @@ export default class QuakesList extends Component {
             refreshing: false,
         };
 
-        bind(this)('handleQuakeLevel', 'handleRefreshData','getRefreshData')
+        bind(this)('handleQuakeLevel', 'handleRefreshData', 'getRefreshData')
     }
 
     getRefreshData() {
@@ -40,9 +40,6 @@ export default class QuakesList extends Component {
 
 
     handleRefreshData(value) {
-
-        console.log('value is ', value)
-
         this.setState({
             refreshing: value
         });
