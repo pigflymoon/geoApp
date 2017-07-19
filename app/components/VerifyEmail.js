@@ -141,14 +141,12 @@ export default class ConfirmEmail extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-    },
-
+    flex: 1,
+},
     background: {
         width,
         height,
         backgroundColor: colors.white,
-
     },
     markWrap: {
         flex: 1,
@@ -165,18 +163,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
 
-    loading: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
     wrapper: {
-        flex: 1,
         paddingVertical: 30,
+        marginHorizontal: 10,
     },
     footerWrap: {
         // backgroundColor: "transparent",
@@ -189,7 +178,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         height: 40,
         borderBottomWidth: 1,
-        borderBottomColor: colors.grey5,
+        borderBottomColor: colors.grey5
     },
     iconWrap: {
         paddingHorizontal: 7,
@@ -200,7 +189,7 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         backgroundColor: "transparent",
-        color: colors.grey4,
+        color: colors.grey5,
     },
     input: {
         flex: 1,
@@ -208,14 +197,18 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     button: {
-        backgroundColor: colors.primary1,
+        backgroundColor: colors.white,
         paddingVertical: 20,
         alignItems: "center",
         justifyContent: "center",
         marginTop: 30,
+        marginHorizontal: 10,
+        borderWidth: 1,
+        borderColor:colors.grey5,
+        borderRadius: 5,
     },
     buttonText: {
-        color: colors.white,
+        color: colors.primary1,
         fontSize: 18,
     },
     forgotPasswordText: {

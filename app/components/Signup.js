@@ -196,12 +196,12 @@ let styles = StyleSheet.create({
         justifyContent: "center",
     },
 
-
     wrapper: {
         paddingVertical: 30,
+        marginHorizontal: 10,
     },
     footerWrap: {
-        backgroundColor: "transparent",
+        // backgroundColor: "transparent",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
@@ -222,7 +222,7 @@ let styles = StyleSheet.create({
         height: 20,
         width: 20,
         backgroundColor: "transparent",
-        color: colors.grey4,
+        color: colors.grey5,
     },
     input: {
         flex: 1,
@@ -230,14 +230,18 @@ let styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     button: {
-        backgroundColor: colors.primary1,
+        backgroundColor: colors.white,
         paddingVertical: 20,
         alignItems: "center",
         justifyContent: "center",
         marginTop: 30,
+        marginHorizontal: 10,
+        borderWidth: 1,
+        borderColor:colors.grey5,
+        borderRadius: 5,
     },
     buttonText: {
-        color: colors.white,
+        color: colors.primary1,
         fontSize: 18,
     },
     forgotPasswordText: {
