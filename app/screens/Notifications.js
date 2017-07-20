@@ -23,6 +23,7 @@ export default class Notifications extends Component {
         super(props, context);
         this.state = {
             isNotified: true,
+            isSilenced: false,
 
         };
 
@@ -33,16 +34,25 @@ export default class Notifications extends Component {
             var val = (value === "true");
             this.setState({"isNotified": val});
         }).done();
+        AsyncStorage.getItem("isSilenced").then((value) => {
+            var val = (value === "true");
+            this.setState({"isSilenced": val});
+        }).done();
     }
 
 
     toggleNotificationSwitch = (value) => {
         AsyncStorage.setItem("isNotified", value.toString());
-        console.log('value is ',value)
+        console.log('value is ', value)
         this.setState({"isNotified": value});
 
     }
+    toggleDisturbSwitch = (value) => {
+        AsyncStorage.setItem("isSilenced", value.toString());
+        console.log('value is ', value)
+        this.setState({"isSilenced": value});
 
+    }
 
     render() {
 
@@ -53,8 +63,19 @@ export default class Notifications extends Component {
                         hideChevron
                         title={`Notifications`}
                         switchButton
-                        onSwitch = {this.toggleNotificationSwitch}
-                        switched = {this.state.isNotified}
+                        onSwitch={this.toggleNotificationSwitch}
+                        switched={this.state.isNotified}
+
+                    />
+                    <ListItem
+                        hideChevron
+                        title={`Do not disturb`}
+                        subtitle={'Notification that arrive during 22:00 to 8:00 will be silenced'}
+                        subtitleStyle={{marginRight: 10,fontWeight:'normal'}}
+                        c
+                        switchButton
+                        onSwitch={this.toggleDisturbSwitch}
+                        switched={this.state.isSilenced}
 
                     />
                 </List>
