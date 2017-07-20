@@ -8,7 +8,8 @@ import {
     AppState,
     Picker,
     Platform,
-    Switch
+    Switch,
+    AsyncStorage,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 
@@ -22,20 +23,24 @@ export default class Notifications extends Component {
         super(props, context);
         this.state = {
             isNotified: true,
-            trueSwitchIsOn: true,
-            falseSwitchIsOn: false,
+
         };
 
     }
 
     componentDidMount() {
-
+        AsyncStorage.getItem("isNotified").then((value) => {
+            var val = (value === "true");
+            this.setState({"isNotified": val});
+        }).done();
     }
 
-    enableNotification = () => {
-        this.setState({
-            isNotified: false
-        })
+
+    toggleNotificationSwitch = (value) => {
+        AsyncStorage.setItem("isNotified", value.toString());
+        console.log('value is ',value)
+        this.setState({"isNotified": value});
+
     }
 
 
@@ -48,8 +53,9 @@ export default class Notifications extends Component {
                         hideChevron
                         title={`Notifications`}
                         switchButton
-                        onSwitch={() => this.enableNotification()}
-                        switched={this.state.isNotified}
+                        onSwitch = {this.toggleNotificationSwitch}
+                        switched = {this.state.isNotified}
+
                     />
                 </List>
             </ScrollView>
