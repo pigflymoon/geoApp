@@ -11,6 +11,8 @@ import {
     Switch,
     AsyncStorage,
 } from 'react-native';
+import PushNotification from 'react-native-push-notification';
+
 import {List, ListItem} from 'react-native-elements';
 
 import colors from '../styles/colors';
@@ -23,21 +25,26 @@ export default class Notifications extends Component {
         super(props, context);
         this.state = {
             isNotified: true,
-            isSilenced: false,
+            isSilent: false,
 
         };
 
     }
 
     componentDidMount() {
+       //
+
+        //
         AsyncStorage.getItem("isNotified").then((value) => {
             var val = (value === "true");
             this.setState({"isNotified": val});
+
         }).done();
-        AsyncStorage.getItem("isSilenced").then((value) => {
+        AsyncStorage.getItem("isSilent").then((value) => {
             var val = (value === "true");
-            this.setState({"isSilenced": val});
+            this.setState({"isSilent": val});
         }).done();
+
     }
 
 
@@ -47,8 +54,8 @@ export default class Notifications extends Component {
 
     }
     toggleDisturbSwitch = (value) => {
-        AsyncStorage.setItem("isSilenced", value.toString());
-        this.setState({"isSilenced": value});
+        AsyncStorage.setItem("isSilent", value.toString());
+        this.setState({"isSilent": value});
 
     }
 
@@ -69,10 +76,10 @@ export default class Notifications extends Component {
                         hideChevron
                         title={`Do not disturb`}
                         subtitle={'Notification that arrive during 22:00 to 8:00 will be silenced'}
-                        subtitleStyle={{marginRight: 10,fontWeight:'normal'}}
+                        subtitleStyle={{marginRight: 10, fontWeight: 'normal'}}
                         switchButton
                         onSwitch={this.toggleDisturbSwitch}
-                        switched={this.state.isSilenced}
+                        switched={this.state.isSilent}
 
                     />
                 </List>

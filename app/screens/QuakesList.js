@@ -65,7 +65,7 @@ export default class QuakesList extends Component {
                                 nps_source={nps_url}
                                 refreshing={this.state.refreshing}
                                 level={this.state.level}/>
-                <PushController />
+
             </ScrollView>
         )
     }

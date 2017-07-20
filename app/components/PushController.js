@@ -37,6 +37,12 @@ export default class PushController extends Component {
         // console.log('push controller notification', this.state.notification);
         var self = this;
         PushNotification.configure({
+            permissions: {
+                alert: false,
+                badge: false,
+                sound: true
+            },
+
             onNotification: function (notification) {
                 // console.log('notification userInteraction', notification.userInteraction);
                 // console.log('NOTIFICATION:', notification);
@@ -47,12 +53,14 @@ export default class PushController extends Component {
 
             }
         });
-        // PushNotification.localNotificationSchedule({
-        //     presentLocalNotification: function (notification) {
-        //
-        //     }
-        //
-        // });
+        var notification = {
+            "fireDate": new Date().getTime() + 60000,
+            "alertBody": "Hello",
+            applicationIconBadgeNumber: 0
+        };
+
+        PushNotification.scheduleLocalNotification(notification);
+        console.log('notification',notification)
     }
 
     render() {

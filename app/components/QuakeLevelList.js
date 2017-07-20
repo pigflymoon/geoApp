@@ -8,7 +8,9 @@ import {
     StyleSheet,
     AppState,
     Picker,
-    Platform
+    Platform,
+    AsyncStorage
+
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import axios from 'axios';
@@ -25,10 +27,12 @@ export default class QuakeLevelList extends Component {
             isLoading: true,
             timestamp: 0,
             isRefreshing: false,
+
         };
         bind(this)('renderLoadingView');
 
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
+
     }
 
     fetchApiData(url, refresh) {
@@ -139,7 +143,7 @@ export default class QuakeLevelList extends Component {
 
 
         if (nextProps) {
-            console.log('props refreshing is ',nextProps.refreshing)
+            console.log('props refreshing is ', nextProps.refreshing)
             if (nextProps.refreshing == true) {
                 url = url + nextProps.level;
                 this.fetchApiData(url, 'refreshing');
@@ -161,6 +165,7 @@ export default class QuakeLevelList extends Component {
         this.fetchQuakes(nextProps);
 
     }
+
 
     componentDidMount() {
         // console.log('in the app QuakesList data', this.state.dataSource.length);
@@ -186,16 +191,22 @@ export default class QuakeLevelList extends Component {
         AppState.removeEventListener('change', this.handleAppStateChange);
     }
 
+    /**
+     * notifications
+     * */
 
     handleAppStateChange(appState) {
+
+
         if (appState === 'background') {
+
             if (Object.keys(this.state.timestamp).length > 0) {
                 var timestamp = this.state.timestamp;
-                // console.log(`notificatin is ${timestamp}`);
 
                 for (var k in timestamp) {
                     // let date = new Date(timestamp[k]);
                     let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
+
                     PushNotification.localNotificationSchedule({
                         message: message,
                         date: new Date(),
@@ -205,13 +216,47 @@ export default class QuakeLevelList extends Component {
                     });
 
                 }
+
+                //PushNotification.scheduleLocalNotification(notification);
+                this.setState({
+                    timestamp: {},
+                    // notification: true
+                });
+                //var isNotified, isSilent, notification;
+                /*
+                AsyncStorage.getItem("isNotified").then((value) => {
+                    var val = (value === "true");
+                    isNotified = val;
+                    console.log('is notified', isNotified)
+                    if (isNotified) {
+                        for (var k in timestamp) {
+                            // let date = new Date(timestamp[k]);
+                            let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
+
+                            notification = PushNotification.localNotificationSchedule({
+                                message: message,
+                                date: new Date(),
+                                number: 0,
+                                userInteraction: true
+
+                            });
+
+                        }
+
+                        PushNotification.scheduleLocalNotification(notification);
+                        this.setState({
+                            timestamp: {},
+                            // notification: true
+                        });
+                    }
+
+
+                }).done();
+
+                */
             }
 
 
-            this.setState({
-                timestamp: {},
-                // notification: true
-            });
         }
 
     }
